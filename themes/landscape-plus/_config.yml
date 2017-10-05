@@ -1,0 +1,45 @@
+# Header
+menu:
+  Home: /
+  Archives: /archives
+  Reading: /reading
+  About: /about
+  
+rss: /atom.xml
+
+# Content
+excerpt_link: Read More
+fancybox: true
+mathjax: true
+
+# Sidebar
+sidebar: right
+widgets:
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
+- links
+- by-no-sa
+
+# Links
+links:
+  爱鼓捣: http://aigudao.net
+  Flyher: http://www.flyher.net
+  philo: http://philo.top
+  Linux.中国-开源社区: https://linux.cn
+
+# Miscellaneous
+google_analytics:
+favicon: /favicon.ico
+twitter:
+google_plus:
+fb_admins: 
+fb_app_id:
+
+# Duoshuo
+duoshuo_shortname: 
+
+# Baidu share
+baidushare: true
