@@ -19,8 +19,8 @@ before_install:
  - ssh-add ~/.ssh/id_rsa
  
 
- - git config --golbal user.name "locez"
- - git config --golbal user.email "loki.a@live.cn"
+ - git config --global user.name "locez"
+ - git config --global user.email "loki.a@live.cn"
 
 install:
  - npm install hexo-cli -g
