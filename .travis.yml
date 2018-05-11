@@ -31,6 +31,6 @@ script:
  - hexo clean
  - hexo generate
 
-arter_success:
+after_success:
  - hexo deploy
 
