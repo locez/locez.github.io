@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+ - '8'
+
+branches:
+ only:
+  - blog-source
+
+cache:
+ - directories:
+    - node_modules
+
+before_install:
+ - openssl aes-256-cbc -K $encrypted_5103138deeb2_key -iv $encrypted_5103138deeb2_iv
+  -in ./.deploy/blog.enc -out ~/.ssh/id_rsa -d
+ - chmod 600 ~/.ssh/id_rsa
+ - cp .deploy/config ~/.ssh/config
+ - eval$(ssh-agent)
+ - ssh-add ~/.ssh/id_rsa
+ 
+
+ - git config --golbal user.name "locez"
+ - git config --golbal user.email "loki.a@live.cn"
+
+install:
+ - npm install hexo-cli -g
+ - npm install hexo-deployer-git --save
+ - npm install
+
+script:
+ - hexo clean
+ - hexo generate
+
+arter_success:
+ - hexo deploy
+
