@@ -159,7 +159,7 @@ Writing superblocks and filesystem accounting information: done
 # umount /mnt
 # cryptsetup luksClose myusb
 ```
-### 7 总结
+### 7. 总结
 ---
 在完成整个步骤以后，您现在需要做的就是妥善保管您的加密存储，可采用同样的方式加密多个设备进行备份，因为谁也不能保证这移动设备会不会在什么时候丢掉。
 
