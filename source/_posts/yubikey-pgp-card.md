@@ -35,6 +35,7 @@ Yubikey 相关的包都被 Gentoo 标记为 `Masked`，所以首先是要解除�
 ``` bash
 # vim /etc/portage/package.accept_keywords/yubikey
 ```
+
 将以下内容填入
 
 ``` bash
@@ -96,6 +97,7 @@ Scanning present readers...
 Tue Apr 24 14:46:32 2018
 Reader 0: Yubico Yubikey 4 U2F+CCID 00 00
 ...
+...
 ```
 
 ``` bash
@@ -107,7 +109,7 @@ OK
 ### 编辑 PGP 卡信息
 ---
 
-```
+``` bash
 $ gpg --card-edit
 
 Reader ...........: Yubico Yubikey 4 U2F CCID 00 00
@@ -223,6 +225,7 @@ gpg/card>
 生成 PGP 主密钥
 
 ``` bash
+
 $ gpg --full-generate-key
 gpg (GnuPG) 2.2.4; Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
@@ -262,7 +265,9 @@ We need to generate a lot of random bytes. It is a good idea to perform
 some other action (type on the keyboard, move the mouse, utilize the
 disks) during the prime generation; this gives the random number
 generator a better chance to gain enough entropy.
+
 ```
+
 此时可以动动鼠标键盘让他收集足够的随机数据
 
 生成一个用于认证的子密钥
@@ -274,15 +279,16 @@ This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 gpg> addkey
+```
 
-``` 
+
 然后跟着向导进行选择就可以了，通常是选择 `(8) RSA (set your own capabilities)` ，然后 `4096` 位密钥
 其中子密钥对的类型选择应该如下
 
 ``` bash
 Possible actions for a RSA key: Sign Encrypt Authenticate
-Current allowed actions: Sign Encrypt  #此处显示的为该子密钥可以使用的用途，
-                                       #通过多次选择下面的开关进行调整
+Current allowed actions: Sign Encrypt  ### 此处显示的为该子密钥可以使用的用途，
+                                       ### 通过多次选择下面的开关进行调整
 
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
@@ -291,6 +297,7 @@ Current allowed actions: Sign Encrypt  #此处显示的为该子密钥可以使�
 
 Your selection?
 ```
+
 然后重复上面的操作再次添加一个用于签名的子密钥，最终效果大概如下，使用 `save` 命令保存退出
 
 ``` bash
@@ -308,6 +315,7 @@ ssb  rsa4096/DDDDDDDDDDDDDDDD
      created: 2018-04-24  expires: never       usage: S
 [ultimate] (1). Locez <loki.a@live.cn>
 ```
+
 #### 备份公钥与私钥
 ---
 当我们把密钥导入 Yubikey 的时候，我们就无法取出密钥，因此在导入之前最好备份

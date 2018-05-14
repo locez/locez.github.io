@@ -15,7 +15,7 @@ tags:
 数据的安全，保密性在现在的生活中显得越来越重要。随着数字化的时代的来临，越来越多的数据被数字化，特别是更多有关于我们隐私的数据在不断生成，甚至还有我们需要离线保存的密钥等。而且通常我们使用磁盘，USB 闪存，SD 卡等存储介质进行存储，即便我们已经离线存储，仍然不能保证该存储介质不会丢失，如果丢失那么对于我们来说有可能是灾难性的事件。因此对这些离线存储的重要数据，再次进行进行加密是非常有必要的，本文将告诉你如何加密你的移动存储介质。
 
 在此之前先介绍一下 LUKS：
-LUKS （Linux Unified Key Setup）是 Linux 硬盘加密的标准。 通过提供标准的磁盘格式，它不仅可以促进发行版之间的兼容性，还可以提供对多个用户密码的安全管理。 与现有解决方案相比，LUKS 将所有必要的设置信息存储在分区标题中，使用户能够无缝传输或迁移其数据。
+LUKS （Linux Unified Key Setup）是 Linux 硬盘加密的标准。 通过提供标准的磁盘格式，它不仅可以促进发行版之间的兼容性，还可以提供对多个用户密码的安全管理。 与现有解决方案相比，LUKS 将所有必要的设置信息存储在分区信息首部中，使用户能够无缝传输或迁移其数据。
 
 <!-- more -->
 
@@ -95,7 +95,7 @@ Verify passphrase:
 Enter any existing passphrase:
 ```
 
-#### 5.3 移除解密密码
+#### 6. 移除解密密码
 ---
 移除普通密码
 
@@ -110,21 +110,21 @@ Enter LUKS passphrase to be deleted: ...
 ```
 **注意**：千万不要将所有密码移除，至少需要留有一个密码访问设备，移除操作不可撤销
 
-### 6. 解密与挂载
+### 7. 解密与挂载
 --- 
-#### 6.1 密码解密
+#### 7.1 密码解密
 ---
 
 ``` bash
 # cryptsetup luksOpen /dev/sdd myusb
 Enter passphrase for /dev/sdd:
 ```
-#### 6.2 key file 解密
+#### 7.2 key file 解密
 ---
 ``` bash
 # cryptsetup luksOpen -d /root/enc.key /dev/sdd myusb
 ```
-#### 6.3 创建文件系统
+#### 7.3 创建文件系统
 ---
 在挂载使用之前，我们仍然需要对设备创建文件系统才可以使用，可以选择任何你喜欢的文件系统，例如 `btrfs`，`ext4`，`vfat`，`ntfs` 等
 
@@ -142,7 +142,7 @@ Creating journal (8192 blocks): done
 Writing superblocks and filesystem accounting information: done
 ```
 
-#### 6.4 挂载
+#### 7.4 挂载
 ---
 现在可以像正常分区一样挂载我们的加密分区设备了
 
@@ -152,14 +152,14 @@ Writing superblocks and filesystem accounting information: done
 /dev/mapper/myusb  1.9G  5.7M  1.7G   1% /mnt
 ```
 
-#### 6.5 卸载挂载点并关闭加密分区
+#### 7.5 卸载挂载点并关闭加密分区
 ---
 
 ``` bash
 # umount /mnt
 # cryptsetup luksClose myusb
 ```
-### 7. 总结
+### 8. 总结
 ---
 在完成整个步骤以后，您现在需要做的就是妥善保管您的加密存储，可采用同样的方式加密多个设备进行备份，因为谁也不能保证这移动设备会不会在什么时候丢掉。
 
