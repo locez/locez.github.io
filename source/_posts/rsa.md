@@ -56,7 +56,7 @@ $$
 
 3.接着随机选择选择一个整数 `e`，满足 $ 1 < e <\phi(N) $，且 $ e  与  \phi(N) $ 互质，通常选择 `65537`
 
-4.最后计算 `e` 对于 $ \phi(N) $ 的模反元素 `d`，其中模反元素的定义为：如果有两个正整数 `a` 和 `n` 互质，那么一定可以找到整数 `b`，使得 $ n|ab-1 $，`b` 称为 `a` 模反元素，可用广义欧几里的算法求得
+4.最后计算 `e` 对于 $ \phi(N) $ 的模反元素 `d`，其中模反元素的定义为：如果有两个正整数 `a` 和 `n` 互质，那么一定可以找到整数 `b`，使得 $ n|ab-1 $，`b` 称为 `a` 模反元素，可用扩展欧几里德算法求得
 
 5.将 (e,N) 组装成公钥，将 (d,N) 组装成私钥
 
@@ -81,18 +81,16 @@ $$
 
 ``` golang
 generating p and q:
-p: 1697 q: 3863
-N: 6555511 eulerN: 6549952
-generating e:
-e: 9359
-calculating d:
-d: 6379887
-generate random integer:2980
-c: 4787651 m:2980
+p: 4637 q: 5591
+N: 25925467 eulerN: 25915240
+calculating e and d
+e: 2649 d:2484889
+generate random integer:8608
+c: 5853546 m:8608
 encrypt sting:
 
-encrypt sting to []int:[2164771 2062247 3180857 3180857 4146439 1181071 4734142 6516060 3311808 4734142 4111740 870264 4734142 3784890 1132401 549025 2406899 2684485 1407093 1642368 2119721 2531176 2800963 480232 4082824 507418 6017980 5866985 1500939 2992701 4082824 1500939 962168 4082824 870264 4763282 549025 1605439 3494846]
-decrypt string:hello,我是按照逐个字节加密的
+encrypt sting to []int:[14773902 6929511 3881662 3881662 17177132 1441672 8018696 20570993 1197689 8018696 8990288 7523664 8018696 9478268 19565276 5933296 21454753 23718142 1994912 18323106 9394526 20490471 8041615 25550957 8044600 21575371 24665880 4225706 13781244 13667208 8044600 13781244 18578049 8044600 7523664 6485992 5933296 1581769 20457713]
+decrypt string:hello,我是按照逐个字节加密的 
 ```
 
 最后是编程实现代码，用 golang 实现：
@@ -116,12 +114,9 @@ func main() {
 	N := p * q
 	eulerN := euler(p, q)
 	fmt.Printf("N: %v eulerN: %v\n", N, eulerN)
-	fmt.Println("generating e:")
-	e := genE(eulerN)
-	fmt.Printf("e: %v\n", e)
-	fmt.Println("calculating d:")
-	d := calD(e, eulerN)
-	fmt.Printf("d: %v\n", d)
+	fmt.Println("calculating e and d")
+	e, d := genED(eulerN)
+	fmt.Printf("e: %v d:%v\n", e, d)
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	random := r.Intn(LIMIT)
@@ -182,30 +177,24 @@ func euler(p int, q int) int {
 	return (p - 1) * (q - 1)
 }
 
-func gcd(a int, b int) int {
+func exgcd(a int, b int, x *int, y *int) int {
 	if b == 0 {
+		*x, *y = 1, 0
 		return a
 	}
-	return gcd(b, a%b)
+	r := exgcd(b, a%b, x, y)
+	*x, *y = *y, *x-a/b*(*y)
+	return r
 }
 
-func genE(eulerN int) int {
+func genED(eulerN int) (int, int) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	var d, y int
 	for {
 		e := r.Intn(LIMIT)
-		if e < eulerN && gcd(e, eulerN) == 1 {
-			return e
+		if e < eulerN && exgcd(e, eulerN, &d, &y) == 1 && d > 0 {
+			return e, d
 		}
-	}
-}
-
-func calD(e int, eulerN int) int {
-	k := 1
-	for {
-		if (e*k-1)%eulerN == 0 {
-			return k
-		}
-		k++
 	}
 }
 
