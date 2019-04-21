@@ -16,14 +16,17 @@ tags:
 ### 本文环境
 ---
 
+
  - OS：Gentoo
  - Kernel：4.9.76
  - gpg (GnuPG): 2.2.4
  - yubikey-manager 0.6.0
  - pcsc-tools 1.4.27
 
+
 ### 什么是 PGP 卡？
 ---
+
 在加密技术中，PGP 卡是一种智能卡，这种智能卡可以执行加密，解密，数字签名/验证，认证等任务。它允许我们安全地存储密钥，私钥和密码不能用任何命令或功能从卡上读取，但是可以将新密钥写入到卡上覆盖旧密钥，而 Yubikey 里面有 PGP Card 的功能，因此可以将密钥安全地存进去，使得我们的密钥有一个物理设备的载体，类似于银行的 U 盾
 
 <!-- more -->
@@ -60,12 +63,15 @@ Yubikey 相关的包都被 Gentoo 标记为 `Masked`，所以首先是要解除�
 ``` bash
 # emerge --ask app-crypt/yubikey-manager
 ```
+
+
 #### 安装 pcsc-tools
 ---
 
 ``` bash
 # emerge --ask  pcsc-tools
 ```
+
 
 ### 连接设备
 ---
@@ -75,6 +81,7 @@ Yubikey 相关的包都被 Gentoo 标记为 `Masked`，所以首先是要解除�
 ``` bash
 $ ykpersonalize -m5
 ```
+
 **注意：** 启用 3 个功能只需要 `ykpersonalize -m6` 即可
 
 启动 pcscd 守护进程
@@ -82,6 +89,7 @@ $ ykpersonalize -m5
 ``` bash
 # systemctl start pcscd.socket 
 ```
+
 测试连接
 ---
 
@@ -105,6 +113,7 @@ $ gpg-connect-agent --hex "scd apdu 00 f1 00 00" /bye
 D[0000]  04 03 07 90 00                                     .....
 OK
 ```
+
 
 ### 编辑 PGP 卡信息
 ---
@@ -131,8 +140,8 @@ Signature key ....: [none]
 Encryption key....: [none]
 Authentication key: [none]
 General key info..: [none]
-
 ```
+
 设置密码等信息，默认的 PIN 是 `123456`，PUK 是 `12345678`
 
 ``` bash
@@ -179,6 +188,7 @@ Your selection? q
 
 gpg/card>
 ```
+
 设置个人信息
 
 ``` bash
@@ -220,12 +230,13 @@ General key info..: [none]
 gpg/card>
 ```
 
+
 ### 生成与导入 key
 ---
+
 生成 PGP 主密钥
 
 ``` bash
-
 $ gpg --full-generate-key
 gpg (GnuPG) 2.2.4; Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
@@ -265,7 +276,6 @@ We need to generate a lot of random bytes. It is a good idea to perform
 some other action (type on the keyboard, move the mouse, utilize the
 disks) during the prime generation; this gives the random number
 generator a better chance to gain enough entropy.
-
 ```
 
 此时可以动动鼠标键盘让他收集足够的随机数据
@@ -280,7 +290,6 @@ There is NO WARRANTY, to the extent permitted by law.
 
 gpg> addkey
 ```
-
 
 然后跟着向导进行选择就可以了，通常是选择 `(8) RSA (set your own capabilities)` ，然后 `4096` 位密钥
 其中子密钥对的类型选择应该如下
@@ -318,27 +327,32 @@ ssb  rsa4096/DDDDDDDDDDDDDDDD
 
 #### 备份公钥与私钥
 ---
+
 当我们把密钥导入 Yubikey 的时候，我们就无法取出密钥，因此在导入之前最好备份
 备份主密钥私钥
 
 ``` bash
 $ gpg --export-secret-key --armor Locez >> master.key
 ```
+
 备份主密钥公钥
 
 ``` bash
 $ gpg -a --export Locez >> master.pub
 ```
+
 当然也可以对单独子密钥进行备份，语法如下
 
 ``` bash
 gpg --export-secret-subkeys  --armor DDDDDDDDDDDDDDDD >> sign.key
 ```
+
 `DDDDDDDDDDDDDDDD` 为子密钥的指纹信息 
 子密钥公钥当然也可以单独导出，但是在导出主密钥公钥的时候其实已经把子密钥公钥导出了，因此可以不必重复备份
 
 #### 导入进 Yubikey
 ---
+
 备份做好以后，就可以将 `RSA` 密钥导入进 Yubikey 了，通常不建议直接将主密钥导入，因此在本文除了主密钥外，另外有三个子密钥用于导入进 Yubikey
 
 采用 `key index` 语法选择或者取消选择密钥，主密钥为 0， 其它依次递增，被选中会有星号
@@ -348,6 +362,7 @@ gpg> key 1
 ssb* rsa4096/BBBBBBBBBBBBBBBB
      created: 2018-04-24  expires: never       usage: E
 ```
+
 然后接着
 
 ``` bash
@@ -361,6 +376,7 @@ Please select where to store the key:
 Your selection? 2
 
 ```
+
 取消选择子密钥 1 并选择子密钥 2 
 
 ``` bash
@@ -375,6 +391,7 @@ Please select where to store the key:
    (3) Authentication key
 Your selection? 3
 ```
+
 重复操作，直至把 3 个子密钥都导入进 Yubikey，最后 `save` 命令保存,当你看到多了这样的 `card-no` 字样即表面导入成功
 
 ``` bash
@@ -400,8 +417,11 @@ ssb  rsa4096/DDDDDDDDDDDDDDDD
 [ultimate] (1). Locez <loki.a@live.cn>
 
 ```
+
+
 #### 删除主密钥私钥
 ---
+
 通常，为了保证安全，日常操作采用子密钥足以，主密钥私钥应该离线保存在一个非常安全的地方，对的就是刚刚备份的那些东西需要离线存储，例如找个保险柜，此时先删除主密钥私
 
 ``` bash
@@ -416,6 +436,7 @@ sec  rsa4096/AAAAAAAAAAAAAAAA 2018-04-24 Locez <loki.a@live.cn>
 Delete this key from the keyring? (y/N) y
 This is a secret key! - really delete? (y/N) y
 ```
+
 还可通过输入以下命令进行确认, `sec` 后的 `#` 即表明主密钥私钥不可用
 
 ``` bash
@@ -429,10 +450,13 @@ ssb>  rsa4096 2018-04-24 [E]
 ssb>  rsa4096 2018-04-24 [A]
 ssb>  rsa4096 2018-04-24 [S]
 ```
+
 同样输入 `gpg --edit-key Locez` 会看到 `Secret subkeys are available.` 字样，是子密钥可用，而不是原来的主密钥了
+
 
 ### 简单测试
 ---
+
 为了验证卡片写入成功，做个简单的测试，先拔掉 Yubikey
 
 ``` bash
@@ -449,6 +473,7 @@ rsa4096/BBBBBBBBBBBBBBBB 2018-04-24 "Locez <loki.a@live.cn>"
 
 Enter the user ID.  End with an empty line: 
 ```
+
 空行结束，然后会要求你插入 Yubikey 并输入 PIN 进行加密
 
 解密如下
@@ -463,8 +488,10 @@ gpg:                using RSA key BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 gpg: Good signature from "Locez <loki.a@live.cn>" [ultimate]
 ```
 
+
 ### 参考资料
 ---
+
  - [https://developers.yubico.com/PGP/](https://developers.yubico.com/PGP/)
  - [https://en.wikipedia.org/wiki/OpenPGP_card](https://en.wikipedia.org/wiki/OpenPGP_card)
  - [https://wiki.archlinux.org/index.php/GnuPG](https://wiki.archlinux.org/index.php/GnuPG)

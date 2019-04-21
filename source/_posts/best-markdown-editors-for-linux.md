@@ -11,7 +11,7 @@ tags:
 
 在这篇文章中，我们会点评一些可以在 Linux 上安装使用的最好的 Markdown 编辑器。 你可以找到非常多的 Linux 平台上的 Markdown 编辑器，但是在这里我们将尽可能地为您推荐那些最好的。
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Best-Linux-Markdown-Editors.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-00.png)
 
 *Best Linux Markdown Editors*
 
@@ -35,7 +35,7 @@ Atom 是一个现代的、跨平台、开源且强大的文本编辑器，它可
 - 轻松自定义主题
 - 开源、高度扩展性的软件包等
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Atom-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-01.png)
 
 *Atom Markdown Editor for Linux*
 
@@ -54,7 +54,7 @@ Emacs 是 Linux 平台上一款的流行文本编辑器。它是一个非常棒�
 - 可用 Emacs Lisp 或 GUI 对其进行高度定制
 - 提供了一个包系统可用来下载安装各种扩展等
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Emacs-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-02.png)
 
 *Emacs Markdown Editor for Linux*
 
@@ -74,7 +74,7 @@ Remarkable 可能是 Linux 上最好的 Markdown 编辑器了，它也适用于 
 - 提供键盘快捷键
 - 高可定制性和其他
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Remarkable-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-03.png)
 
 *Remarkable Markdown Editor for Linux*
 
@@ -93,7 +93,7 @@ Haroopad 是为 Linux，Windows 和 Mac OS X 构建的跨平台 Markdown 文档�
 - 支持 Github Markdown 扩展
 - 为用户提供了一些令人兴奋的主题、皮肤和 UI 组件等等
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Haroopad-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-04.png)
 
 *Haroopad Markdown Editor for Linux*
 
@@ -109,7 +109,7 @@ ReText 是为 Linux 和其它几个 POSIX 兼容操作系统提供的简单、�
 - 支持使用多种数学公式
 - 启用导出扩展等等
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/ReText-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-05.png)
 
 *ReText Markdown Editor for Linux*
 
@@ -127,7 +127,7 @@ UberWriter 是一个简单、易用的 Linux Markdown 编辑器。它的开发�
 - 支持用 pandoc 导出 PDF、HTML 和 RTF
 - 启用语法高亮和数学函数等等
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/UberWriter-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-06.png)
 
 *UberWriter Markdown Editor for Linux*
 
@@ -146,7 +146,7 @@ Mark My Words 同样也是一个轻量、强大的 Markdown 编辑器。它是�
 - 监测文件的修改
 - 支持首选项设置
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/MarkMyWords-Markdown-Editor-for-Linux.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-07.png)
 
 *MarkMyWords Markdown Editor for-Linux*
 
@@ -164,7 +164,7 @@ Brackets 是一个现代、轻量、开源且跨平台的文本编辑器。它�
 
 它也是通过插件高度可扩展的，你可以使用 [Bracket-MarkdownPreview][3] 插件来编写和预览 Markdown 文档。
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/Brackets-Markdown-Plugin.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-08.png)
 
 *Brackets Markdown Plugin Preview*
 
@@ -181,7 +181,7 @@ Sublime Text 是一个精心打造的、流行的、跨平台文本编辑器，�
 
 [SublimeText-Markdown][4] 插件是一个支持格式高亮的软件包，带有一些漂亮的颜色方案。
 
-![](http://www.tecmint.com/wp-content/uploads/2016/07/SublimeText-Markdown-Plugin-Preview.png)
+![](https://image.locez.com/blog/best-markdown-editors-for-linux-09.png)
 
 *SublimeText Markdown Plugin Preview*
 

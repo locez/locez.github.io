@@ -13,15 +13,19 @@ tags:
 有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 `Serializable` 对该类的对象进行序列化，并用 `ObjectOutputStream` 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息，静态成员理论上是属于类信息，因此无法采用序列化保存。
 
 以下是我在作业过程中遇到的题目，要求将字段属性存入到文件中，然后能从文件中读取出来。于是我使用了 `泛型` 与 `反射`，将这两个方法写成通用的了。
+
 ```java
 public static <T> void saveFields(T t, String path, char separated)
 public static <T> void getFields(T t, String path, char separated)
 ```
+
 <!-- more -->
 ### Main
-***
+---
+
 上面两个方法只能处理 Java 基本数据类型对应的包装类以及 `String` 类型，别的类型不支持，主要是因为这几个类型的数据是可以直接阅读观察的，因此很容易从文本中通过反射重新建立对象。
 接下来看一个使用的例子：
+
 ```java
 public class Main {
     static Person person = new Person();
@@ -47,8 +51,10 @@ public class Main {
 ```
 
 ### data.txt
-***
+---
+
 写入后的文件内容应该如下：
+
 ```
 name:Locez
 sex:Male
@@ -59,7 +65,8 @@ score:2333.0
 ```
 
 ### saveFields
-***
+---
+
 ```java
 /**
   * @param t    对象实例
@@ -87,8 +94,10 @@ score:2333.0
  }
  ```
 
+
  ### getFields
- ***
+ ---
+
  ```java
  /**
   * @param t         对象实例

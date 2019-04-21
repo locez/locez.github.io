@@ -7,7 +7,7 @@ tags:
   - java
 ---
 
-![IDE CodinGame](http://locez.qiniudn.com/image/IDE-CodinGame.png)
+![IDE CodinGame](https://image.locez.com/blog/codingame-tron-battle-00.png)
 
 在viz的叙说下玩了一下，写了一段烂代码，但是还是有点用途的，至少不会马上就挂啊！！
 
@@ -18,7 +18,9 @@ Tron Battle，需要Player编写一段程序来移动，有点类似于贪吃蛇
 上不去的可以试下翻墙！
 
 下面贴上自己的Java版代码，写的不好，判断什么都是最简单的，实在没有时间想复杂的了！
+
 <!--more-->
+
 ``` java
 import java.util.*;
 import java.io.*;

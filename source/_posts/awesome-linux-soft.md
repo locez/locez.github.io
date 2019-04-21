@@ -18,38 +18,52 @@ tags:
 <!-- more -->
 ### Browser
 ---
+
  - `Firefox`
  - `Chrome`
 
+
 ### Terminal
 --- 
+
  - `xfce4-terminal` 轻量简单实用，可设置透明，隐藏菜单等状态栏后很容易与桌面形成一体
+
 
 ### Input Method
 ---
+
  - `fcitx` 输入法框架
  - `fcitx-rime`
  - `fcitx-sunpinyin`
 
+
 ### File Manager
 ---
+
  - `pcmanfm-qt` qt版本的 pcmanfm 颜值比较高，装完以后在 `Edit` -> `Preferences` -> `Display` -> `Icon Theme` 中选择 `Breeze` ，效果特别不错
+
 
 ### Text Editor
 ---
+
  - `vim` 目前的日常编辑工作都使用 vim 进行，只需要在 pcmanfm-qt 中设置对文本的打开命令即可双击利用 vim 打开该文本,还可在偏好设置中选择打开的终端，本人使用的就是 `xfce4-terminal`
+
 
 ### Picture Manager
 ---
 
  - `gthumb` gnome 环境下的相册管理器，非常美观
 
+
 ### Music
 ---
+
  - `netease-cloud-music` 网易云音乐，但在 `qtcore 5.7` 之后的版本，桌面歌词变为框框，所以谨慎升级 qt
+
 
 ### Others
 ---
+
  - `compton` 窗口合成器，`awesomewm` 只是一个窗口管理器，所以额外增加一个窗口合成器，主要用来实现例如 `xfce4-terminal` 的透明效果
 
 

@@ -7,11 +7,12 @@ tags:
   - java
 ---
 
-/*刚刚测试的时候发现java在Linux与windows下一个中文字符所代表的字节不相同，此处是在Linux下测试的，以下作为字节参考：
+刚刚测试的时候发现java在Linux与windows下一个中文字符所代表的字节不相同，此处是在Linux下测试的，以下作为字节参考：
 
---------windows Linux
-----中文   2      3
-----英文   1      1 */
+||windows|Linux|
+|---|:--|:--|
+|中文|2 |3|
+|英文|1|1
 
 ``` java
 //Substr类
