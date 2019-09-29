@@ -52,7 +52,7 @@ $$
 首先求得所有模的乘积：
 
 $$
-M = m_1 * m_2 * m3 * \cdot\cdot\cdot m_n = \prod_{i=1}^n m_i
+M = m_1m_2m_3\cdot\cdot\cdot m_n = \prod_{i=1}^n m_i
 $$
 
 然后求得每个除了 $m_i$ 以外的 $n-1$ 个模的乘积，即：
