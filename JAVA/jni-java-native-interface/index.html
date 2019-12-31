@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>JNI-Java Native Interface | LOCEZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java提供了JNI机制，用来弥补与平台无关的特性，可以使用C/C++编写本地代码生成动态连接库交由Java调用。 首先创建一个NativeHelloWorld.java文件，包含以下内容； 1234567891011121314//java本地方法要由native声明public class NativeHelloWorld&amp;#123;    //使用静态加载块加载dll    static&amp;#">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI-Java Native Interface">
+<meta property="og:url" content="http://locez.github.io/JAVA/jni-java-native-interface/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="Java提供了JNI机制，用来弥补与平台无关的特性，可以使用C/C++编写本地代码生成动态连接库交由Java调用。 首先创建一个NativeHelloWorld.java文件，包含以下内容； 1234567891011121314//java本地方法要由native声明public class NativeHelloWorld&amp;#123;    //使用静态加载块加载dll    static&amp;#">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-31T18:35:33.491Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI-Java Native Interface">
+<meta name="twitter:description" content="Java提供了JNI机制，用来弥补与平台无关的特性，可以使用C/C++编写本地代码生成动态连接库交由Java调用。 首先创建一个NativeHelloWorld.java文件，包含以下内容； 1234567891011121314//java本地方法要由native声明public class NativeHelloWorld&amp;#123;    //使用静态加载块加载dll    static&amp;#">
+  
+    <link rel="alternative" href="/atom.xml" title="LOCEZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head></html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LOCEZ</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">用心体会,尽情敲击</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/reading">Reading</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="locez.github.io">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-jni-java-native-interface" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/JAVA/jni-java-native-interface/" class="article-date">
+  <time datetime="2013-10-27T15:34:48.000Z" itemprop="datePublished">Oct 27 2013</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JNI-Java Native Interface
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java提供了JNI机制，用来弥补与平台无关的特性，可以使用C/C++编写本地代码生成动态连接库交由Java调用。</p>
+<p>首先创建一个NativeHelloWorld.java文件，包含以下内容；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//java本地方法要由native声明</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NativeHelloWorld</span></span>&#123;</span><br><span class="line">    <span class="comment">//使用静态加载块加载dll</span></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.loadLibrary( <span class="string">" NativeHelloWorld "</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//native声明的start方法，交由c/c++实现，因此无需包含方法体；</span></span><br><span class="line">    <span class="function"><span class="keyword">native</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(String s)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//实例化对象并调用start方法;</span></span><br><span class="line">        <span class="keyword">new</span> NativeHelloWorld().start( <span class="string">" I am loaded by Native code of c++ "</span> );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//打开cmd，执行javac命令</span><br><span class="line">javac NativeHelloWorld.java</span><br><span class="line">//当前目录将生成一个NativeHelloWorld.class，继续执行javah命令</span><br><span class="line">javah NativeHelloWorld</span><br><span class="line">//此时生成了一个名为NativeHelloWorld.h的c/c++头文件</span><br></pre></td></tr></table></figure>
+<p>NativeHelloWorld.h的内容</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"jni.h"</span></span></span><br><span class="line"><span class="comment">/* Header for class NativeHelloWorld */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_NativeHelloWorld</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_NativeHelloWorld</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">" C "</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     NativeHelloWorld</span></span><br><span class="line"><span class="comment"> * Method:    start</span></span><br><span class="line"><span class="comment"> * Signature: (Ljava/lang/String;)V</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL Java_NativeHelloWorld_start</span><br><span class="line">  (JNIEnv *, jobject, jstring);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>生成头文件后，就是将该头文件运用到c/c++中并实现NativeHelloWorld.h里面的方法，最后编译成动态连接库dll放入NativeHelloWorld.class同路径下。</p>
+<p>我这里使用的是vs2008，c++语言实现，选择新建项目-&gt;visual c++ win32-&gt;win32项目-&gt;程序设置中选择DLL-&gt;完成。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NativeHelloWorld.cpp : 定义 DLL 应用程序的导出函数。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//jni.h、jni_md.h可在java安装目录中的include找到，复制到本项目文件夹中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//NativeHelloWorld.h则是刚刚由javah生成的，里面包含了要被java调用的本地函数的原型。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*start方法的原型是：JNIEXPORT void JNICALL Java_NativeHelloWorld_start</span></span><br><span class="line"><span class="comment">  (JNIEnv *, jobject, jstring);*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">" stdafx.h "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">" jni.h "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">" NativeHelloWorld.h "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>  &amp;lt;iostream&amp;gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//JNIEnv *env指针包含一些对java数据类型以及c/c++数据类型转换操作的函数（函数在jni.h中有声明）</span></span><br><span class="line"><span class="comment">//jobiect这个我还没有具体了解</span></span><br><span class="line"><span class="comment">//jstring str是java在本地代码中String的数据类型，当返回一个jstring时相当于返回一个String</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL Java_NativeHelloWorld_start</span><br><span class="line">(JNIEnv *env, jobject, jstring str)&#123;</span><br><span class="line">    <span class="comment">//使用JNIEnv调用const char* GetStringUTFChars(jstring str, jboolean *isCopy)</span></span><br><span class="line">    <span class="comment">//实现java数据类型到c++数据类型转换。</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *p=env-&amp;gt;;GetStringUTFChars(str,<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">char</span> c[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">cout</span>&amp;lt;&amp;lt;<span class="string">"请输入字符（Enter）："</span>;</span><br><span class="line">    <span class="built_in">cin</span>.getline(c,<span class="number">20</span>);</span><br><span class="line">    <span class="built_in">cout</span>&amp;lt;&amp;lt;<span class="string">"由JAVA传入的内容是：\n"</span></span><br><span class="line">        &amp;lt;&amp;lt;p</span><br><span class="line">        &amp;lt;&amp;lt;<span class="string">"\nAddress："</span></span><br><span class="line">        &amp;lt;&amp;lt;&amp;amp;p</span><br><span class="line">        &amp;lt;&amp;lt;<span class="string">"\n用户输入的是："</span>&amp;lt;&amp;lt;c&amp;lt;&amp;lt;<span class="string">"\nAddress:"</span>&amp;lt;&amp;lt;&amp;amp;c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>编译生成NativeHelloWorld.dll<br>把dll放入NativeHelloWorld.class相同目录下<br>在cmd中执行java NativeHelloWorld<br>看到程序运行如下：</em></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">F:\java&amp;gt;java NativeHelloWorld</span><br><span class="line">请输入字符（Enter）：Native Hello World</span><br><span class="line">由JAVA传入的内容是：</span><br><span class="line">I am loaded by Native code of c++</span><br><span class="line">Address：009AFC9C</span><br><span class="line">用户输入的是：Native Hello World</span><br><span class="line">Address:009AFC80</span><br></pre></td></tr></table></figure>
+<p>JNI的简单运用如上！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://locez.github.io/JAVA/jni-java-native-interface/" data-id="ck4u7ptma0020cjsmma2x14x6" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/Common-Lisp/common-lisp-developing-environment/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Common Lisp开发环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/JAVA/urlclassloader-class/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">URLClassLoader加载类</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Common-Lisp/">Common Lisp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/fuchsia/">fuchsia</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/golang/">golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/cryptography/">cryptography</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/cryptography/algorithm/">algorithm</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/docker/">docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/hadoop/">hadoop</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/talk/">talk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PGP/">PGP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/">command</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fedora/">fedora</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fuchsia/">fuchsia</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/girlfriend/">girlfriend</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnupg/">gnupg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lisp/">lisp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/luks/">luks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/raspberry-pi/">raspberry pi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsa/">rsa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/soft/">soft</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/talk/">talk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualization/">virtualization</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yubikey/">yubikey</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PGP/" style="font-size: 10px;">PGP</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">algorithm</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/fedora/" style="font-size: 13.33px;">fedora</a> <a href="/tags/fuchsia/" style="font-size: 10px;">fuchsia</a> <a href="/tags/girlfriend/" style="font-size: 10px;">girlfriend</a> <a href="/tags/gnupg/" style="font-size: 10px;">gnupg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/lisp/" style="font-size: 10px;">lisp</a> <a href="/tags/luks/" style="font-size: 10px;">luks</a> <a href="/tags/raspberry-pi/" style="font-size: 10px;">raspberry pi</a> <a href="/tags/rsa/" style="font-size: 10px;">rsa</a> <a href="/tags/soft/" style="font-size: 10px;">soft</a> <a href="/tags/talk/" style="font-size: 13.33px;">talk</a> <a href="/tags/translation/" style="font-size: 10px;">translation</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/virtualization/" style="font-size: 10px;">virtualization</a> <a href="/tags/yubikey/" style="font-size: 10px;">yubikey</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/talk/locez-to-better-in-2020/">2020 年的 Locez 要更加优秀</a>
+          </li>
+        
+          <li>
+            <a href="/algorithm/chinese-remainder-theorem/">中国剩余定理</a>
+          </li>
+        
+          <li>
+            <a href="/fuchsia/fuchsia-compile-tutorial/">Fuchsia 编译指南</a>
+          </li>
+        
+          <li>
+            <a href="/linux/cryptography/algorithm/rsa/">RSA 算法</a>
+          </li>
+        
+          <li>
+            <a href="/golang/girlfriend/">Girlfriend</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://www.flyher.net" target="_blank">Flyher</a>
+          </li>
+        
+          <li>
+            <a href="http://philo.top" target="_blank">philo</a>
+          </li>
+        
+          <li>
+            <a href="https://linux.cn" target="_blank">Linux.中国-开源社区</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ownsyou.cn" target="_blank">怪使</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Locez<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+      .
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254505697'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1254505697%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/reading" class="mobile-nav-link">Reading</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
