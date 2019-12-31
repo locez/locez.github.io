@@ -1,5 +1,5 @@
 ---
-title: 2020 年的 Locez要更加优秀
+title: 2020 年的 Locez 要更加优秀
 date: 2020-01-01 02:06:12
 categories:
     - talk
