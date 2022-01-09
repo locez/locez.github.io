@@ -23,7 +23,6 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: install hexo depencenies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm install hexo-cli -g
           npm install hexo-deployer-git --save
