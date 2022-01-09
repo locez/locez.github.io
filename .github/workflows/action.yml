@@ -6,34 +6,34 @@ on:
 
 jobs:
   build:
-  runs-on: ubuntu-latest
-  name: hexo deploy
-  steps:
-    - name: Cache node modules
-      uses: actions/cache@v2
-      id: cache
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+    runs-on: ubuntu-latest
+    name: hexo deploy
+    steps:
+      - name: Cache node modules
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: install hexo depencenies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install hexo-cli -g
-      run: npm install hexo-deployer-git --save
-      run: npm install
+      - name: install hexo depencenies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install hexo-cli -g
+        run: npm install hexo-deployer-git --save
+        run: npm install
 
-    - name: generate page
-      run: hexo clean
-      run: hexo generate
+      - name: generate page
+        run: hexo clean
+        run: hexo generate
 
-    - name: deploy
-      run: echo ${{ secrets.DEPLOY_KEY }} > ~/.ssh/id_rsa
-      run: chmod 600 ~/.ssh/id_rsa
-      run: cp .deploy/config ~/.ssh/config
-      run: eval $(ssh-agent)
-      run: ssh-add ~/.ssh/id_rsa
-      run: git config --global user.name "locez"
-      run: git config --global user.email "loki.a@live.cn"
-      run: hexo deploy
+      - name: deploy
+        run: echo ${{ secrets.DEPLOY_KEY }} > ~/.ssh/id_rsa
+        run: chmod 600 ~/.ssh/id_rsa
+        run: cp .deploy/config ~/.ssh/config
+        run: eval $(ssh-agent)
+        run: ssh-add ~/.ssh/id_rsa
+        run: git config --global user.name "locez"
+        run: git config --global user.email "loki.a@live.cn"
+        run: hexo deploy
