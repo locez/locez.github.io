@@ -20,20 +20,23 @@ jobs:
 
       - name: install hexo depencenies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install hexo-cli -g
-        run: npm install hexo-deployer-git --save
-        run: npm install
+        run: |
+          npm install hexo-cli -g
+          npm install hexo-deployer-git --save
+          npm install
 
       - name: generate page
-        run: hexo clean
-        run: hexo generate
+        run: |
+          hexo clean
+          hexo generate
 
       - name: deploy
-        run: echo ${{ secrets.DEPLOY_KEY }} > ~/.ssh/id_rsa
-        run: chmod 600 ~/.ssh/id_rsa
-        run: cp .deploy/config ~/.ssh/config
-        run: eval $(ssh-agent)
-        run: ssh-add ~/.ssh/id_rsa
-        run: git config --global user.name "locez"
-        run: git config --global user.email "loki.a@live.cn"
-        run: hexo deploy
+        run: | 
+          echo ${{ secrets.DEPLOY_KEY }} > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cp .deploy/config ~/.ssh/config
+          eval $(ssh-agent)
+          ssh-add ~/.ssh/id_rsa
+          git config --global user.name "locez"
+          git config --global user.email "loki.a@live.cn"
+          hexo deploy
