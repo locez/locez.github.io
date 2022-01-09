@@ -2,10 +2,10 @@
 title: Protocol Buffers 食用方法
 date: 2021-01-01 09:16:24
 categories:
- - linux
- - protobuf
- - protocol buffers
- - cpp
+ - [linux]
+ - [protobuf]
+ - [protocol buffers]
+ - [cpp]
 tags:
  - linux
  - protobuf
