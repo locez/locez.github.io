@@ -1,6 +1,6 @@
 name: Hexo Deploy
 on:
-  pubsh:
+  push:
     branches:
       - blog-source
 
