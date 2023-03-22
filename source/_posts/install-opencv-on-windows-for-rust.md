@@ -32,6 +32,8 @@ tags:
 
 如果你曾经已经安装过 Visual Studio，此处只需要打开 Installer 修改一下配置即可完成安装。
 
+<!-- more -->
+
 ### 编译 OpenCV
 ---
 
