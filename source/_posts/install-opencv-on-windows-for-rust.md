@@ -8,7 +8,7 @@ categories:
 tags:
  - rust
  - opecv
- -windows
+ - windows
 ---
 
 ##### AUTHOR: [Locez](http://locez.com)
