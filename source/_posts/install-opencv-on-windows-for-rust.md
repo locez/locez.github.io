@@ -1,5 +1,5 @@
 ---
-title: Rust：在 Windows 上构建 OpenCV
+title: Rust：在 Windows 上构建并使用 OpenCV
 date: 2023-03-19 09:48:27
 categories:
  - rust
@@ -12,7 +12,8 @@ tags:
 ---
 
 ##### AUTHOR: [Locez](http://locez.com)
-##### VERSION: 1
+##### VERSION: 2
+##### UPDATE: 2023-05-10
 
 
 ### 目标
@@ -74,15 +75,13 @@ WinGet install LLVM.LLVM
 
 使用 vcpkg 编译安装
 ``` powershell
-> vcpkg.exe install llvm:x64-windows opencv4[contrib,nonfree]:x64-windows
+> vcpkg.exe install opencv4[contrib,nonfree]:x64-windows-static
 ```
 
 ### 在 Rust 中使用
 ---
 在 rust 项目中
 ``` powershell
-### 配置环境变量，默认是静态编译，但是测试过静态编译会不通过
-> $env:VCPKGRS_DYNAMIC="True"
 > cargo add opencv
 > cargo run
 ```
