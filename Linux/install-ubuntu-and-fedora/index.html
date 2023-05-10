@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>新手指南： 手把手教你安装 Ubuntu 和 Fedora | LOCEZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="AUTHOR: LocezVERSION: 1Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。 阅读建议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新手指南： 手把手教你安装 Ubuntu 和 Fedora">
+<meta property="og:url" content="http://locez.github.io/Linux/install-ubuntu-and-fedora/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。 阅读建议">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-01.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-02.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-03.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-04.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-05.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-06.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-07.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-08.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-09.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-10.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-11.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-12.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-13.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-14.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-15.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-16.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-17.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-18.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-19.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-20.png">
+<meta property="article:published_time" content="2015-07-26T19:00:37.000Z">
+<meta property="article:modified_time" content="2023-05-10T16:45:47.392Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="fedora">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png">
+  
+    <link rel="alternative" href="/atom.xml" title="LOCEZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 7.0.0-rc1"></head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LOCEZ</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/reading">Reading</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="locez.github.io">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-install-ubuntu-and-fedora" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/Linux/install-ubuntu-and-fedora/" class="article-date">
+  <time datetime="2015-07-26T19:00:37.000Z" itemprop="datePublished">Jul 26 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      新手指南： 手把手教你安装 Ubuntu 和 Fedora
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p>Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。</p>
+<h3 id="阅读建议"><a href="#阅读建议" class="headerlink" title="阅读建议"></a>阅读建议</h3><hr>
+<ul>
+<li>本文将包含 Ubuntu 和 Fedora 两个发行版的安装，请先通篇浏览全文，再决定安装哪个发行版，并且配图有相应的文字说明，请不要忽视。</li>
+<li>如果你是一位新手，强烈建议使用虚拟机操作，如果你相信自己可以解决问题，也可使用 <strong>UltraISO</strong> 、<strong>USBWriter</strong> 和 <code>dd</code>命令写入 U 盘，进行实体机安装，此处不详述。</li>
+<li>有任何问题都可以加入 <strong>Linux中国新手村</strong> QQ 群提问，QQ 群号 <code>198889109</code> ，验证请到 <code>linux.cn</code> 主页获取 。</li>
+</ul>
+<h3 id="Ubuntu-简介"><a href="#Ubuntu-简介" class="headerlink" title="Ubuntu 简介"></a>Ubuntu 简介</h3><hr>
+<p>Ubuntu 是一个基于 Debian 的 GNU&#x2F;Linux 操作系统，支持 X86 、64以及 PPC 架构。Ubuntu 每隔六个月发布一个版本，即每年的四月和十月，本文使用的是 <strong>15.04 64-bit</strong> 版本，Ubuntu 对于新手应该是比较友好的一个 Linux 发行版，中文本地化也做的不错，有开箱即用的感觉。因为 Ubuntu 近几年用户群的增加，多了很多对于新手有用的资料，因此请不用担心遇到问题无法解决，善用搜索和提问，将使你更快速地成长。</p>
+<span id="more"></span>
+<h3 id="Fedora-简介"><a href="#Fedora-简介" class="headerlink" title="Fedora 简介"></a>Fedora 简介</h3><hr>
+<p>Fedora 是一个由 Fedora 社区开发的 Linux 发行版，由 Red Hat 公司赞助，可以将 Fedora 看成是 Red Hat Linux 个人使用的代替，由于有 Red Hat 公司的支持，Fedora 的功能非常完善，还分为 WORKSTATION 、SERVER 和 CLOUD 版本。本文使用的是 <strong>Fedora 22 WORKSTATION （工作站）</strong>，Fedora 22 已经将包管理器从 <code>YUM</code> 改为 <code>DNF</code> ，因此建议学习者直接学习 <code>DNF</code> 。</p>
+<h3 id="本文环境"><a href="#本文环境" class="headerlink" title="本文环境"></a>本文环境</h3><hr>
+<ul>
+<li>Windows 8.1 64-bit</li>
+<li>VirtualBox-5.0 <a href="http://download.virtualbox.org/virtualbox/5.0.0/VirtualBox-5.0.0-101573-Win.exe">点此下载</a></li>
+<li>Ubuntu 15.04 64-bit <a href="http://releases.ubuntu.com/15.04/ubuntu-15.04-desktop-amd64.iso">点此下载</a></li>
+<li>Ubuntu 15.04 32-bit 适合配置较低的用户使用 <a href="http://releases.ubuntu.com/15.04/ubuntu-15.04-desktop-i386.iso">点此下载</a> </li>
+<li>Fedora 22 64-bit <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/22/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-22-3.iso">点此下载</a></li>
+<li>Fedora 22 32-bit 适合配置较低用户使用 <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/22/Workstation/i386/iso/Fedora-Live-Workstation-i686-22-3.iso">点此下载</a></li>
+</ul>
+<h3 id="Ubuntu-安装"><a href="#Ubuntu-安装" class="headerlink" title="Ubuntu 安装"></a>Ubuntu 安装</h3><hr>
+<h4 id="1-新建与加载盘片"><a href="#1-新建与加载盘片" class="headerlink" title="1.新建与加载盘片"></a>1.新建与加载盘片</h4><p>当你安装完 Vbox 后，打开你应该会看到下面这样的界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png" alt="VBOX"></p>
+<p>点击新建后会出来如下图所示的界面，一般如图填写即可，内存可酌情填写</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-01.png" alt="NEWUBUNTU"></p>
+<p>下一步将创建虚拟硬盘，如图所示，默认位置为 C 盘，如果你不想在 C 盘创建，请确保你选择的盘格式为NTFS</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-02.png" alt="NEWUBUNTU"></p>
+<p>创建完成后，请点 <strong>设置</strong> 如图加载 ISO 文件</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-03.png" alt="LOADUBUNTUISO"></p>
+<h4 id="2-安装-Ubuntu"><a href="#2-安装-Ubuntu" class="headerlink" title="2.安装 Ubuntu"></a>2.安装 Ubuntu</h4><p>点击 <strong>启动</strong> ，会开机，进入如下界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-04.png" alt="INSTALLING"></p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-05.png" alt="INSTALLING2"></p>
+<p>这里请注意，如果你与笔者一样使用虚拟机，强烈建议选择 <strong>清除整个磁盘并安装 Ubuntu</strong> ，但如果你要装到实体机与 Windows 形成双系统时，请选择 <strong>其他选项</strong> ，但这要求你对 Linxu 有一定的了解且具备一定的基础进行分区操作，注意不要覆盖 Windows 的 C 盘，此处由于篇幅原因，不再详述。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-06.png" alt="INSTALLING3"></p>
+<p>如图，进行用户设定，<strong>计算机名</strong> 是主机名，<strong>用户名</strong> 是登录时用的账户名称，<strong>密码</strong> 则是你所设 <strong>用户名</strong> 的登录密码，请务必记牢。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-07.png" alt="INSTALLING4"></p>
+<p>这一步之后会选择时区，直接点下一步即可，键盘选择如下图</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-08.png" alt="SELECTKEYBOARD"></p>
+<p>配置选择已完成，接下来请耐心等待安装过程，如图，请不要点击 <strong>SKIP</strong> </p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-09.png" alt="INSTALLING"></p>
+<p>耐心等待安装完成，然后会重启进入系统，用你上面配置的用户名和密码登录，请注意最好不要登录 <strong>root</strong> ，你可以用 <code>sudo</code> 命令来获取相应的权限，下图是展示成果</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-10.png" alt="FINISH"></p>
+<h3 id="Fedora-安装"><a href="#Fedora-安装" class="headerlink" title="Fedora 安装"></a>Fedora 安装</h3><hr>
+<h4 id="1-新建与加载盘片请参考上面的-Ubuntu-部分"><a href="#1-新建与加载盘片请参考上面的-Ubuntu-部分" class="headerlink" title="1.新建与加载盘片请参考上面的 Ubuntu 部分"></a>1.新建与加载盘片请参考上面的 Ubuntu 部分</h4><h4 id="2-安装-Fedora"><a href="#2-安装-Fedora" class="headerlink" title="2.安装 Fedora"></a>2.安装 Fedora</h4><p>点击 <strong>启动</strong>，会开机，进入如下界面,如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-11.png" alt="STARTLIVECD"></p>
+<p>接下来依然是如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-12.png" alt="INSTALLING"></p>
+<p>然后是选择语言，选择完后进入如图界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-13.png" alt="INSTALLING1"></p>
+<p>配置安装位置，这里请注意，如果你与笔者一样使用虚拟机，强烈建议选择 <strong>自动配置分区</strong> ，但如果你要装到实体机与 Windows 形成双系统时，请选择 <strong>我要配置分区</strong> ，但这要求你对 Linxu 有一定的了解且具备一定的基础进行分区操作，注意不要覆盖 Windows 的 C 盘，此处由于篇幅原因，不再详述。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-14.png" alt="INSTALLING2"></p>
+<p>下一步将创建 <strong>root</strong> 和 <strong>日常使用账户</strong> ，<strong>root</strong> 账户有最大的管理权限，你甚至可以将整个系统删除，所以使用 <strong>root</strong> 账户请务必小心，<strong>日常使用账户</strong> 应作为你的习惯使用账户，必要时只需使用 <code>sudo</code> 命令暂时提升权限即可，更多说明如图所示</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-15.png" alt="INSTALLING3"></p>
+<p><strong>root</strong>  配置只需创建密码即可，下图是 <strong>日常使用账户</strong> 配置</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-16.png" alt="INSTALLING4"></p>
+<p>配置完后将回到之前的界面，请耐心等待安装，如图</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-17.png" alt="INSTALLING5"></p>
+<p>安装完成，点击 <strong>退出</strong> 后，进入的依然是 Live CD 环境，请先关机，再执行下一步</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-18.png" alt="INSTALLING6"></p>
+<p>由于 Fedora 未自动卸载盘片，因此需要手动卸载盘片，否则将再次进入 Live CD 环境，请如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-19.png" alt="INSTALLING7"></p>
+<p>接下来则是点击 <strong>启动</strong> 进入你的 Fedora ，使用你上面设置的用户名和密码登录，请注意最好不要登录 <strong>root</strong> ，你可以用 <code>sudo</code> 命令来获取相应的权限，下图是展示成果</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-20.png" alt="INSTALLING8"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><hr>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/Ubuntu">Ubuntu-Wikipedia</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Fedora">Fedora-Wikipedia</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://locez.github.io/Linux/install-ubuntu-and-fedora/" data-id="clhhxmr2l001ueep5h0wgbmn5" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fedora/" rel="tag">fedora</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/Linux/install-program-on-ubuntu-fedora/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          新手指南： 在 Ubuntu 和 Fedora 上安装软件包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Linux/Install-QQ-on-Linux/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Arch Linux 下的 QQ 解决方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Common-Lisp/">Common Lisp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/fuchsia/">fuchsia</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/golang/">golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/cryptography/">cryptography</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/cryptography/algorithm/">algorithm</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/docker/">docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/hadoop/">hadoop</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/protobuf/">protobuf</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/protocol-buffers/">protocol buffers</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/rust/">rust</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/rust/opencv/">opencv</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/rust/opencv/windows/">windows</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/talk/">talk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">translation</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PGP/" rel="tag">PGP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/" rel="tag">command</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fedora/" rel="tag">fedora</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fuchsia/" rel="tag">fuchsia</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/girlfriend/" rel="tag">girlfriend</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gnupg/" rel="tag">gnupg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lisp/" rel="tag">lisp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/luks/" rel="tag">luks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opecv/" rel="tag">opecv</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protocol-buffers/" rel="tag">protocol buffers</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/raspberry-pi/" rel="tag">raspberry pi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsa/" rel="tag">rsa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rust/" rel="tag">rust</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/soft/" rel="tag">soft</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/talk/" rel="tag">talk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/" rel="tag">translation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/" rel="tag">tutorial</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualization/" rel="tag">virtualization</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yubikey/" rel="tag">yubikey</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PGP/" style="font-size: 10px;">PGP</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">algorithm</a> <a href="/tags/command/" style="font-size: 10px;">command</a> <a href="/tags/cpp/" style="font-size: 10px;">cpp</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/fedora/" style="font-size: 13.33px;">fedora</a> <a href="/tags/fuchsia/" style="font-size: 10px;">fuchsia</a> <a href="/tags/girlfriend/" style="font-size: 10px;">girlfriend</a> <a href="/tags/gnupg/" style="font-size: 10px;">gnupg</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/lisp/" style="font-size: 10px;">lisp</a> <a href="/tags/luks/" style="font-size: 10px;">luks</a> <a href="/tags/opecv/" style="font-size: 10px;">opecv</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/protocol-buffers/" style="font-size: 10px;">protocol buffers</a> <a href="/tags/raspberry-pi/" style="font-size: 10px;">raspberry pi</a> <a href="/tags/rsa/" style="font-size: 10px;">rsa</a> <a href="/tags/rust/" style="font-size: 10px;">rust</a> <a href="/tags/soft/" style="font-size: 10px;">soft</a> <a href="/tags/talk/" style="font-size: 13.33px;">talk</a> <a href="/tags/translation/" style="font-size: 10px;">translation</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/virtualization/" style="font-size: 10px;">virtualization</a> <a href="/tags/windows/" style="font-size: 10px;">windows</a> <a href="/tags/yubikey/" style="font-size: 10px;">yubikey</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/rust/opencv/windows/install-opencv-on-windows-for-rust/">Rust：在 Windows 上构建并使用 OpenCV</a>
+          </li>
+        
+          <li>
+            <a href="/cpp/protobuf/">Protocol Buffers 食用方法</a>
+          </li>
+        
+          <li>
+            <a href="/talk/locez-to-better-in-2020/">2020 年的 Locez 要更加优秀</a>
+          </li>
+        
+          <li>
+            <a href="/algorithm/chinese-remainder-theorem/">中国剩余定理</a>
+          </li>
+        
+          <li>
+            <a href="/fuchsia/fuchsia-compile-tutorial/">Fuchsia 编译指南</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://www.flyher.net" target="_blank">Flyher</a>
+          </li>
+        
+          <li>
+            <a href="http://philo.top" target="_blank">philo</a>
+          </li>
+        
+          <li>
+            <a href="https://linux.cn" target="_blank">Linux.中国-开源社区</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ownsyou.cn" target="_blank">怪使</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Locez<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+      .
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254505697'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1254505697%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/reading" class="mobile-nav-link">Reading</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
