@@ -25,6 +25,7 @@ tags:
 
 跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 `example-a.com` 的 JavaScript 默认情况下是不可以访问 `example-b.com` 的资源的，除非 `example-b.com` 的返回包含了正确的 `CORS` 响应头。更多可以参考 [同源策领 Same-origin policy](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy) 。
 
+<!-- more -->
 ### Caddy
 ---
 [Caddy](https://github.com/caddyserver/caddy) 是一个使用 go 语言编写的，开源的 Web 服务器。Caddy 支持大多数 Nginx 支持的功能，它对比 Nginx 具有如下的特点：
@@ -191,7 +192,6 @@ LOG_FILE=access.log
 EMAIL=locez@locez.com
 ALIYUN_ACCESS_KEY_ID=
 ALIYUN_ACCESS_KEY_SECRET=
-
 ```
 我们这次的 `Caddyfile` 会如下这样子
 
