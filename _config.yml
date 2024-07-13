@@ -81,7 +81,7 @@ disqus_shortname:
 ## Themes: https://github.com/hexojs/hexo/wiki/Themes
 plugins:
   -hexo-generator-sitemap
-theme: landscape-plus
+theme: cactus
 exclude_generator:
 
 # Deployment
