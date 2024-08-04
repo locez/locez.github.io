@@ -20,4 +20,4 @@ date: 2015-02-28 14:32:59
  - 邮箱：locez@locez.com
  - QQ：331172461
  - QQ群：176239130
- - 新浪微博: [Locez](https://weibo.com/lokiangel")
+ - 新浪微博: [Locez](https://weibo.com/lokiangel)
