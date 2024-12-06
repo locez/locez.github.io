@@ -6,6 +6,8 @@ date: 2015-02-28 15:48:55
 <p><span style="color: #3296e0;">读书一件幸福的事，但是读过什么书却会因为时间的推移而忘记，纵使记得内容也很难突然想起自己当初读过什么书！此页面就做整理之用，记录自己的读书之旅！</span></p>
 <p><span style="color: #3296e0;">与书踏上我的旅程。</span></p>
 
+<iframe src="https://smoggy-quiet-7cf.notion.site/1546d9e9713e80068dddc09ea85f6aa4?v=c1560c8a3a7a48a288ba80c5381c283a" width="100%" height="500"></iframe>
+
 ```
 2014:
 ＜Just for Fun＞ --Linus Torvalds
