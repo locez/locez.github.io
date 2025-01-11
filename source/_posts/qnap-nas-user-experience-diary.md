@@ -193,7 +193,7 @@ ps aux |grep [/]docker.json | awk -F ' ' '{print $NF}'
 
 此时如果去创建容器会发现无法启动了，是因为缺失 ip6tables_nat 内核模块，到 [qnap-ip6tables_nat-module](https://github.com/mammo0/qnap-ip6tables_nat-module) 这个项目下载内核模块，然后放到 NAS 中的目录去，比如我放到了 `/share/Container/container-station-data/application/kernel_mods` 目录
 
-接着参考 QNAP 的官方文档，创建一个并开启一个 `autorun.sh` 脚本，内容如下
+接着参考 [QNAP 的官方文档](https://www.qnap.com/en/how-to/faq/article/running-your-own-application-at-startup)，创建一个开机启动 `autorun.sh` 脚本，内容如下
 
 ```bash
 #ip6-tables
