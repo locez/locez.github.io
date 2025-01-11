@@ -193,7 +193,18 @@ ps aux |grep [/]docker.json | awk -F ' ' '{print $NF}'
 
 此时如果去创建容器会发现无法启动了，是因为缺失 ip6tables_nat 内核模块，到 [qnap-ip6tables_nat-module](https://github.com/mammo0/qnap-ip6tables_nat-module) 这个项目下载内核模块，然后放到 NAS 中的目录去，比如我放到了 `/share/Container/container-station-data/application/kernel_mods` 目录
 
-接着参考 [QNAP 的官方文档](https://www.qnap.com/en/how-to/faq/article/running-your-own-application-at-startup)，创建一个开机启动 `autorun.sh` 脚本，内容如下
+接着参考 [QNAP 的官方文档](https://www.qnap.com/en/how-to/faq/article/running-your-own-application-at-startup)，创建一个开机启动 `autorun.sh` 脚本
+
+```bash
+sudo -i
+mount $(/sbin/hal_app --get_boot_pd port_id=0)6 /tmp/config
+vim /tmp/config/autorun.sh
+chmod +x /tmp/config/autorun.sh
+# 一定要取消挂载
+umount /tmp/config
+```
+
+脚本内容如下：
 
 ```bash
 #ip6-tables
@@ -386,6 +397,26 @@ http:
 
 ![ban-qbittorrent](https://image.locez.com/blog/qnap-nas-user-experience-diary/ban-qbittorrent.png)
 
+#### 创建网络
+---
+
+创建一个专用的网络，只将 `qBittorrent` 容器和 `traefik` 容器加入到这个网络中，这样可以保证 `qBittorrent` 容器的流量只出现在这个网络中，不会影响其它容器的流量
+
+```bash
+docker network create qbittorrent_network
+docker network inspect qbittorrent_network | grep Subnet
+                    "Subnet": "172.29.16.0/22",
+```
+
+获取整个 `subnet` 地址以后，我们需要禁用这个网络的外网访问到内网资源，比如我这里是 192.168 的网段，按需添加你要的网段
+
+```bash
+sudo iptables -I DOCKER-USER -s 172.29.16.0/22 -d 192.168.0.0/16 -j DROP
+```
+
+持久化的话，将这个写入 `autorun.sh`
+
+
 #### docker-compose.yml
 ---
 做好上述操作以后，可以利用下面的 `docker-compose.yml` 启动 qBittorrent
@@ -418,11 +449,38 @@ services:
     volumes:
       - /share/Public/Downloads/qBittorrent/config:/config
       - /share/Public/Downloads/qBittorrent/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qbitt.rule=Host(`qbitt.example.com`)"  # 替换为你的域名
+      - "traefik.http.routers.qbitt.entrypoints=websecure"  # 使用 HTTPS 入口点
+      - "traefik.http.routers.qbitt.tls=true"  # 启用 TLS
+      - "traefik.http.routers.qbitt.tls.certresolver=myresolver"
+      - "traefik.http.services.qbitt.loadbalancer.server.port=8088"
 
-# 创建一个专用的网络，如果后续要使用traefik代理的话，用文件提供的方式，假设不准备做种，还可以将出口流量用 iptables drop 掉用来保证安全
 networks:
   qbittorrent_network:
     driver: bridge
+    external: true
+```
+
+在 `traefik` 的 compose 文件中新增网络声明和使用，此处省略其它
+
+```bash
+...
+...
+    networks:
+      - traefik
+      - qbittorrent_network
+...
+...
+# 声明是外部网络
+networks:
+  traefik:
+    enable_ipv6: true
+    external: true
+  qbittorrent_network:
+    driver: bridge
+    external: true
 ```
 
 ### 总结
