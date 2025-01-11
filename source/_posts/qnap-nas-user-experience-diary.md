@@ -145,7 +145,7 @@ Report:
 
 **NOTE**： 一个账户通常对应一个 `tailnet`，因此这个账号的设备都在同一个 `tailnet` 中，因此这个账号的设备都可以互相访问，这个账号的设备也可以访问主用户的设备，但是主用户的设备不能访问这个账号的设备。
 
-接下来就可以让朋友登录这个 public.locez 的tailscale 账户，然后使用了，在它的机器加入到组网后，记得还需要到 tailscale 的面板上去同意
+接下来就可以让朋友登录这个 `public.locez` 的 `tailscale` 账户，然后使用了，在它的机器加入到组网后，记得还需要到 `tailscale` 的面板上去同意
 
 
 ### 配置代理
@@ -309,7 +309,7 @@ networks:
 #### emby
 ---
 
-让我们来看一个 `emby`，利用 traefik 来代理 emby，并且自动签发证书的例子
+让我们来看一个 `emby` 利用 traefik 来代理 emby，并且自动签发证书的例子
 
 ```yml
 services:
