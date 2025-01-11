@@ -408,7 +408,7 @@ docker network inspect qbittorrent_network | grep Subnet
                     "Subnet": "172.29.16.0/22",
 ```
 
-获取整个 `subnet` 地址以后，我们需要禁用这个网络的外网访问到内网资源，比如我这里是 192.168 的网段，按需添加你要的网段
+获取整个 `subnet` 地址以后，我们需要禁用这个网络主动访问到内网资源，比如我这里是 192.168 的网段，按需添加你要的网段
 
 ```bash
 sudo iptables -I DOCKER-USER -s 172.29.16.0/22 -d 192.168.0.0/16 -j DROP
