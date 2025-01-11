@@ -442,10 +442,6 @@ services:
       - UMASK_SET=022
       - WEBUI_PORT=8088
       - TORRENTING_PORT=6881
-    ports:
-      - 8088:8088
-      - 6881:6881
-      - 6881:6881/udp
     volumes:
       - /share/Public/Downloads/qBittorrent/config:/config
       - /share/Public/Downloads/qBittorrent/downloads:/downloads
