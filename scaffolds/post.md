@@ -5,6 +5,6 @@ categories:
 tags:
 ---
 
-##### AUTHOR: [Locez](http://locez.com)
+##### AUTHOR: [Locez](https://locez.com)
 ##### VERSION: 1
 
