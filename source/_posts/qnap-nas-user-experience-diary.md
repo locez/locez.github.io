@@ -26,16 +26,16 @@ tags:
  - 内存：40G
  - 硬盘：2T SSD + 64T HDD
  - 系统：QuTS hero 5.2
- - 网络：IPV4 + IPV6
+ - 网络：IPv4 + IPv6
 
-### IPV6 配置
+### IPv6 配置
 ---
 
-QNAP 的 IPV6 默认是关闭的，需要在控制台设置中按以下路径开启
+QNAP 的 IPv6 默认是关闭的，需要在控制台设置中按以下路径开启
 
 ![ipv6-setup](https://image.locez.com/blog/qnap-nas-user-experience-diary/ipv6-setup.png)
 
-**NOTE**: 由于安全原因，不建议对外公网开放 IPV6 服务。本文开启 IPV6 主要是为了后文的内网穿透，此处为可选。
+**NOTE**: 由于安全原因，不建议对外公网开放 IPv6 服务。本文开启 IPv6 主要是为了后文的内网穿透，此处为可选。
 
 ### SSH 配置
 ---
@@ -48,7 +48,7 @@ QNAP 的 IPV6 默认是关闭的，需要在控制台设置中按以下路径开
 #### 基本配置
 ---
 
-组网直接选择 `tailscale` 提供的服务即可。在上述的过程中，我们去主动打开 `IPV6` 仅仅是为了内网穿透，后续的操作都可以通过 `tailscale` 来进行。
+组网直接选择 `tailscale` 提供的服务即可。在上述的过程中，我们去主动打开 `IPv6` 仅仅是为了内网穿透，后续的操作都可以通过 `tailscale` 来进行。
 
 `tailscale` 提供了 3 位免费用户的服务，并且支持 100 台机器，对个人来说是完全够用了。
 
@@ -173,12 +173,12 @@ sudo -i
 
 现在服务已经可以对外暴露了，但是所有的都是用 IP 访问的，不容易记忆，因此我们需要用域名来访问我们的服务，这里我们使用 `traefik` 来做反向代理。`traefik` 还能用来做证书管理，用 `traefik` 来为我们提供 `HTTPS` 证书，这样我们就不需要自己去管理证书了，并且可以将所有对外提供的服务都加上 `HTTPS`，假设有一天需要对公网暴露，安全性会增加不少。
 
-**NOTE**：在使用 QNAP 的过程中，我尝试使用了 `IPV6`，为了以后能有机会暴露出服务，碰到 `IPV6` 这部分内容可以选择性跳过，不添加 `IPV6` 相关选项即可
+**NOTE**：在使用 QNAP 的过程中，我尝试使用了 `IPv6`，为了以后能有机会暴露出服务，碰到 `IPv6` 这部分内容可以选择性跳过，不添加 `IPv6` 相关选项即可
 
-#### IPV6
+#### IPv6
 ---
 
-QNAP 的 docker 默认不启用 IPV6，甚至系统也没有带相关的内核模块，要启用这块还是有点麻烦。
+QNAP 的 docker 默认不启用 IPv6，甚至系统也没有带相关的内核模块，要启用这块还是有点麻烦。
 
 用以下命令找到 `docker` 的配置文件，如果没找到将 `awk` 过滤删除
 ```bash
@@ -215,7 +215,7 @@ insmod /share/Container/container-station-data/application/kernel_mods/ip6table_
 #### 创建专用的 traefik 网络
 ---
 
-参考 [IPV6](https://docs.docker.com/engine/daemon/ipv6/) 创建 IPV6 网络
+参考 [IPv6](https://docs.docker.com/engine/daemon/ipv6/) 创建 IPv6 网络
 
 ```bash
 docker network create --ipv6 --subnet 2001:db8::/64 traefik
