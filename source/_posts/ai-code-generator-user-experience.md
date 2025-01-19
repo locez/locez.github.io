@@ -2,7 +2,9 @@
 title: AI 代码生成产品体验
 date: 2025-01-19 07:17:46
 categories:
+ - ai
 tags:
+ - llm
 ---
 
 ##### AUTHOR: [Locez](https://locez.com)
