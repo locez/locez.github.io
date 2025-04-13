@@ -289,6 +289,13 @@ useradd -m -G daemon,adm,wheel,audio,video,users -s /usr/bin/fish locez
 passwd locez
 ```
 
+生成 fstab
+
+```
+emerge -a genfstab
+sudo genfstab -U / > /etc/fstab
+```
+
 配置启动项，通过 `bootctl` 安装，并且检查 /boot 下的配置是否正确
 
 ``` bash
