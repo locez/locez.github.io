@@ -2,7 +2,11 @@
 title: 在 RK3588 上安装 Gentoo
 date: 2025-05-09 23:27:39
 categories:
+   - linux
 tags:
+   - rk3588
+   - gentoo
+   - uboot
 ---
 
 ##### AUTHOR: [Locez](https://locez.com)
