@@ -220,7 +220,7 @@ export PS1="(chroot) ${PS1}"
 配置时区与区域
 
 ``` bash
-ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localetime
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 cat /etc/locale.gen | grep -v ^#
 en_US.UTF-8 UTF-8
