@@ -7,7 +7,7 @@ categories:
 tags:
  - gnupg
  - yubikey
- - PGP
+ - pgp
 ---
 
 ##### AUTHOR: [Locez](http://locez.com)

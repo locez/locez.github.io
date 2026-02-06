@@ -1,9 +1,15 @@
 ---
 title: 当系统不再是立场，而是边界
-subtitle: 从 Linux 发行版，到一切技术选型的终极代价
+description: 从 Linux 发行版，到一切技术选型的终极代价
 date: 2026-02-07 01:11:55
 categories:
+  - talk
 tags:
+  - linux
+  - gentoo
+  - philosophy
+  - trade-off
+  - time-costs
 ---
 
 ##### AUTHOR: [Locez](https://locez.com)
