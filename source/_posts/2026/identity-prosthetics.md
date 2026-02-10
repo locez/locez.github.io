@@ -1,5 +1,5 @@
 ---
-title: 身份义肢：一种被“正确”支撑的人生
+title: 身份义肢：被“正确”架空的自我
 date: 2026-02-10 12:53:24
 slug: identity-prosthetics
 categories:
@@ -9,14 +9,14 @@ tags:
   - anti-pattern
   - critical-thinking
 
-description: 评价，本身也是一种需要承重的行为。
+description: 你的人生，从未真正承重。
 ---
 
 ##### AUTHOR: [Locez](https://locez.com)
 
 ##### VERSION: 1
 
-# 身份义肢：一种被“正确”支撑的人生
+# 身份义肢：被“正确”架空的自我
 
 > 当“正确”不再是认识世界的工具，而是被用来冻结世界。
 
