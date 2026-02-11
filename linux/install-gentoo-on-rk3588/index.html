@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1 买了一块 rk3588 的 nanopi M6 用来做家用服务器，由于 Arch Linux 的 arm 版维护不够活跃，最终还是选择使用 Gentoo 操作系统。 本文主要记载整个折腾过程 官方镜像 下载官方 sd 卡镜像，我下载的是 debian 的 image，解压后 dd 进 sd 卡 12gunzip rk3588-sd-debian-bo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 RK3588 上安装 Gentoo">
+<meta property="og:url" content="http://locez.github.io/linux/install-gentoo-on-rk3588/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1 买了一块 rk3588 的 nanopi M6 用来做家用服务器，由于 Arch Linux 的 arm 版维护不够活跃，最终还是选择使用 Gentoo 操作系统。 本文主要记载整个折腾过程 官方镜像 下载官方 sd 卡镜像，我下载的是 debian 的 image，解压后 dd 进 sd 卡 12gunzip rk3588-sd-debian-bo">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-05-09T23:27:39.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="rk3588">
+<meta property="article:tag" content="gentoo">
+<meta property="article:tag" content="uboot">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>在 RK3588 上安装 Gentoo</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/talk/2025-season-1-talk-about-current/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/uncategorized/play-jx3-on-gentoo-linux/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/install-gentoo-on-rk3588/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&text=在 RK3588 上安装 Gentoo"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&is_video=false&description=在 RK3588 上安装 Gentoo"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 RK3588 上安装 Gentoo&body=Check out this article: http://locez.github.io/linux/install-gentoo-on-rk3588/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&name=在 RK3588 上安装 Gentoo&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/install-gentoo-on-rk3588/&t=在 RK3588 上安装 Gentoo"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number"></span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F"><span class="toc-number"></span> <span class="toc-text">官方镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95-ssh"><span class="toc-number"></span> <span class="toc-text">登录 ssh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA"><span class="toc-number"></span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number"></span> <span class="toc-text">文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">系统安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83"><span class="toc-number"></span> <span class="toc-text">配置交叉编译环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u-boot-%E5%92%8C%E5%86%85%E6%A0%B8"><span class="toc-number"></span> <span class="toc-text">u-boot 和内核</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E6%A0%B8"><span class="toc-number"></span> <span class="toc-text">内核</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-initramfs"><span class="toc-number">1.</span> <span class="toc-text">制作 initramfs</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8"><span class="toc-number">2.</span> <span class="toc-text">编译内核</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uboot"><span class="toc-number"></span> <span class="toc-text">uboot</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        在 RK3588 上安装 Gentoo
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-05-09T23:27:39.000Z" class="dt-published" itemprop="datePublished">May 9 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/gentoo/" rel="tag">gentoo</a>, <a class="p-category" href="/tags/rk3588/" rel="tag">rk3588</a>, <a class="p-category" href="/tags/uboot/" rel="tag">uboot</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id=""><a href="#" class="headerlink" title=""></a></h3><hr>
+<p>买了一块 rk3588 的 nanopi M6 用来做家用服务器，由于 Arch Linux 的 arm 版维护不够活跃，最终还是选择使用 Gentoo 操作系统。</p>
+<p>本文主要记载整个折腾过程</p>
+<h3 id="官方镜像"><a href="#官方镜像" class="headerlink" title="官方镜像"></a>官方镜像</h3><hr>
+<p>下载官方 sd 卡镜像，我下载的是 debian 的 image，解压后 <code>dd</code> 进 sd 卡</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gunzip rk3588-sd-debian-bookworm-core-6.1-arm64-20250123.img.gz</span><br><span class="line">sudo dd if=rk3588-sd-debian-bookworm-core-6.1-arm64-20250123.img of=/dev/mmcblk0 bs=1M status=progress conv=fsync</span><br></pre></td></tr></table></figure>
+<h3 id="登录-ssh"><a href="#登录-ssh" class="headerlink" title="登录 ssh"></a>登录 ssh</h3><hr>
+<p>通过 ssh 登录机器，用户名和密码都是 <code>pi</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh pi@ip</span><br></pre></td></tr></table></figure>
+
+<h3 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h3><hr>
+<p>安装必要的工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install gdisk btrfs-prog dosfstools</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo su -</span><br><span class="line">cgdisk /dev/nvme0n1</span><br></pre></td></tr></table></figure>
+
+<p>分区情况，我在此处使用 <code>btrfs</code> 文件系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Part. #     Size        Partition Type            Partition Name</span><br><span class="line">----------------------------------------------------------------</span><br><span class="line">            1007.0 KiB  free space</span><br><span class="line">   1        512.0 MiB   EFI system partition      EFI System Partition</span><br><span class="line">   2        32.0 GiB    Linux swap                Swap Partition</span><br><span class="line">   3        899.0 GiB   Linux filesystem          Btrfs</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3><hr>
+<p>创建文件系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkfs.vfat /dev/nvme0n1p1</span><br><span class="line">mkswap /dev/nvme0n1p2</span><br><span class="line">mkfs.btrfs /dev/nvme0n1p3</span><br></pre></td></tr></table></figure>
+
+<p>创建基于 <code>btrfs</code> 的 <code>rootfs</code> 子卷</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mount /dev/nvme0n1p3 /mnt/</span><br><span class="line">btrfs subvolume create /mnt/rootfs</span><br><span class="line">umount /mnt</span><br></pre></td></tr></table></figure>
+
+<h3 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h3><hr>
+<p>挂载 rootfs 卷和 boot 分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /mnt/gentoo</span><br><span class="line"><span class="built_in">mkdir</span> -p /mnt/gentoo/boot</span><br><span class="line">mount -o subvol=/rootfs /dev/nvme0n1p3 /mnt/gentoo/</span><br></pre></td></tr></table></figure>
+
+<p>下载并解压 stage3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /mnt/gentoo</span><br><span class="line">wget https://mirrors.ustc.edu.cn/gentoo/releases/arm64/autobuilds/20250427T235504Z/stage3-arm64-systemd-20250427T235504Z.tar.xz</span><br><span class="line">tar xpvf stage3-*.tar.xz --xattrs-include=<span class="string">&#x27;*.*&#x27;</span> --numeric-owner</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置交叉编译环境"><a href="#配置交叉编译环境" class="headerlink" title="配置交叉编译环境"></a>配置交叉编译环境</h3><hr>
+<p>以下命令我会使用 <code>PC</code>，<code>RK</code> 来做命令行 <code>prompt</code> 代表在不同的地方执行语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PC $ sudo emerge --ask sys-devel/crossdev sys-devel/distcc</span><br><span class="line">PC $ sudo emerge --ask app-eselect/eselect-repository</span><br><span class="line">PC $ sudo eselect repository create crossdev</span><br><span class="line">PC $ sudo crossdev --stable --target aarch64-unknown-linux-gnu</span><br></pre></td></tr></table></figure>
+
+<p>配置 <code>distccd</code> 服务，允许局域网客户端连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PC $ sudo systemctl edit --full distccd.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Distccd: A Distributed Compilation Server</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Environment=<span class="string">&quot;ALLOWED_SERVERS=192.168.1.0/24&quot;</span></span><br><span class="line">User=distcc</span><br><span class="line">ExecStart=/usr/bin/distccd --no-detach --daemon --port 3632 --<span class="built_in">jobs</span> 16 -N 15 --allow <span class="variable">$ALLOWED_SERVERS</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PC $ sudo systemctl daemon-reload</span><br><span class="line">PC $ sudo systemctl restart distccd</span><br></pre></td></tr></table></figure>
+<p>后续可以通过以下命令查看 distccd 的状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PC $ sudo systemctl status distccd</span><br></pre></td></tr></table></figure>
+
+<p>接下来配置 RK3588，首先安装 distcc，配置 distcc HOST，这里就是 PC 的 IP 地址了，建议使用静态 IP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RK <span class="comment"># emerge --ask sys-devel/distcc</span></span><br><span class="line">RK <span class="comment"># distcc-config --set-hosts &quot;192.168.1.3&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时需要更改 <code>/etc/distcc/hosts</code> 文件确保 <code>IP</code> 一致</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RK # cat /etc/distcc/hosts</span><br><span class="line">192.168.1.3</span><br></pre></td></tr></table></figure>
+<p>修改 <code>/etc/portage/make.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">COMMON_FLAGS=<span class="string">&quot;-mcpu=cortex-a76.cortex-a55+crc+crypto -O3 -pipe -fomit-frame-pointer -fPIC&quot;</span></span><br><span class="line">CFLAGS=<span class="string">&quot;<span class="variable">$&#123;COMMON_FLAGS&#125;</span>&quot;</span></span><br><span class="line">CXXFLAGS=<span class="string">&quot;<span class="variable">$&#123;COMMON_FLAGS&#125;</span>&quot;</span></span><br><span class="line">FCFLAGS=<span class="string">&quot;<span class="variable">$&#123;COMMON_FLAGS&#125;</span>&quot;</span></span><br><span class="line">FFLAGS=<span class="string">&quot;<span class="variable">$&#123;COMMON_FLAGS&#125;</span>&quot;</span></span><br><span class="line">USE=<span class="string">&quot;cjk dist-kernel dracut -handbook networkmanager systemd-boot&quot;</span></span><br><span class="line">CHOST=<span class="string">&quot;aarch64-unknown-linux-gnu&quot;</span></span><br><span class="line">FEATURES=<span class="string">&quot;distcc&quot;</span></span><br><span class="line">MAKEOPTS=<span class="string">&quot;-j16&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时已经可以使用 emerge distcc 编译包了</p>
+<h3 id="u-boot-和内核"><a href="#u-boot-和内核" class="headerlink" title="u-boot 和内核"></a>u-boot 和内核</h3><hr>
+<h4 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h4><hr>
+<p>在 PC 机上，参照<a href="https://wiki.friendlyelec.com/wiki/index.php/NanoPi_M6#Build_u-boot_v2017.09">友善官方文档</a>编译 <code>uboot</code> 和内核</p>
+<h5 id="制作-initramfs"><a href="#制作-initramfs" class="headerlink" title="制作 initramfs"></a>制作 initramfs</h5><p>首先到 <a href="https://alpinelinux.org/downloads/">alpine linux</a> 下载 <code>minirootfs</code></p>
+<p>解压后新增 <code>init</code> 脚本，用来 switch root</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh -e</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">tty</span> &gt;/dev/null 2&gt;&amp;1 || &#123;</span><br><span class="line">  <span class="built_in">mkdir</span> -p /proc    &amp;&amp; mount -t proc     -o noexec,nosuid,nodev,relatime                          proc     /proc</span><br><span class="line">  <span class="built_in">mkdir</span> -p /sys     &amp;&amp; mount -t sysfs    -o noexec,nosuid,nodev,relatime                          sysfs    /sys</span><br><span class="line">  <span class="built_in">mkdir</span> -p /dev     &amp;&amp; mount -t devtmpfs -o nosuid,size=4096k,nr_inodes=32956400,mode=755,inode64 devtmpfs /dev</span><br><span class="line">  <span class="built_in">mkdir</span> -p /dev/pts &amp;&amp; mount -t devpts   -o nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000    devpts   /dev/pts</span><br><span class="line">  <span class="built_in">mkdir</span> -p /tmp     &amp;&amp; mount -t tmpfs    -o nosuid,nodev,nr_inodes=1048576,inode64                tmpfs    /tmp</span><br><span class="line">  <span class="built_in">exec</span> setsid sh -c <span class="string">&#x27;exec sh /init &lt;/dev/ttyFIQ0 &gt;/dev/ttyFIQ0 2&gt;&amp;1&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /newroot</span><br><span class="line">mount -o rw,subvol=rootfs /dev/nvme0n1p3 /newroot</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> MOUNT <span class="keyword">in</span> proc sys dev tmp; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">mkdir</span> -p <span class="string">&quot;/newroot/<span class="variable">$&#123;MOUNT&#125;</span>&quot;</span></span><br><span class="line">  mount --move <span class="string">&quot;/<span class="variable">$&#123;MOUNT&#125;</span>&quot;</span> <span class="string">&quot;/newroot/<span class="variable">$&#123;MOUNT&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> switch_root -c /dev/console /newroot /sbin/init</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x init</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -print0 | cpio --null --create --verbose --format=newc &gt;  /home/locez/rk3588/initramfs.cpio</span><br></pre></td></tr></table></figure>
+
+<h5 id="编译内核"><a href="#编译内核" class="headerlink" title="编译内核"></a>编译内核</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/friendlyarm/kernel-rockchip --depth 1 -b nanopi6-v6.1.y kernel-rk3588</span><br><span class="line"></span><br><span class="line">make ARCH=arm64 CROSS_COMPILE=aarch64-unknown-linux-gnu- nanopi6_linux_defconfig</span><br><span class="line">make ARCH=arm64 CROSS_COMPILE=aarch64-unknown-linux-gnu- -j16</span><br><span class="line"></span><br><span class="line"><span class="comment">### 对 .config 进行必要的修改，比如： 根据你的实际情况进行调整</span></span><br><span class="line"><span class="comment">### CONFIG_INITRAMFS_SOURCE=&quot;/home/locez/rk3588.cpio</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> <span class="built_in">arch</span>/arm64/boot/Image -alh</span><br><span class="line"></span><br><span class="line"><span class="comment">### 制作 uImage</span></span><br><span class="line">mkimage -A arm64 -O linux -T kernel -C gzip -a 0x00400000 -e 0x00400000 -n <span class="string">&quot;Linux Kernel&quot;</span> -d <span class="built_in">arch</span>/arm64/boot/Image.gz uImage</span><br></pre></td></tr></table></figure>
+
+<h4 id="uboot"><a href="#uboot" class="headerlink" title="uboot"></a>uboot</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">emerge -a dtc</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/friendlyarm/rkbin --single-branch --depth 1 -b nanopi6</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/friendlyarm/uboot-rockchip --single-branch --depth 1 -b nanopi6-v2017.09</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 根据需求对 configs/nanopi6_defconfig 进行必要的更改，比如内嵌 dtb</span></span><br><span class="line"><span class="comment">### CONFIG_EMBED_KERNEL_DTB_PATH=&quot;../kernel-rk3588/arch/arm64/boot/dts/rockchip/rk3588-nanopi6-rev0a.dtb&quot;</span></span><br><span class="line"><span class="comment">### CONFIG_EMBED_KERNEL_DTB_ALWAYS=y</span></span><br><span class="line"><span class="comment">### CONFIG_EMBED_KERNEL_DTB=y</span></span><br><span class="line"><span class="comment">### CONFIG_NVME=y</span></span><br><span class="line"><span class="comment">### CONFIG_PCI=y</span></span><br><span class="line"><span class="comment">### CONFIG_DM_PCI=y</span></span><br><span class="line"><span class="comment">### CONFIG_DM_PCI_COMPAT=y</span></span><br><span class="line"><span class="comment">### CONFIG_PCIE_DW_ROCKCHIP=y</span></span><br><span class="line"><span class="built_in">export</span> ARCH=arm64</span><br><span class="line"><span class="built_in">export</span> CROSS_COMPILE=aarch64-unknown-linux-gnu-</span><br><span class="line">./make.sh CROSS_COMPILE=<span class="variable">$CROSS_COMPILE</span> nanopi6</span><br></pre></td></tr></table></figure>
+
+<p>对之前烧录好的 sd 卡进行 uboot 更新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=uboot.img of=/dev/mmcblk0p1 bs=1M</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>uImage</code> 放入 <code>nvme</code> 的 <code>/boot</code> 分区中，然后重启在 <code>uboot</code> 输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenv bootcmd <span class="string">&quot;pci enum;nvme scan;load nvme 0:1 <span class="variable">$&#123;kernel_addr_c&#125;</span> uImage;bootm <span class="variable">$&#123;kernel_addr_c&#125;</span> - <span class="variable">$&#123;fdt_addr_r&#125;</span>&quot;</span></span><br><span class="line">saveenv</span><br><span class="line">boot</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>没接触过这块，玩起来还是有点吃力，期间也学习和查了不少东西，所以按照本文写的不一定能完全执行，也可能某些细节有遗漏，请酌情阅读，仅供参考。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number"></span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F"><span class="toc-number"></span> <span class="toc-text">官方镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95-ssh"><span class="toc-number"></span> <span class="toc-text">登录 ssh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA"><span class="toc-number"></span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number"></span> <span class="toc-text">文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">系统安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83"><span class="toc-number"></span> <span class="toc-text">配置交叉编译环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u-boot-%E5%92%8C%E5%86%85%E6%A0%B8"><span class="toc-number"></span> <span class="toc-text">u-boot 和内核</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E6%A0%B8"><span class="toc-number"></span> <span class="toc-text">内核</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-initramfs"><span class="toc-number">1.</span> <span class="toc-text">制作 initramfs</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8"><span class="toc-number">2.</span> <span class="toc-text">编译内核</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uboot"><span class="toc-number"></span> <span class="toc-text">uboot</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/install-gentoo-on-rk3588/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&text=在 RK3588 上安装 Gentoo"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&is_video=false&description=在 RK3588 上安装 Gentoo"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 RK3588 上安装 Gentoo&body=Check out this article: http://locez.github.io/linux/install-gentoo-on-rk3588/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&title=在 RK3588 上安装 Gentoo"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/install-gentoo-on-rk3588/&name=在 RK3588 上安装 Gentoo&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/install-gentoo-on-rk3588/&t=在 RK3588 上安装 Gentoo"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

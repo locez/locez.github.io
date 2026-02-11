@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="刚刚测试的时候发现java在Linux与windows下一个中文字符所代表的字节不相同，此处是在Linux下测试的，以下作为字节参考：     windows Linux    中文 2 3   英文 1 1   12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F;Substr类public class Substr&#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="按字节截子字符串">
+<meta property="og:url" content="http://locez.github.io/JAVA/SubString/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="刚刚测试的时候发现java在Linux与windows下一个中文字符所代表的字节不相同，此处是在Linux下测试的，以下作为字节参考：     windows Linux    中文 2 3   英文 1 1   12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F;Substr类public class Substr&#123;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-06-22T22:36:17.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.525Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>按字节截子字符串</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/JAVA/convertcaps/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/JAVA/circle/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/JAVA/SubString/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/JAVA/SubString/&text=按字节截子字符串"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/JAVA/SubString/&is_video=false&description=按字节截子字符串"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=按字节截子字符串&body=Check out this article: http://locez.github.io/JAVA/SubString/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/JAVA/SubString/&name=按字节截子字符串&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/JAVA/SubString/&t=按字节截子字符串"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        按字节截子字符串
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2013-06-22T22:36:17.000Z" class="dt-published" itemprop="datePublished">Jun 22 2013</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.525Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/JAVA/">JAVA</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/java/" rel="tag">java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>刚刚测试的时候发现java在Linux与windows下一个中文字符所代表的字节不相同，此处是在Linux下测试的，以下作为字节参考：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">windows</th>
+<th align="left">Linux</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中文</td>
+<td align="left">2</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td>英文</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Substr类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Substr</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//sub方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">sub</span><span class="params">(String s,<span class="type">int</span> start,<span class="type">int</span> end)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//把字符串s转换成字节数组</span></span><br><span class="line">	<span class="type">byte</span>[] arr=s.getBytes();</span><br><span class="line">	<span class="comment">//定义一个字节数组subs，用来接收子字符串</span></span><br><span class="line">	<span class="type">byte</span>[] subs=<span class="keyword">new</span> <span class="title class_">byte</span>[arr.length];</span><br><span class="line">	<span class="comment">//使用循环，令subs字节数组接收子字节</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=start,j=<span class="number">0</span>;i&amp;lt;=end;i++)</span><br><span class="line">	&#123;</span><br><span class="line">	    subs[j]=arr[i];</span><br><span class="line">	    j++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//使用subs直接用String构造函数返回子字符串</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">substring</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(subs);</span><br><span class="line">	<span class="keyword">return</span> substring;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String [] args)</span></span><br><span class="line">    &#123;</span><br><span class="line">        String s=<span class="string">&quot;hello我是子字符串word&quot;</span>;</span><br><span class="line">        System.out.println(s);</span><br><span class="line">        System.out.println(<span class="string">&quot;子字符串:&quot;</span>);</span><br><span class="line">        System.out.println(Substr.sub(s,<span class="number">5</span>,<span class="number">22</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*运行输出如下：</span></span><br><span class="line"><span class="comment">hello我是子字符串word</span></span><br><span class="line"><span class="comment">子字符串:</span></span><br><span class="line"><span class="comment">我是子字符串*/</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/JAVA/SubString/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/JAVA/SubString/&text=按字节截子字符串"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/JAVA/SubString/&is_video=false&description=按字节截子字符串"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=按字节截子字符串&body=Check out this article: http://locez.github.io/JAVA/SubString/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/JAVA/SubString/&title=按字节截子字符串"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/JAVA/SubString/&name=按字节截子字符串&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/JAVA/SubString/&t=按字节截子字符串"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

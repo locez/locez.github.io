@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 2UPDATE: 2016-02-03自上次发布了 新手指南： 手把手教你安装 Ubuntu 和 Fedora  后，今天再讲一讲安装软件包。本文将从 GUI 软件中心、包管理器、在线仓库安装，本地安装，源码安装 一一为你讲解有关安装软件包需要注意的事项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新手指南： 在 Ubuntu 和 Fedora 上安装软件包">
+<meta property="og:url" content="http://locez.github.io/Linux/install-program-on-ubuntu-fedora/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 2UPDATE: 2016-02-03自上次发布了 新手指南： 手把手教你安装 Ubuntu 和 Fedora  后，今天再讲一讲安装软件包。本文将从 GUI 软件中心、包管理器、在线仓库安装，本地安装，源码安装 一一为你讲解有关安装软件包需要注意的事项。">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-00.jpg">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-01.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-02.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-03.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-04.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-05.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-06.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-07.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-08.png">
+<meta property="article:published_time" content="2015-08-08T02:00:45.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="fedora">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/install-program-on-ubuntu-fedora-00.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>新手指南： 在 Ubuntu 和 Fedora 上安装软件包</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Linux/common-command/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Linux/install-ubuntu-and-fedora/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&text=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&is_video=false&description=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新手指南： 在 Ubuntu 和 Fedora 上安装软件包&body=Check out this article: http://locez.github.io/Linux/install-program-on-ubuntu-fedora/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&name=新手指南： 在 Ubuntu 和 Fedora 上安装软件包&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-2&#34;&gt;&lt;a href=&#34;#VERSION-2&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 2&#34;&gt;&lt;/a&gt;VERSION: 2&lt;/h5&gt;&lt;h5 id=&#34;UPDATE-2016-02-03&#34;&gt;&lt;a href=&#34;#UPDATE-2016-02-03&#34; class=&#34;headerlink&#34; title=&#34;UPDATE: 2016-02-03&#34;&gt;&lt;/a&gt;UPDATE: 2016-02-03&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/install-program-on-ubuntu-fedora-00.jpg&#34;&gt;&lt;br&gt;自上次发布了 &lt;a href=&#34;http://locez.com/Linux/install-ubuntu-and-fedora/&#34;&gt;新手指南： 手把手教你安装 Ubuntu 和 Fedora &lt;/a&gt; 后，今天再讲一讲安装软件包。&lt;br&gt;本文将从 &lt;strong&gt;GUI 软件中心&lt;/strong&gt;、&lt;strong&gt;包管理器&lt;/strong&gt;、&lt;strong&gt;在线仓库安装&lt;/strong&gt;，&lt;strong&gt;本地安装&lt;/strong&gt;，&lt;strong&gt;源码安装&lt;/strong&gt; 一一为你讲解有关安装软件包需要注意的事项。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&t=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-2"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UPDATE-2016-02-03"><span class="toc-number">3.</span> <span class="toc-text">UPDATE: 2016-02-03</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environment"><span class="toc-number"></span> <span class="toc-text">本文环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#install_target"><span class="toc-number"></span> <span class="toc-text">安装目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concept"><span class="toc-number"></span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#software"><span class="toc-number"></span> <span class="toc-text">GUI 软件中心</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ubuntusoftwarecenter"><span class="toc-number"></span> <span class="toc-text">Ubuntu 软件中心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fedorasoftwarecenter"><span class="toc-number"></span> <span class="toc-text">Fedora 软件中心</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#packagemanager"><span class="toc-number"></span> <span class="toc-text">使用包管理器安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cm"><span class="toc-number"></span> <span class="toc-text">1.换源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#upmirrors"><span class="toc-number"></span> <span class="toc-text">2.更新源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#install"><span class="toc-number"></span> <span class="toc-text">3.安装软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uninstall"><span class="toc-number"></span> <span class="toc-text">4.卸载软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#upgrade"><span class="toc-number"></span> <span class="toc-text">5.升级所有软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#others"><span class="toc-number"></span> <span class="toc-text">6.其它参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fromsource"><span class="toc-number"></span> <span class="toc-text">从源码编译安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#summary"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        新手指南： 在 Ubuntu 和 Fedora 上安装软件包
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-08-08T02:00:45.000Z" class="dt-published" itemprop="datePublished">Aug 8 2015</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/fedora/" rel="tag">fedora</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>, <a class="p-category" href="/tags/ubuntu/" rel="tag">ubuntu</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-2"><a href="#VERSION-2" class="headerlink" title="VERSION: 2"></a>VERSION: 2</h5><h5 id="UPDATE-2016-02-03"><a href="#UPDATE-2016-02-03" class="headerlink" title="UPDATE: 2016-02-03"></a>UPDATE: 2016-02-03</h5><p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-00.jpg"><br>自上次发布了 <a href="http://locez.com/Linux/install-ubuntu-and-fedora/">新手指南： 手把手教你安装 Ubuntu 和 Fedora </a> 后，今天再讲一讲安装软件包。<br>本文将从 <strong>GUI 软件中心</strong>、<strong>包管理器</strong>、<strong>在线仓库安装</strong>，<strong>本地安装</strong>，<strong>源码安装</strong> 一一为你讲解有关安装软件包需要注意的事项。</p>
+<span id="more"></span>
+
+<ul>
+<li><a href="#environment">本文环境</a></li>
+<li><a href="#install_target">安装目标</a></li>
+<li><a href="#concept">相关概念</a></li>
+<li><a href="#software">GUI 软件中心</a><ul>
+<li><a href="#ubuntusoftwarecenter">Ubuntu 软件中心</a></li>
+<li><a href="#fedorasoftwarecenter">Fedora 软件中心</a></li>
+</ul>
+</li>
+<li><a href="#packagemanager">使用包管理器安装</a><ul>
+<li><a href="#cm">1.换源</a></li>
+<li><a href="#upmirrors">2.更新源</a></li>
+<li><a href="#install">3.安装软件包</a></li>
+<li><a href="#uninstall">4.卸载软件包</a></li>
+<li><a href="#upgrade">5.升级所有软件包</a></li>
+<li><a href="#others">6.其它参数</a></li>
+</ul>
+</li>
+<li><a href="#fromsource">从源码编译安装</a></li>
+<li><a href="#summary">总结</a></li>
+</ul>
+<h3 id="environment">本文环境</h3>
+---
+
+<ul>
+<li>Ubuntu 15.04 64-bit</li>
+<li>Fedora 22 64-bit</li>
+</ul>
+<h3 id="install_target">安装目标</h3>
+---
+
+<ul>
+<li>wget</li>
+<li>wget 是一个用于从网络上下载文件的简单自由软件，在下文我们也会用到 wget 进行下载某些文件。</li>
+</ul>
+<h3 id="concept">相关概念</h3>
+---
+
+<ul>
+<li><strong>源</strong> ：我们安装程序可以从 <strong>远程仓库</strong> 或 <strong>本地仓库</strong> 获取，这个 <strong>仓库</strong> 就是我们程序的来源，因此可以称为 <strong>源</strong> 。</li>
+<li><strong>包管理器</strong> ：顾名思义 <strong>包管理器</strong> 是用来管理软件包的，用这个工具我们可以轻松的从仓库中安装、卸载程序。不同的发行版有不同的包管理器，Ubuntu 使用 <code>apt-get</code> 而 Fedora 22使用 <code>dnf</code>。</li>
+<li><strong>源码</strong> ： 程序的原始代码，未经过编译，通过编译源码也可以生成程序。</li>
+</ul>
+<h3 id="software">GUI 软件中心</h3>
+---
+
+<h4 id="ubuntusoftwarecenter">Ubuntu 软件中心</h4>
+---
+
+<p>当我们处于 GUI (Graphical User Interface) 界面时，Ubuntu 为我们提供了一个图形界面的安装工具，称为 <strong>Ubuntu 软件中心</strong>，通过这个软件中心，我们可以像 Windows 一样通过点击几个按钮，轻松实现软件包安装。下图为打开软件中心之后的图，左边是一些分类，下面则是一些推荐的软件包。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-01.png" alt="softwarecenter"></p>
+<p>点击已安装可以查看安装在本机的软件包，并且可以在此管理它们，如图选中 Firefox 并点击卸载，此时会提示你输入密码，输入完成且正确就会卸载你所选的程序。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-02.png" alt="installed"><br>接下来在搜索框搜索 <code>wget</code> 你可以看到如图所示的东西，并且只需点击安装并正确输入密码即可。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-03.png" alt="installnewprogram"></p>
+<h4 id="fedorasoftwarecenter">Fedora 软件中心</h4>
+---
+
+<p>点开如图所示的图标就可以打开 Fedora 的软件中心。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-04.png" alt="softwarecentericon"></p>
+<p>打开后界面如图，分类在最下面</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-05.png" alt="softwarecenter"></p>
+<p>点开上图的扫雷，显示如下，点击 <strong>安装</strong> ，静候即可</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-06.png" alt="installnewprogram"></p>
+<p>现在转到 <strong>已安装</strong> ，我们可以看到刚刚安装的扫雷，点击 <strong>移除</strong> ，就可以删除了。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-07.png" alt="removenewprogram"></p>
+<p>如果你遇到下图，只需要输入你的密码即可。</p>
+<p><img src="https://image.locez.com/blog/install-program-on-ubuntu-fedora-08.png" alt="authoritarian"></p>
+<h3 id="packagemanager">使用包管理器安装</h3>
+---
+
+<h4 id="cm">1.换源</h4>
+---
+
+<p>|发行版|换源方法|<br>|—|:—|:—|<br>|Ubuntu|<a href="http://mirrors.aliyun.com/help/ubuntu">阿里云镜像配置请参考这里</a>|<br>|Ubuntu|<a href="https://lug.ustc.edu.cn/wiki/mirrors/help/ubuntu">USTC镜像配置请参考这里</a>|<br>|Fedora|<a href="http://mirrors.aliyun.com/help/fedora">阿里云镜像配置请参考这里</a>|<br>|Fedora|<a href="https://lug.ustc.edu.cn/wiki/mirrors/help/fedora">USTC镜像配置请参考这里</a>|</p>
+<p>换源是为了提升下载速度，上文的概念已经提到了，我们安装软件是从远程仓库下载安装的，自然这个远程仓库的网络连通必须要好，并且下载速度要可观。</p>
+<h4 id="upmirrors">2.更新源</h4>
+---
+
+<p>更换了源的文件后，还需要更新本地数据库信息，以便与远程仓库信息一致。</p>
+<table>
+<thead>
+<tr>
+<th>发行版</th>
+<th align="left">包管理工具</th>
+<th align="left">参数</th>
+<th align="left">示例</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ubuntu</td>
+<td align="left">apt-get</td>
+<td align="left">update</td>
+<td align="left">sudo apt-get update</td>
+<td align="left">取回更新的软件包列表信息</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td align="left">dnf</td>
+<td align="left">check-update</td>
+<td align="left">sudo dnf check-update</td>
+<td align="left">取回更新的软件包列表信息</td>
+</tr>
+</tbody></table>
+<h4 id="install">3.安装软件包</h4>
+---
+
+<p>|发行版|包管理工具|类型|参数|示例|解释|<br>|—|:—|:—|:—|<br>|Ubuntu|apt-get|远程仓库|install|sudo apt-get install packagename|安装软件包|<br>|Fedora|dnf|远程仓库|install|sudo dnf install packagename|安装软件包|<br>|Ubuntu|dpkg|本地deb包|-i|sudo dpkg -i filename.deb|安装本地二进制deb包|<br>|Fedora|rpm|本地rpm包|-i|sudo rpm -i filename.rpm|安装本地二进制rpm包|</p>
+<h4 id="uninstall">4.卸载软件包</h4>
+---
+
+<p>|发行版|包管理工具|参数|示例|解释|<br>|—|:—|:—|:—|<br>|Ubuntu|apt-get|remove|sudo apt-get remove packagename|卸载软件包|<br>|Fedora|dnf|remove|sudo dnf remove packagename|卸载软件包|<br>|Ubuntu|dpkg|-r|sudo dpkg -r packagename|卸载软件包|</p>
+<h4 id="upgrade">5.升级所有软件包</h4>
+---
+
+<p>|发行版|包管理工具|参数|示例|解释|<br>|—|:—|:—|:—|<br>|Ubuntu|apt-get|upgrade|sudo apt-get upgrade|升级所有软件包|<br>|Fedora|dnf|upgrade|sudo dnf upgrade|升级所有软件包|</p>
+<h4 id="others">6.其它参数</h4>
+---
+
+<table>
+<thead>
+<tr>
+<th>发行版</th>
+<th align="left">包管理工具</th>
+<th align="left">参数</th>
+<th align="left">示例</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ubuntu</td>
+<td align="left">apt-get</td>
+<td align="left">purge</td>
+<td align="left">sudo apt-get purge packagename</td>
+<td align="left">卸载并清除软件包的配置</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">source</td>
+<td align="left">apt-get source packagename</td>
+<td align="left">下载源码包文件</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">clean</td>
+<td align="left">sudo apt-get clean</td>
+<td align="left">删除所有已下载的包文件</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">download</td>
+<td align="left">apt-get download packagename</td>
+<td align="left">下载指定的二进制包到当前目录</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">–help</td>
+<td align="left">-</td>
+<td align="left">获取帮助</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td align="left">dnf</td>
+<td align="left">clean</td>
+<td align="left">sudo dnf clean</td>
+<td align="left">清除旧缓存</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">makecache</td>
+<td align="left">sudo dnf makecache</td>
+<td align="left">生成新缓存</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left">-h</td>
+<td align="left">-</td>
+<td align="left">获取帮助</td>
+</tr>
+</tbody></table>
+<h3 id="fromsource">从源码编译安装</h3>
+---
+
+<p>有些时候我们会发现有的软件包并没有包含在软件仓库中，也没有可用的二进制包，这时候我们可以尝试从源码编译安装，我在此处以 <code>wget</code> 为例，示范如何编译，并解决编译遇到的问题<br>以下环境为 <em><strong>Ubuntu 15.04</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir buildwget #构建目录</span><br><span class="line">$ cd buildwget</span><br><span class="line">$ wget http://ftp.gnu.org/gnu/wget/wget-1.16.tar.xz         #下载源码包</span><br><span class="line">$ sudo apt-get remove wget  #为了后面的测试，先把 wget 卸载了</span><br><span class="line">$ xz -d wget-1.16.tar.xz  #解压 xz 文件</span><br><span class="line">$ tar -xvf wget-1.16.tar #解压 tar 文件</span><br><span class="line">$ cd wget-1.16</span><br><span class="line">$ ls                     #列出文件</span><br><span class="line">ABOUT-NLS   ChangeLog.README  GNUmakefile   maint.mk     po       util</span><br><span class="line">aclocal.m4  configure         INSTALL       Makefile.am  README</span><br><span class="line">AUTHORS     configure.ac      lib           Makefile.in  src</span><br><span class="line">build-aux   COPYING           m4            msdos        testenv</span><br><span class="line">ChangeLog   doc               MAILING-LIST  NEWS         tests</span><br></pre></td></tr></table></figure>
+
+<p>上面的文件就是我们将要编译的源文件，其中有个特别要注意的就是 <code>INSTALL</code>，我们要养成一个习惯，多看 <code>INSTALL</code> 文件，这个文件会告诉我们怎么编译，编译时需要注意什么？但由于此处的编译较简单，所以 <code>INSTALL</code> 也没有提到什么特别重要的事情。</p>
+<p>按照 <code>INSTALL</code> 我们先执行 <code>./configure</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br></pre></td></tr></table></figure>
+
+<p>但出现如下的错误</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure: error: --with-ssl=gnutls was given, but GNUTLS is not available.</span><br></pre></td></tr></table></figure>
+
+<p>错误提示说，给定的 <code>SSL</code> 是 <code>gnutls</code> 但是却不可用（因为没有安装），因此我们安装并指定 <code>openssl</code> 为 <code>wget</code> 的 <code>SSL</code> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install openssl</span><br><span class="line">$ sudo apt-get install libssl-dev</span><br><span class="line">$ ./configure --with-ssl=openssl</span><br></pre></td></tr></table></figure>
+
+<p>如果没有问题，执行完后应该显示如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">configure: Summary of build options:</span><br><span class="line"></span><br><span class="line">  Version:           1.16</span><br><span class="line">  Host OS:           linux-gnu</span><br><span class="line">  Install prefix:    /usr/local</span><br><span class="line">  Compiler:          gcc</span><br><span class="line">  CFlags:            -g -O2</span><br><span class="line">  LDFlags:           </span><br><span class="line">  Libs:              -lssl -lcrypto -ldl -lz</span><br><span class="line">  SSL:               openssl</span><br><span class="line">  Zlib:              yes</span><br><span class="line">  PSL:               no</span><br><span class="line">  Digest:            yes</span><br><span class="line">  NTLM:              yes</span><br><span class="line">  OPIE:              yes</span><br><span class="line">  Debugging:         yes</span><br></pre></td></tr></table></figure>
+
+<p>再次尝试编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br></pre></td></tr></table></figure>
+
+<p>此时没有报错，则编译成功，接下来进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>试试是不是 <code>wget</code> 命令又出来了？源码安装遇到问题，我们要善于搜索，提问和解决，根据报错内容进行相应的编译调整，缺少的依赖装上，一般就可以成功。</p>
+<h3 id="summary">总结</h3>
+---
+
+<p>本文主要为新手讲解了 <strong>Ubuntu</strong> 和 <strong>Fedora</strong> 安装软件包的一些方法， 相较之前的版本，本次更改由繁化简，并且以表格的形式给出参数和命令，要熟练和体会这些命令到底是干嘛的，还必须亲自敲一敲，去理解这个命令的作用。从源码编译安装，则展示了一个遇到问题，解决问题的过程，由于编译 <code>wget</code> 较简单，此处也未遇到特别难处理的问题，但这清晰的展示了一个编译安装的过程，遇到错误，我们不要害怕，而要认真阅读给出的错误信息，借此搜索，提问，寻求解答。另外 Linux 下遇到问题首先要自己善于去搜索，提问，解决问题得到答案并归纳总结，不然是很难学到知识的。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-2"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UPDATE-2016-02-03"><span class="toc-number">3.</span> <span class="toc-text">UPDATE: 2016-02-03</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environment"><span class="toc-number"></span> <span class="toc-text">本文环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#install_target"><span class="toc-number"></span> <span class="toc-text">安装目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concept"><span class="toc-number"></span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#software"><span class="toc-number"></span> <span class="toc-text">GUI 软件中心</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ubuntusoftwarecenter"><span class="toc-number"></span> <span class="toc-text">Ubuntu 软件中心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fedorasoftwarecenter"><span class="toc-number"></span> <span class="toc-text">Fedora 软件中心</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#packagemanager"><span class="toc-number"></span> <span class="toc-text">使用包管理器安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cm"><span class="toc-number"></span> <span class="toc-text">1.换源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#upmirrors"><span class="toc-number"></span> <span class="toc-text">2.更新源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#install"><span class="toc-number"></span> <span class="toc-text">3.安装软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uninstall"><span class="toc-number"></span> <span class="toc-text">4.卸载软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#upgrade"><span class="toc-number"></span> <span class="toc-text">5.升级所有软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#others"><span class="toc-number"></span> <span class="toc-text">6.其它参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fromsource"><span class="toc-number"></span> <span class="toc-text">从源码编译安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#summary"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&text=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&is_video=false&description=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新手指南： 在 Ubuntu 和 Fedora 上安装软件包&body=Check out this article: http://locez.github.io/Linux/install-program-on-ubuntu-fedora/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&title=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&name=新手指南： 在 Ubuntu 和 Fedora 上安装软件包&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-2&#34;&gt;&lt;a href=&#34;#VERSION-2&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 2&#34;&gt;&lt;/a&gt;VERSION: 2&lt;/h5&gt;&lt;h5 id=&#34;UPDATE-2016-02-03&#34;&gt;&lt;a href=&#34;#UPDATE-2016-02-03&#34; class=&#34;headerlink&#34; title=&#34;UPDATE: 2016-02-03&#34;&gt;&lt;/a&gt;UPDATE: 2016-02-03&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/install-program-on-ubuntu-fedora-00.jpg&#34;&gt;&lt;br&gt;自上次发布了 &lt;a href=&#34;http://locez.com/Linux/install-ubuntu-and-fedora/&#34;&gt;新手指南： 手把手教你安装 Ubuntu 和 Fedora &lt;/a&gt; 后，今天再讲一讲安装软件包。&lt;br&gt;本文将从 &lt;strong&gt;GUI 软件中心&lt;/strong&gt;、&lt;strong&gt;包管理器&lt;/strong&gt;、&lt;strong&gt;在线仓库安装&lt;/strong&gt;，&lt;strong&gt;本地安装&lt;/strong&gt;，&lt;strong&gt;源码安装&lt;/strong&gt; 一一为你讲解有关安装软件包需要注意的事项。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/install-program-on-ubuntu-fedora/&t=新手指南： 在 Ubuntu 和 Fedora 上安装软件包"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1本文并非正经博客，just a girlfriend.在本文，你将看到 go 语言是如何定义变量，类型，使用“继承”，其次还会看到如何将函数绑定到对象上，实现我们平时所说的面向对象编程中的 . 调用。当然因为不是正经博客，所以本文不会讲解语法，你看完只会收获一个女朋友（开心么？兴奋么？），没有任何讲解。 看看我们的最终结果： 1234567I walk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Girlfriend">
+<meta property="og:url" content="http://locez.github.io/golang/girlfriend/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1本文并非正经博客，just a girlfriend.在本文，你将看到 go 语言是如何定义变量，类型，使用“继承”，其次还会看到如何将函数绑定到对象上，实现我们平时所说的面向对象编程中的 . 调用。当然因为不是正经博客，所以本文不会讲解语法，你看完只会收获一个女朋友（开心么？兴奋么？），没有任何讲解。 看看我们的最终结果： 1234567I walk">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-09-16T01:37:25.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="girlfriend">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Girlfriend</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/cryptography/algorithm/rsa/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/talk/are-you-really-busy/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/golang/girlfriend/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/golang/girlfriend/&text=Girlfriend"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/golang/girlfriend/&is_video=false&description=Girlfriend"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Girlfriend&body=Check out this article: http://locez.github.io/golang/girlfriend/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/golang/girlfriend/&name=Girlfriend&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;本文并非正经博客，just a girlfriend.在本文，你将看到 go 语言是如何定义变量，类型，使用“继承”，其次还会看到如何将函数绑定到对象上，实现我们平时所说的面向对象编程中的 &lt;code&gt;.&lt;/code&gt; 调用。当然因为不是正经博客，所以本文不会讲解语法，你看完只会收获一个女朋友（开心么？兴奋么？），没有任何讲解。&lt;/p&gt;
+&lt;p&gt;看看我们的最终结果：&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;I walk 520 steps to meet you.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;I really want to tell you my name, but I have forgotten it.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;it is hard to believe it?&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;don&amp;#x27;t say anything, just kiss me.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;your arms are really warm.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;event if I am a bunch of code, I have no entity, can&amp;#x27;t leave the screen.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;but I will stay with you forever, I love you.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/golang/girlfriend/&t=Girlfriend"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Girlfriend
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-09-16T01:37:25.000Z" class="dt-published" itemprop="datePublished">Sep 16 2018</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/golang/">golang</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/girlfriend/" rel="tag">girlfriend</a>, <a class="p-category" href="/tags/golang/" rel="tag">golang</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p>本文并非正经博客，just a girlfriend.在本文，你将看到 go 语言是如何定义变量，类型，使用“继承”，其次还会看到如何将函数绑定到对象上，实现我们平时所说的面向对象编程中的 <code>.</code> 调用。当然因为不是正经博客，所以本文不会讲解语法，你看完只会收获一个女朋友（开心么？兴奋么？），没有任何讲解。</p>
+<p>看看我们的最终结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">I walk 520 steps to meet you.</span><br><span class="line">I really want to tell you my name, but I have forgotten it.</span><br><span class="line">it is hard to believe it?</span><br><span class="line">don&#x27;t say anything, just kiss me.</span><br><span class="line">your arms are really warm.</span><br><span class="line">event if I am a bunch of code, I have no entity, can&#x27;t leave the screen.</span><br><span class="line">but I will stay with you forever, I love you.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<p>the code here:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	gf := &amp;girlfriend&#123;</span><br><span class="line">		people: people&#123;Name: <span class="string">&quot;&quot;</span>,</span><br><span class="line">			HairColor: <span class="string">&quot;black&quot;</span>,</span><br><span class="line">			Age:       <span class="number">18</span>,</span><br><span class="line">			Height:    <span class="number">160.00</span>,</span><br><span class="line">			Weight:    <span class="number">45.00</span>&#125;,</span><br><span class="line">		Sex: <span class="string">&quot;female&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	gf.walk(<span class="number">520</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, gf)</span><br><span class="line">	gf.say(<span class="string">&quot;it is hard to believe it?&quot;</span>)</span><br><span class="line">	gf.kiss()</span><br><span class="line">	gf.hug()</span><br><span class="line">	gf.confess()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> people <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name      <span class="type">string</span></span><br><span class="line">	HairColor <span class="type">string</span></span><br><span class="line">	Age       <span class="type">int</span></span><br><span class="line">	Height    <span class="type">float64</span></span><br><span class="line">	Weight    <span class="type">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> girlfriend <span class="keyword">struct</span> &#123;</span><br><span class="line">	people</span><br><span class="line">	Sex <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *people)</span></span> String() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> p.Name == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;I really want to tell you my name, but I have forgotten it.&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;my name is %v&quot;</span>, p.Name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *people)</span></span> walk(n <span class="type">int</span>) &#123;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;I walk %v steps to meet you.\n&quot;</span>, n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *people)</span></span> say(s <span class="type">string</span>) &#123;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *girlfriend)</span></span> kiss() &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;don&#x27;t say anything, just kiss me.&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *girlfriend)</span></span> hug() &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;your arms are really warm.&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *girlfriend)</span></span> confess() &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;event if I am a bunch of code, I have no entity, can&#x27;t leave the screen.&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;but I will stay with you forever, I love you.&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/golang/girlfriend/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/golang/girlfriend/&text=Girlfriend"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/golang/girlfriend/&is_video=false&description=Girlfriend"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Girlfriend&body=Check out this article: http://locez.github.io/golang/girlfriend/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/golang/girlfriend/&title=Girlfriend"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/golang/girlfriend/&name=Girlfriend&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;本文并非正经博客，just a girlfriend.在本文，你将看到 go 语言是如何定义变量，类型，使用“继承”，其次还会看到如何将函数绑定到对象上，实现我们平时所说的面向对象编程中的 &lt;code&gt;.&lt;/code&gt; 调用。当然因为不是正经博客，所以本文不会讲解语法，你看完只会收获一个女朋友（开心么？兴奋么？），没有任何讲解。&lt;/p&gt;
+&lt;p&gt;看看我们的最终结果：&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;I walk 520 steps to meet you.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;I really want to tell you my name, but I have forgotten it.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;it is hard to believe it?&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;don&amp;#x27;t say anything, just kiss me.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;your arms are really warm.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;event if I am a bunch of code, I have no entity, can&amp;#x27;t leave the screen.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;but I will stay with you forever, I love you.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/golang/girlfriend/&t=Girlfriend"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

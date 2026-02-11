@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1RSA 是什么？ RSA 是以发明者 Ron Rivest、Adi Shamir、Leonard Adleman 名字的首字母命名的一种非对称加密算法。在公钥密码系统中，加密密钥与解密密钥不同，由加密密钥推导出解密密钥在计算上是不可行的，系统的加密算法和加密密钥可以公开，只要保存好解密密钥即可。而 RSA 则是基于整数因子分解问题的，对极大数做因数分解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA 算法">
+<meta property="og:url" content="http://locez.github.io/linux/cryptography/algorithm/rsa/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1RSA 是什么？ RSA 是以发明者 Ron Rivest、Adi Shamir、Leonard Adleman 名字的首字母命名的一种非对称加密算法。在公钥密码系统中，加密密钥与解密密钥不同，由加密密钥推导出解密密钥在计算上是不可行的，系统的加密算法和加密密钥可以公开，只要保存好解密密钥即可。而 RSA 则是基于整数因子分解问题的，对极大数做因数分解">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-10-01T12:52:11.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.527Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="rsa">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>RSA 算法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/fuchsia/fuchsia-compile-tutorial/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/golang/girlfriend/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/cryptography/algorithm/rsa/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&text=RSA 算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&is_video=false&description=RSA 算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RSA 算法&body=Check out this article: http://locez.github.io/linux/cryptography/algorithm/rsa/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&name=RSA 算法&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;RSA-是什么？&#34;&gt;&lt;a href=&#34;#RSA-是什么？&#34; class=&#34;headerlink&#34; title=&#34;RSA 是什么？&#34;&gt;&lt;/a&gt;RSA 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;RSA 是以发明者 &lt;strong&gt;Ron Rivest&lt;/strong&gt;、&lt;strong&gt;Adi Shamir&lt;/strong&gt;、&lt;strong&gt;Leonard Adleman&lt;/strong&gt; 名字的首字母命名的一种非对称加密算法。在公钥密码系统中，加密密钥与解密密钥不同，由加密密钥推导出解密密钥在计算上是不可行的，系统的加密算法和加密密钥可以公开，只要保存好解密密钥即可。而 RSA 则是基于整数因子分解问题的，对极大数做因数分解的难度决定了 RSA 算法的可靠性。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/cryptography/algorithm/rsa/&t=RSA 算法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">RSA 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90%E7%9A%84%E4%B8%80%E8%88%AC%E6%AD%A5%E9%AA%A4"><span class="toc-number"></span> <span class="toc-text">RSA 密钥生成的一般步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%AD%A5%E9%AA%A4"><span class="toc-number"></span> <span class="toc-text">RSA 加密解密的一般步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number"></span> <span class="toc-text">编程实现</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        RSA 算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-10-01T12:52:11.000Z" class="dt-published" itemprop="datePublished">Oct 1 2018</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.527Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a> › <a class="category-link" href="/categories/linux/cryptography/">cryptography</a> › <a class="category-link" href="/categories/linux/cryptography/algorithm/">algorithm</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/algorithm/" rel="tag">algorithm</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>, <a class="p-category" href="/tags/rsa/" rel="tag">rsa</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="RSA-是什么？"><a href="#RSA-是什么？" class="headerlink" title="RSA 是什么？"></a>RSA 是什么？</h3><hr>
+<p>RSA 是以发明者 <strong>Ron Rivest</strong>、<strong>Adi Shamir</strong>、<strong>Leonard Adleman</strong> 名字的首字母命名的一种非对称加密算法。在公钥密码系统中，加密密钥与解密密钥不同，由加密密钥推导出解密密钥在计算上是不可行的，系统的加密算法和加密密钥可以公开，只要保存好解密密钥即可。而 RSA 则是基于整数因子分解问题的，对极大数做因数分解的难度决定了 RSA 算法的可靠性。</p>
+<span id="more"></span>
+<h3 id="RSA-密钥生成的一般步骤"><a href="#RSA-密钥生成的一般步骤" class="headerlink" title="RSA 密钥生成的一般步骤"></a>RSA 密钥生成的一般步骤</h3><hr>
+<p>1.首先选取两个大素数 <code>p</code> 和 <code>q</code>，然后计算它们的乘积：</p>
+<p>$$<br>N&#x3D;pq<br>$$</p>
+<p>2.然后计算乘积 <code>N</code> 的欧拉函数 $\phi(N)$，其中欧拉函数指的是对于正整数 N，所有小于或等于 N 的正整数中，与 N 互质的数的个数，它的数学公式为：</p>
+<p>$$<br>\phi(N)&#x3D;N(1-\frac{1}{p_1})(1-\frac{1}{p_2})\cdots(1-\frac{1}{p_k})<br>$$</p>
+<p>即：</p>
+<p>$$<br>\phi(N) &#x3D;\prod_{i&#x3D;1}^{k}\quad N(1-\frac{1}{p_i})<br>$$</p>
+<p>其中 $ p_i $ 为 N 的所有质因数</p>
+<p>我们还会用到以下两个性质：<br>I:</p>
+<p>$$<br>若 p,q 互质，则有:<br>\phi(pq)&#x3D;\phi(p)\phi(q)<br>$$</p>
+<p>II:</p>
+<p>$$<br>若有质数 p 且  p&gt;1 ，则有：<br>\phi(p)&#x3D;p-1<br>$$</p>
+<p>3.接着随机选择选择一个整数 <code>e</code>，满足 $ 1 &lt; e &lt;\phi(N) $，且 $ e  与  \phi(N) $ 互质，通常选择 <code>65537</code></p>
+<p>4.最后计算 <code>e</code> 对于 $ \phi(N) $ 的模反元素 <code>d</code>，其中模反元素的定义为：如果有两个正整数 <code>a</code> 和 <code>n</code> 互质，那么一定可以找到整数 <code>b</code>，使得 $ n|ab-1 $，<code>b</code> 称为 <code>a</code> 模反元素，可用扩展欧几里德算法求得</p>
+<p>5.将 (e,N) 组装成公钥，将 (d,N) 组装成私钥</p>
+<h3 id="RSA-加密解密的一般步骤"><a href="#RSA-加密解密的一般步骤" class="headerlink" title="RSA 加密解密的一般步骤"></a>RSA 加密解密的一般步骤</h3><hr>
+<p>设 <code>m</code> 为明文，<code>c</code> 为密文，<code>e</code> 上述生成的公钥指数，<code>d</code> 为 <code>e</code> 对于 $ \phi(N) $ 的模反元素<br>加密：</p>
+<p>$$<br>c&#x3D;m^e mod N<br>$$</p>
+<p>解密：</p>
+<p>$$<br>m&#x3D;c^d mod N<br>$$</p>
+<h3 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现"></a>编程实现</h3><hr>
+<p>在本例子中，是比较简单的加密实现，没有涉及适当的分组操作，对字符串加密采用了最低效率的按字节加密，仅仅作为例子。实际上的 RSA 算法，会采用分组操作，每个分组的长度 <code>k</code> 应该满足$ 2^k\leq N $，最后也会跟下文的实现一样，形成多个密文输出。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">generating p and q:</span><br><span class="line">p: <span class="number">4637</span> q: <span class="number">5591</span></span><br><span class="line">N: <span class="number">25925467</span> eulerN: <span class="number">25915240</span></span><br><span class="line">calculating e and d</span><br><span class="line">e: <span class="number">2649</span> d:<span class="number">2484889</span></span><br><span class="line">generate random integer:<span class="number">8608</span></span><br><span class="line">c: <span class="number">5853546</span> m:<span class="number">8608</span></span><br><span class="line">encrypt sting:</span><br><span class="line"></span><br><span class="line">encrypt sting to []<span class="type">int</span>:[<span class="number">14773902</span> <span class="number">6929511</span> <span class="number">3881662</span> <span class="number">3881662</span> <span class="number">17177132</span> <span class="number">1441672</span> <span class="number">8018696</span> <span class="number">20570993</span> <span class="number">1197689</span> <span class="number">8018696</span> <span class="number">8990288</span> <span class="number">7523664</span> <span class="number">8018696</span> <span class="number">9478268</span> <span class="number">19565276</span> <span class="number">5933296</span> <span class="number">21454753</span> <span class="number">23718142</span> <span class="number">1994912</span> <span class="number">18323106</span> <span class="number">9394526</span> <span class="number">20490471</span> <span class="number">8041615</span> <span class="number">25550957</span> <span class="number">8044600</span> <span class="number">21575371</span> <span class="number">24665880</span> <span class="number">4225706</span> <span class="number">13781244</span> <span class="number">13667208</span> <span class="number">8044600</span> <span class="number">13781244</span> <span class="number">18578049</span> <span class="number">8044600</span> <span class="number">7523664</span> <span class="number">6485992</span> <span class="number">5933296</span> <span class="number">1581769</span> <span class="number">20457713</span>]</span><br><span class="line">decrypt <span class="type">string</span>:hello,我是按照逐个字节加密的 </span><br></pre></td></tr></table></figure>
+
+<p>最后是编程实现代码，用 golang 实现：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> LIMIT = <span class="number">10000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;generating p and q:&quot;</span>)</span><br><span class="line">	p, q := genPQ()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;p: %v q: %v\n&quot;</span>, p, q)</span><br><span class="line">	N := p * q</span><br><span class="line">	eulerN := euler(p, q)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;N: %v eulerN: %v\n&quot;</span>, N, eulerN)</span><br><span class="line">	fmt.Println(<span class="string">&quot;calculating e and d&quot;</span>)</span><br><span class="line">	e, d := genED(eulerN)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;e: %v d:%v\n&quot;</span>, e, d)</span><br><span class="line">	r := rand.New(rand.NewSource(time.Now().UnixNano()))</span><br><span class="line"></span><br><span class="line">	random := r.Intn(LIMIT)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;generate random integer:%v\n&quot;</span>, random)</span><br><span class="line"></span><br><span class="line">	c := encrypt(random, e, N)</span><br><span class="line">	m := decrypt(c, d, N)</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">&quot;c: %v m:%v\n&quot;</span>, c, m)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;encrypt sting:\n&quot;</span>)</span><br><span class="line">	en := encryptString(<span class="string">&quot;hello,我是按照逐个字节加密的&quot;</span>, e, N)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;encrypt sting to []int:%v\n&quot;</span>, en)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;decrypt string:%v \n&quot;</span>, decryptString(en, d, N))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPrime</span><span class="params">(n <span class="type">int</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	sn := <span class="type">int</span>(math.Sqrt(<span class="type">float64</span>(n)))</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">2</span>; i &lt;= sn; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> n%i == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">genPQ</span><span class="params">()</span></span> (<span class="type">int</span>, <span class="type">int</span>) &#123;</span><br><span class="line">	primechan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	r := rand.New(rand.NewSource(time.Now().UnixNano()))</span><br><span class="line">	count := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">2</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				p := r.Intn(LIMIT)</span><br><span class="line">				<span class="keyword">if</span> isPrime(p) &#123;</span><br><span class="line">					primechan &lt;- p</span><br><span class="line">					count++</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> count == <span class="number">2</span> &#123;</span><br><span class="line">				<span class="built_in">close</span>(primechan)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">	pq := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		p, ok := &lt;-primechan</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		pq = <span class="built_in">append</span>(pq, p)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> pq[<span class="number">0</span>], pq[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">euler</span><span class="params">(p <span class="type">int</span>, q <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">exgcd</span><span class="params">(a <span class="type">int</span>, b <span class="type">int</span>, x *<span class="type">int</span>, y *<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> b == <span class="number">0</span> &#123;</span><br><span class="line">		*x, *y = <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	&#125;</span><br><span class="line">	r := exgcd(b, a%b, x, y)</span><br><span class="line">	*x, *y = *y, *x-a/b*(*y)</span><br><span class="line">	<span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">genED</span><span class="params">(eulerN <span class="type">int</span>)</span></span> (<span class="type">int</span>, <span class="type">int</span>) &#123;</span><br><span class="line">	r := rand.New(rand.NewSource(time.Now().UnixNano()))</span><br><span class="line">	<span class="keyword">var</span> d, y <span class="type">int</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		e := r.Intn(LIMIT)</span><br><span class="line">		<span class="keyword">if</span> e &lt; eulerN &amp;&amp; exgcd(e, eulerN, &amp;d, &amp;y) == <span class="number">1</span> &amp;&amp; d &gt; <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> e, d</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">encrypt</span><span class="params">(m <span class="type">int</span>, e <span class="type">int</span>, N <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	c := <span class="number">1</span></span><br><span class="line">	m = m % N</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= e; i++ &#123;</span><br><span class="line">		c = (c * m) % N</span><br><span class="line">	&#125;</span><br><span class="line">	c = c % N</span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">decrypt</span><span class="params">(c <span class="type">int</span>, d <span class="type">int</span>, N <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> encrypt(c, d, N)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">encryptString</span><span class="params">(data <span class="type">string</span>, e <span class="type">int</span>, N <span class="type">int</span>)</span></span> []<span class="type">int</span> &#123;</span><br><span class="line">	en := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">	databyte := []<span class="type">byte</span>(data)</span><br><span class="line">	length := <span class="built_in">len</span>(databyte)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; length; i++ &#123;</span><br><span class="line">		c := encrypt(<span class="type">int</span>(databyte[i]), e, N)</span><br><span class="line">		en = <span class="built_in">append</span>(en, c)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> en</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">decryptString</span><span class="params">(en []<span class="type">int</span>, d <span class="type">int</span>, N <span class="type">int</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	de := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">	length := <span class="built_in">len</span>(en)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; length; i++ &#123;</span><br><span class="line">		m := decrypt(en[i], d, N)</span><br><span class="line">		de = <span class="built_in">append</span>(de, <span class="type">byte</span>(m))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="type">string</span>(de)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">RSA 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90%E7%9A%84%E4%B8%80%E8%88%AC%E6%AD%A5%E9%AA%A4"><span class="toc-number"></span> <span class="toc-text">RSA 密钥生成的一般步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%AD%A5%E9%AA%A4"><span class="toc-number"></span> <span class="toc-text">RSA 加密解密的一般步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number"></span> <span class="toc-text">编程实现</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/cryptography/algorithm/rsa/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&text=RSA 算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&is_video=false&description=RSA 算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RSA 算法&body=Check out this article: http://locez.github.io/linux/cryptography/algorithm/rsa/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&title=RSA 算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/cryptography/algorithm/rsa/&name=RSA 算法&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;RSA-是什么？&#34;&gt;&lt;a href=&#34;#RSA-是什么？&#34; class=&#34;headerlink&#34; title=&#34;RSA 是什么？&#34;&gt;&lt;/a&gt;RSA 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;RSA 是以发明者 &lt;strong&gt;Ron Rivest&lt;/strong&gt;、&lt;strong&gt;Adi Shamir&lt;/strong&gt;、&lt;strong&gt;Leonard Adleman&lt;/strong&gt; 名字的首字母命名的一种非对称加密算法。在公钥密码系统中，加密密钥与解密密钥不同，由加密密钥推导出解密密钥在计算上是不可行的，系统的加密算法和加密密钥可以公开，只要保存好解密密钥即可。而 RSA 则是基于整数因子分解问题的，对极大数做因数分解的难度决定了 RSA 算法的可靠性。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/cryptography/algorithm/rsa/&t=RSA 算法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

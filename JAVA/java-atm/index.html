@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="首先自己也很久没有写 java ，最近给别人出了一道 java 的题目，要求也就是实现一个简单的 ATM ，当作复习，我也自己写了一个这样的 ATM 类。  需要验证密码 查询功能 存款功能 转载功能  真的 ATM 使用 6 位的数字密码，但我自己做的使用了 String ，其中一个原因是考虑到 String 的 equals 方法的运用。当然为了测试，我也增加了一些自己的想法，例如缓存一个 i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 实现简单的 ATM 类">
+<meta property="og:url" content="http://locez.github.io/JAVA/java-atm/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="首先自己也很久没有写 java ，最近给别人出了一道 java 的题目，要求也就是实现一个简单的 ATM ，当作复习，我也自己写了一个这样的 ATM 类。  需要验证密码 查询功能 存款功能 转载功能  真的 ATM 使用 6 位的数字密码，但我自己做的使用了 String ，其中一个原因是考虑到 String 的 equals 方法的运用。当然为了测试，我也增加了一些自己的想法，例如缓存一个 i">
+<meta property="og:locale">
+<meta property="article:published_time" content="2015-10-01T21:09:32.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>java 实现简单的 ATM 类</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Linux/raspberry-pi/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Linux/common-command/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/JAVA/java-atm/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/JAVA/java-atm/&text=java 实现简单的 ATM 类"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/JAVA/java-atm/&is_video=false&description=java 实现简单的 ATM 类"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java 实现简单的 ATM 类&body=Check out this article: http://locez.github.io/JAVA/java-atm/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/JAVA/java-atm/&name=java 实现简单的 ATM 类&description=&lt;p&gt;首先自己也很久没有写 &lt;strong&gt;java&lt;/strong&gt; ，最近给别人出了一道 &lt;strong&gt;java&lt;/strong&gt; 的题目，要求也就是实现一个简单的 &lt;strong&gt;ATM&lt;/strong&gt; ，当作复习，我也自己写了一个这样的 &lt;strong&gt;ATM&lt;/strong&gt; 类。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要验证密码&lt;/li&gt;
+&lt;li&gt;查询功能&lt;/li&gt;
+&lt;li&gt;存款功能&lt;/li&gt;
+&lt;li&gt;转载功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;真的 &lt;strong&gt;ATM&lt;/strong&gt; 使用 6 位的数字密码，但我自己做的使用了 &lt;code&gt;String&lt;/code&gt; ，其中一个原因是考虑到 &lt;code&gt;String&lt;/code&gt; 的 &lt;code&gt;equals&lt;/code&gt; 方法的运用。当然为了测试，我也增加了一些自己的想法，例如缓存一个 &lt;code&gt;instance&lt;/code&gt; 来模拟转帐操作。下面的代码，基本逻辑算是非常简单的（因此注释什么的我也没写了），但还是可以继续优化，例如判断输入是否符合 &lt;code&gt;int&lt;/code&gt; 、 &lt;code&gt;String&lt;/code&gt; ,此处我只是给出一个简单的答案而已。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/JAVA/java-atm/&t=java 实现简单的 ATM 类"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        java 实现简单的 ATM 类
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-10-01T21:09:32.000Z" class="dt-published" itemprop="datePublished">Oct 1 2015</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/JAVA/">JAVA</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/java/" rel="tag">java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>首先自己也很久没有写 <strong>java</strong> ，最近给别人出了一道 <strong>java</strong> 的题目，要求也就是实现一个简单的 <strong>ATM</strong> ，当作复习，我也自己写了一个这样的 <strong>ATM</strong> 类。</p>
+<ul>
+<li>需要验证密码</li>
+<li>查询功能</li>
+<li>存款功能</li>
+<li>转载功能</li>
+</ul>
+<p>真的 <strong>ATM</strong> 使用 6 位的数字密码，但我自己做的使用了 <code>String</code> ，其中一个原因是考虑到 <code>String</code> 的 <code>equals</code> 方法的运用。当然为了测试，我也增加了一些自己的想法，例如缓存一个 <code>instance</code> 来模拟转帐操作。下面的代码，基本逻辑算是非常简单的（因此注释什么的我也没写了），但还是可以继续优化，例如判断输入是否符合 <code>int</code> 、 <code>String</code> ,此处我只是给出一个简单的答案而已。</p>
+<span id="more"></span>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ATM</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String person=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String PASSWORD=<span class="string">&quot;MYPASSWORD&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> times=<span class="number">0</span>,money=<span class="number">3000</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ATM atmcache=<span class="keyword">new</span> <span class="title class_">ATM</span>();</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ATM</span><span class="params">()</span></span><br><span class="line">    &#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ATM</span><span class="params">(String person)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">this</span>.person=person;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只是为了测试而设计的缓存对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ATM <span class="title function_">getATM</span><span class="params">(String name)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(atmcache.getPerson().equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> atmcache;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            atmcache=<span class="keyword">new</span> <span class="title class_">ATM</span>(name);</span><br><span class="line">            <span class="keyword">return</span> atmcache;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//验证密码</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">verifyPassword</span><span class="params">(String password)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(times&gt;=<span class="number">3</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(!PASSWORD.equals(password))&#123;</span><br><span class="line">            times++;</span><br><span class="line">            System.out.println(<span class="string">&quot;Your password is incorrect,please check again;&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPerson</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> person;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getTimes</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> times;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">getMoney</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> money;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">drawMoney</span><span class="params">(<span class="type">int</span> money)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(money&lt;=<span class="built_in">this</span>.money)&#123;</span><br><span class="line">            <span class="comment">//System.out.println(person+&quot;: Do you wan to draw &quot;+money+&quot;￥?&quot;);</span></span><br><span class="line">            <span class="built_in">this</span>.money=<span class="built_in">this</span>.money-money;</span><br><span class="line">            System.out.println(person+<span class="string">&quot;: Your accout now has &quot;</span>+<span class="built_in">this</span>.money+<span class="string">&quot;￥.\n&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.money;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(person+<span class="string">&quot;: Your accout is not enough,please check again.\n&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">depositMoney</span><span class="params">(<span class="type">int</span> money)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">this</span>.money+=money;</span><br><span class="line">        System.out.println(person+<span class="string">&quot;: Your accout now has &quot;</span>+<span class="built_in">this</span>.money+<span class="string">&quot;￥.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.money;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">transferAccounts</span><span class="params">(ATM others,<span class="type">int</span> money)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(money&lt;=<span class="built_in">this</span>.money)&#123;</span><br><span class="line">            drawMoney(money);</span><br><span class="line">            others.depositMoney(money);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.money;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(person+<span class="string">&quot;: Your account is not enough,please check again.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Scanner sc=<span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        ATM atm=<span class="keyword">new</span> <span class="title class_">ATM</span>(<span class="string">&quot;Locez&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Please enter your password&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(atm.verifyPassword(sc.next()))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span>(atm.getTimes()&gt;=<span class="number">3</span>)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Your account has benn locked.&quot;</span>);</span><br><span class="line">                System.exit(<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        &#123;	</span><br><span class="line">            System.out.println(<span class="string">&quot;********************************&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot; Hello &quot;</span>+atm.person+<span class="string">&quot;   Money : &quot;</span>+atm.getMoney()+<span class="string">&quot;￥&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;********************************&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;1.Deposit money;\n2.Draw money;\n3.Transfer accouts;\n4.Exit.&quot;</span>);</span><br><span class="line">            <span class="type">int</span> i=sc.nextInt();</span><br><span class="line">            <span class="keyword">switch</span>(i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:&#123;</span><br><span class="line">                    <span class="type">int</span> flag;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please enter the amount you want to deposit.&quot;</span>);</span><br><span class="line">                    <span class="type">int</span> temp=sc.nextInt();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please make sure you have the amount you want to deposit.\n&quot;</span>+temp+<span class="string">&quot;￥\n1.ok    2.exit\n&quot;</span>);</span><br><span class="line">                    flag=sc.nextInt();</span><br><span class="line">                    <span class="keyword">if</span>(flag==<span class="number">1</span>)&#123;</span><br><span class="line">                        atm.depositMoney(temp);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        System.out.println(<span class="string">&quot;You hava cancelled your action.\n&quot;</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">2</span>:&#123;</span><br><span class="line">                    <span class="type">int</span> flag;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please enter the amount you want to draw.&quot;</span>);</span><br><span class="line">                    <span class="type">int</span> temp=sc.nextInt();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please make sure you have the amount you want to draw.\n&quot;</span>+temp+<span class="string">&quot;￥\n1.ok    2.exit\n&quot;</span>);</span><br><span class="line">                    flag=sc.nextInt();</span><br><span class="line">                    <span class="keyword">if</span>(flag==<span class="number">1</span>)&#123;</span><br><span class="line">                        atm.drawMoney(temp);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        System.out.println(<span class="string">&quot;You hava cancelled your action.\n&quot;</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">case</span> <span class="number">3</span>:&#123;</span><br><span class="line">                    <span class="type">int</span> flag;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please enter the account name.&quot;</span>);</span><br><span class="line">                    String account_name=sc.next();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please enter the amount you want to transfer.&quot;</span>);</span><br><span class="line">                    <span class="type">int</span> temp=sc.nextInt();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Please make sure the information \nAcconu:&quot;</span>+account_name+<span class="string">&quot;\nMoney:&quot;</span>+temp+<span class="string">&quot;￥\n1.ok    2.exit\n&quot;</span>);</span><br><span class="line">                    flag=sc.nextInt();</span><br><span class="line">                    <span class="keyword">if</span>(flag==<span class="number">1</span>)&#123;</span><br><span class="line">                        atm.transferAccounts(ATM.getATM(account_name),temp);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        System.out.println(<span class="string">&quot;You hava cancelled your action.\n&quot;</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">case</span> <span class="number">4</span>:System.out.println(<span class="string">&quot;Please take away your card.Good Bye!\n&quot;</span>);System.exit(<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/JAVA/java-atm/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/JAVA/java-atm/&text=java 实现简单的 ATM 类"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/JAVA/java-atm/&is_video=false&description=java 实现简单的 ATM 类"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java 实现简单的 ATM 类&body=Check out this article: http://locez.github.io/JAVA/java-atm/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/JAVA/java-atm/&title=java 实现简单的 ATM 类"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/JAVA/java-atm/&name=java 实现简单的 ATM 类&description=&lt;p&gt;首先自己也很久没有写 &lt;strong&gt;java&lt;/strong&gt; ，最近给别人出了一道 &lt;strong&gt;java&lt;/strong&gt; 的题目，要求也就是实现一个简单的 &lt;strong&gt;ATM&lt;/strong&gt; ，当作复习，我也自己写了一个这样的 &lt;strong&gt;ATM&lt;/strong&gt; 类。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要验证密码&lt;/li&gt;
+&lt;li&gt;查询功能&lt;/li&gt;
+&lt;li&gt;存款功能&lt;/li&gt;
+&lt;li&gt;转载功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;真的 &lt;strong&gt;ATM&lt;/strong&gt; 使用 6 位的数字密码，但我自己做的使用了 &lt;code&gt;String&lt;/code&gt; ，其中一个原因是考虑到 &lt;code&gt;String&lt;/code&gt; 的 &lt;code&gt;equals&lt;/code&gt; 方法的运用。当然为了测试，我也增加了一些自己的想法，例如缓存一个 &lt;code&gt;instance&lt;/code&gt; 来模拟转帐操作。下面的代码，基本逻辑算是非常简单的（因此注释什么的我也没写了），但还是可以继续优化，例如判断输入是否符合 &lt;code&gt;int&lt;/code&gt; 、 &lt;code&gt;String&lt;/code&gt; ,此处我只是给出一个简单的答案而已。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/JAVA/java-atm/&t=java 实现简单的 ATM 类"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

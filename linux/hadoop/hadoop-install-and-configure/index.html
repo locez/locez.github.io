@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1 1 Hadoop 是什么？ Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 集群安装与配置">
+<meta property="og:url" content="http://locez.github.io/linux/hadoop/hadoop-install-and-configure/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1 1 Hadoop 是什么？ Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/hadoop-install-and-configure-00.png">
+<meta property="og:image" content="https://image.locez.com/blog/hadoop-install-and-configure-01.png">
+<meta property="og:image" content="https://image.locez.com/blog/hadoop-install-and-configure-02.png">
+<meta property="og:image" content="https://image.locez.com/blog/hadoop-install-and-configure-03.png">
+<meta property="article:published_time" content="2017-07-14T20:48:13.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="hadoop">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/hadoop-install-and-configure-00.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Hadoop 集群安装与配置</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/docker/docker-qucikly-start/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/virtual-machine-and-dual-os/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&text=Hadoop 集群安装与配置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&is_video=false&description=Hadoop 集群安装与配置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hadoop 集群安装与配置&body=Check out this article: http://locez.github.io/linux/hadoop/hadoop-install-and-configure/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&name=Hadoop 集群安装与配置&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/hadoop-install-and-configure-00.png&#34; alt=&#34;hadoop&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-Hadoop-是什么？&#34;&gt;&lt;a href=&#34;#1-Hadoop-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Hadoop 是什么？&#34;&gt;&lt;/a&gt;1 Hadoop 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;h2 id=&#34;Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明&#34;&gt;&lt;a href=&#34;#Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明&#34; class=&#34;headerlink&#34; title=&#34;Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。### 2 搭建说明&#34;&gt;&lt;/a&gt;&lt;a href=&#34;http://hadoop.apache.org/&#34; title=&#34;Welcome to Apache™ Hadoop®!&#34;&gt;Apache Hadoop&lt;/a&gt; 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。&lt;br&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&t=Hadoop 集群安装与配置"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Hadoop-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Hadoop 是什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Hadoop-%E6%98%AF%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%88%86%E5%B8%83%E5%BC%8F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6%E6%A1%86%E6%9E%B6%EF%BC%8C%E8%83%BD%E5%9C%A8%E5%A4%A7%E5%9E%8B%E9%9B%86%E7%BE%A4%E4%B8%8A%E8%BF%90%E8%A1%8C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E3%80%82Hadoop-%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E4%BA%86-MapReduce-%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F%EF%BC%8C%E6%8A%8A%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%88%86%E6%88%90%E8%AE%B8%E5%A4%9A%E5%B0%8F%E9%83%A8%E5%88%86%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%83%A8%E5%88%86%E8%83%BD%E5%9C%A8%E4%BB%BB%E6%84%8F%E8%8A%82%E7%82%B9%E4%B8%8A%E8%BF%90%E8%A1%8C%E3%80%82%E5%B9%B6%E4%B8%94-Hadoop-%E6%8F%90%E4%BE%9B%E4%BA%86%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E6%89%80%E6%9C%89%E8%AE%A1%E7%AE%97%E8%8A%82%E7%82%B9%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E4%B8%BA%E9%9B%86%E7%BE%A4%E5%B8%A6%E6%9D%A5%E9%9D%9E%E5%B8%B8%E9%AB%98%E7%9A%84%E5%B8%A6%E5%AE%BD%E3%80%82-2-%E6%90%AD%E5%BB%BA%E8%AF%B4%E6%98%8E"><span class="toc-number"></span> <span class="toc-text">Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。### 2 搭建说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E8%8A%82%E7%82%B9%E6%9C%BA%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">2.1 节点机器配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%89%88%E6%9C%AC"><span class="toc-number"></span> <span class="toc-text">2.2 软件包版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85JDK-x3"><span class="toc-number"></span> <span class="toc-text">3 安装JDK x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-x3"><span class="toc-number"></span> <span class="toc-text">4 关闭防火墙 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-hostname-%E5%8F%8A%E5%B1%80%E5%9F%9F%E7%BD%91%E6%98%A0%E5%B0%84-x3"><span class="toc-number"></span> <span class="toc-text">5 配置 hostname 及局域网映射 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%88%9B%E5%BB%BA-hadoop-%E7%94%A8%E6%88%B7%E4%BB%A5%E5%8F%8A-hadoop-%E7%94%A8%E6%88%B7%E7%BB%84-x3"><span class="toc-number"></span> <span class="toc-text">6 创建 hadoop 用户以及 hadoop 用户组 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-SSH-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">7 SSH 免密登录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-ssh-agent"><span class="toc-number"></span> <span class="toc-text">7.1 ssh-agent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E9%85%8D%E7%BD%AE%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">7.2 配置免密登录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E7%A3%81%E7%9B%98%E6%8C%82%E8%BD%BD%EF%BC%88OPtional%EF%BC%89-x3"><span class="toc-number"></span> <span class="toc-text">8 磁盘挂载（OPtional） x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AE%89%E8%A3%85-Hadoop-x3"><span class="toc-number"></span> <span class="toc-text">9 安装 Hadoop x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E9%85%8D%E7%BD%AE-Hadoop-x3"><span class="toc-number"></span> <span class="toc-text">10 配置 Hadoop x3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#10-1-log-%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">10.1 log 存储位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-2-%E9%85%8D%E7%BD%AE-core-site-xml"><span class="toc-number"></span> <span class="toc-text">10.2 配置 core-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-3-%E9%85%8D%E7%BD%AE-hdfs-site-xml"><span class="toc-number"></span> <span class="toc-text">10.3 配置 hdfs-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-%E9%85%8D%E7%BD%AE-mapred-site-xml"><span class="toc-number"></span> <span class="toc-text">10.4 配置 mapred-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-5-%E9%85%8D%E7%BD%AE-yarn-site-xml"><span class="toc-number"></span> <span class="toc-text">10.5 配置 yarn-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-6-%E9%85%8D%E7%BD%AE-slaves"><span class="toc-number"></span> <span class="toc-text">10.6 配置 slaves</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E4%BC%98%E5%8C%96-namenode-%E8%8A%82%E7%82%B9%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">11 优化 namenode 节点命令使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4%E5%8F%8A%E6%B5%8B%E8%AF%95"><span class="toc-number"></span> <span class="toc-text">12 启动集群及测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-1-%E9%9B%86%E7%BE%A4%E6%80%BB%E8%A7%88"><span class="toc-number"></span> <span class="toc-text">12.1 集群总览</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number"></span> <span class="toc-text">12.2 测试用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-3-%E5%9B%BE%E7%89%87%E5%B1%95%E7%A4%BA"><span class="toc-number"></span> <span class="toc-text">12.3 图片展示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">13 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">14 参考资料</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Hadoop 集群安装与配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-07-14T20:48:13.000Z" class="dt-published" itemprop="datePublished">Jul 14 2017</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a> › <a class="category-link" href="/categories/linux/hadoop/">hadoop</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/hadoop/" rel="tag">hadoop</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p><img src="https://image.locez.com/blog/hadoop-install-and-configure-00.png" alt="hadoop"></p>
+<h3 id="1-Hadoop-是什么？"><a href="#1-Hadoop-是什么？" class="headerlink" title="1 Hadoop 是什么？"></a>1 Hadoop 是什么？</h3><hr>
+<h2 id="Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明"><a href="#Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明" class="headerlink" title="Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。### 2 搭建说明"></a><a href="http://hadoop.apache.org/" title="Welcome to Apache™ Hadoop®!">Apache Hadoop</a> 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。<br><span id="more"></span><br>### 2 搭建说明</h2><ul>
+<li>本文几乎所有操作都需要在三台服务器上进行同样的操作，所以为了便于表示，在需要三台服务器上进行同样操作的时候会使用 <code>x3</code> 进行标注。</li>
+<li>命令当中的 <code>#</code> 代表 <code>root</code> 用户执行。</li>
+<li>命令当中的 <code>$</code> 代表 <code>hadoop</code> 用户执行。</li>
+<li><code>###</code> 为该命令的注释。</li>
+</ul>
+<p><em><strong>注</strong></em>：可在一台机子上配置好后利用 <code>scp</code> 命令进行复制，若在虚拟机则可直接复制虚拟机。</p>
+<h4 id="2-1-节点机器配置"><a href="#2-1-节点机器配置" class="headerlink" title="2.1 节点机器配置"></a>2.1 节点机器配置</h4><hr>
+<table>
+<thead>
+<tr>
+<th align="center">NodeName</th>
+<th align="center">OS</th>
+<th align="center">CPU</th>
+<th align="center">RAM</th>
+<th align="center">Disk</th>
+<th align="center">IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">NameNode</td>
+<td align="center">CentOS 7.2</td>
+<td align="center">E7-4830 v3 @ 2.10GHz x2</td>
+<td align="center">2G</td>
+<td align="center">100G</td>
+<td align="center">192.168.1.69</td>
+</tr>
+<tr>
+<td align="center">DataNode1</td>
+<td align="center">CentOS 7.2</td>
+<td align="center">E7-4830 v3 @ 2.10GHz x2</td>
+<td align="center">2G</td>
+<td align="center">500G</td>
+<td align="center">192.168.1.70</td>
+</tr>
+<tr>
+<td align="center">DataNode2</td>
+<td align="center">CentOS 7.2</td>
+<td align="center">E7-4830 v3 @ 2.10GHz x2</td>
+<td align="center">2G</td>
+<td align="center">500G</td>
+<td align="center">192.168.1.71</td>
+</tr>
+</tbody></table>
+<h4 id="2-2-软件包版本"><a href="#2-2-软件包版本" class="headerlink" title="2.2 软件包版本"></a>2.2 软件包版本</h4><hr>
+<table>
+<thead>
+<tr>
+<th align="center">Software</th>
+<th align="center">Version</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">JDK</td>
+<td align="center">Oracle JDK 1.8.0_131(非OpenJDK)</td>
+</tr>
+<tr>
+<td align="center">Hadoop</td>
+<td align="center">2.8.0</td>
+</tr>
+</tbody></table>
+<h3 id="3-安装JDK-x3"><a href="#3-安装JDK-x3" class="headerlink" title="3 安装JDK x3"></a>3 安装JDK <code>x3</code></h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir -p /usr/local/java</span></span><br><span class="line"><span class="comment"># cd /usr/local/java</span></span><br><span class="line"><span class="comment"># wget http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz</span></span><br><span class="line"><span class="comment"># tar -xvzf jdk-8u131-linux-x64.tar.gz</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 设置新的 JDK 为默认 JDK，如果机器已经安装 OpenJDK，可能需要先卸载。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># echo &quot;export JAVA_HOME=/usr/local/java/jdk1.8.0_131/&quot; &gt;&gt; /etc/profile</span></span><br><span class="line"><span class="comment"># echo &quot;export PATH=$PATH:$JAVA_HOME/bin&quot; &gt;&gt; /etc/profile</span></span><br><span class="line"><span class="comment"># source /etc/profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 测试运行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $JAVA_HOME/bin/java -version</span></span><br><span class="line">  java version <span class="string">&quot;1.8.0_131&quot;</span></span><br><span class="line">  Java(TM) SE Runtime Environment (build 1.8.0_131-b11)</span><br><span class="line">  Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="4-关闭防火墙-x3"><a href="#4-关闭防火墙-x3" class="headerlink" title="4 关闭防火墙 x3"></a>4 关闭防火墙 <code>x3</code></h3><hr>
+<p>直接关闭整个防火墙不是一个明智的选择，在具体环境中应该挑选出需要的端口，进行放行，本文由于篇幅原因，不再详细讨论，故采用直接关闭防火墙的方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># systemctl stop firewalld.service </span></span><br><span class="line"><span class="comment"># systemctl disable firewalld.service</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="5-配置-hostname-及局域网映射-x3"><a href="#5-配置-hostname-及局域网映射-x3" class="headerlink" title="5 配置 hostname 及局域网映射 x3"></a>5 配置 <code>hostname</code> 及局域网映射 <code>x3</code></h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hostnamectl set-hostname namenode ### 为 namenode 节点设置 hostname</span></span><br><span class="line"><span class="comment"># hostnamectl set-hostname datanode1 ### 为 datanode1 节点设置 hostname</span></span><br><span class="line"><span class="comment"># hostnamectl set-hostname datanode2 ### 为 datanode2 节点设置 hostname</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo &quot;192.168.1.69 namenode&quot; &gt;&gt; /etc/hosts</span></span><br><span class="line"><span class="comment"># echo &quot;192.168.1.70 datanode1&quot; &gt;&gt; /etc/hosts</span></span><br><span class="line"><span class="comment"># echo &quot;192.168.1.71 datanode2&quot; &gt;&gt; /etc/hosts</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="6-创建-hadoop-用户以及-hadoop-用户组-x3"><a href="#6-创建-hadoop-用户以及-hadoop-用户组-x3" class="headerlink" title="6 创建 hadoop 用户以及 hadoop 用户组 x3"></a>6 创建 hadoop 用户以及 hadoop 用户组 <code>x3</code></h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># groupadd hadoop</span></span><br><span class="line"><span class="comment"># useradd -m -g hadoop hadoop</span></span><br><span class="line"><span class="comment"># passwd hadoop</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="7-SSH-免密登录"><a href="#7-SSH-免密登录" class="headerlink" title="7 SSH 免密登录"></a>7 SSH 免密登录</h3><hr>
+<p>Hadoop 在 <code>namenode</code> 节点中使用 ssh 来访问各节点服务器，例如开启或关闭 hadoop。显然在大型集群中，不可能手动逐个输入密码，在这种情况下，我们可以利用 <code>ssh-agent</code> 代理我们输入密码。</p>
+<p><em><strong>注</strong></em>:该设置只需要在 <code>namenode</code> 节点设置。</p>
+<h4 id="7-1-ssh-agent"><a href="#7-1-ssh-agent" class="headerlink" title="7.1 ssh-agent"></a>7.1 ssh-agent</h4><hr>
+<p>配置 ssh-agent 开机自动运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo &#x27;eval $(ssh-agent)&#x27; &gt;&gt; /etc/profile</span></span><br><span class="line"><span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="7-2-配置免密登录"><a href="#7-2-配置免密登录" class="headerlink" title="7.2 配置免密登录"></a>7.2 配置免密登录</h4><hr>
+<p>在 <code>namenode</code> 节点上登录 hadoop 用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -f ~/.ssh/id_rsa  <span class="comment">### 输入密钥</span></span><br><span class="line">$ <span class="built_in">cat</span> ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">$ <span class="built_in">chmod</span> 644 ~/.ssh/authorized_keys</span><br><span class="line">$ ssh-copy-id datanode1 <span class="comment">### 将公钥 copy 到 datanode1</span></span><br><span class="line">$ ssh-copy-id datanode2 <span class="comment">### 将公钥 copy 到 datanode2</span></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa <span class="comment">### 使用 ssh-agent 实现免密登录</span></span><br><span class="line">$ ssh datanode1 <span class="comment">### 测试无需密码即可登录 datanode1 </span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="8-磁盘挂载（OPtional）-x3"><a href="#8-磁盘挂载（OPtional）-x3" class="headerlink" title="8 磁盘挂载（OPtional） x3"></a>8 磁盘挂载（OPtional） <code>x3</code></h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir /home/hadoop/hdfs</span></span><br><span class="line"><span class="comment"># mount /dev/sdb1 /home/hadoop/hdfs/</span></span><br><span class="line"><span class="comment"># chown -R  hadoop:hadoop /home/hadoop/hdfs/</span></span><br><span class="line"><span class="comment"># echo &quot;/dev/sdb1 /home/hadoop/hdfs ext4 defaults 0 0&quot; &gt;&gt; /etc/fstab</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="9-安装-Hadoop-x3"><a href="#9-安装-Hadoop-x3" class="headerlink" title="9 安装 Hadoop x3"></a>9 安装 Hadoop <code>x3</code></h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd /usr/local</span></span><br><span class="line"><span class="comment"># wget https://mirrors.scau.edu.cn/hadoop/hadoop-2.8.0.tar.gz ### 使用自己的镜像源</span></span><br><span class="line"><span class="comment"># wget https://mirrors.ustc.edu.cn/apache/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz</span></span><br><span class="line"><span class="comment"># tar -xvzf hadoop-2.8.0.tar.gz</span></span><br><span class="line"><span class="comment"># chown -R hadoop:hadoop hadoop-2.8.0</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="10-配置-Hadoop-x3"><a href="#10-配置-Hadoop-x3" class="headerlink" title="10 配置 Hadoop x3"></a>10 配置 Hadoop <code>x3</code></h3><hr>
+<p>复制默认配置文件,在升级 hadoop 版本时可独立出来。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> ~/config/</span><br><span class="line">$ <span class="built_in">cp</span> -r /usr/local/hadoop-2.8.0/etc/hadoop/ ~/config/</span><br></pre></td></tr></table></figure>
+
+<p>指定 hadoop 运行所使用的 JDK 与配置目录, <code>vim ~/config/hadoop/hadoop-env.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> JAVA_HOME=/usr/local/java/jdk1.8.0_131/</span><br><span class="line">$ <span class="built_in">export</span> HADOOP_CONF_DIR=/home/hadoop/config/hadoop/</span><br><span class="line"></span><br><span class="line"><span class="comment">### 最好将该环境变量也加入 /etc/profile</span></span><br><span class="line"><span class="comment"># echo &quot;export HADOOP_CONF_DIR=/home/hadoop/config/hadoop/&quot; &gt;&gt; /etc/profile</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-1-log-存储位置"><a href="#10-1-log-存储位置" class="headerlink" title="10.1 log 存储位置"></a>10.1 log 存储位置</h4><hr>
+<p>修改 hadoop log 存储位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;export HADOOP_LOG_DIR=~/log/hadoop&quot;</span> &gt;&gt; ~/config/hadoop/hadoop-env.sh</span><br></pre></td></tr></table></figure>
+
+<p>修改 YARN log 存储位置,<code>$ vim config/hadoop/yarn-env.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YARN_LOG_DIR=<span class="string">&quot;/home/hadoop/log/yarn/&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-2-配置-core-site-xml"><a href="#10-2-配置-core-site-xml" class="headerlink" title="10.2 配置 core-site.xml"></a>10.2 配置 core-site.xml</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/config/hadoop/core-site.xml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line"> <span class="comment">&lt;!-- Put site-specific property overrides in this file. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>默认文件系统及端口<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://namenode/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-3-配置-hdfs-site-xml"><a href="#10-3-配置-hdfs-site-xml" class="headerlink" title="10.3 配置 hdfs-site.xml"></a>10.3 配置 hdfs-site.xml</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/config/hadoop/hdfs-site.xml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Put site-specific property overrides in this file. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>namedoe 存储永久性的元数据目录列表<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/hadoop/hdfs/name/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>datanode 存放数据块的目录列表<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/hadoop/hdfs/data/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-4-配置-mapred-site-xml"><a href="#10-4-配置-mapred-site-xml" class="headerlink" title="10.4 配置 mapred-site.xml"></a>10.4 配置 mapred-site.xml</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/config/hadoop/mapred-site.xml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>MapReduce 执行框架设为 Hadoop YARN. <span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>Map 和 Reduce 执行的比例，Map 执行到百分之几后开始 Reduce 作业<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 此处设为1.0 即为 完成 Map 作业后才开始 Reduce 作业，内存情况不够的可设为 1.0 默认值为 0.05 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.job.reduce.slowstart.completedmaps<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-5-配置-yarn-site-xml"><a href="#10-5-配置-yarn-site-xml" class="headerlink" title="10.5 配置 yarn-site.xml"></a>10.5 配置 yarn-site.xml</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/config/hadoop/yarn-site.xml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Site specific YARN configuration properties --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>The address of the applications manager interface in the RM.<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>namenode:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>存储中间数据的本地目录<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.local-dirs<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/hadoop/nm-local-dir<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>每个容器可在 RM 申请的最大内存<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>2048<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>每个容器可在 RM 申请的最小内存<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>300<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">final</span>&gt;</span>true<span class="tag">&lt;/<span class="name">final</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>自动检测节点 CPU 与 Mem<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.detect-hardware-capabilities<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>The address of the scheduler interface.<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>namenode:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line">     <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>The address of the RM web application.<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>namenode:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>The address of the resource tracker interface.<span class="tag">&lt;/<span class="name">description</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>namenode:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>The hostname of the RM.<span class="tag">&lt;/<span class="name">description</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-6-配置-slaves"><a href="#10-6-配置-slaves" class="headerlink" title="10.6 配置 slaves"></a>10.6 配置 slaves</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/config/hadoop/slaves</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">namenode</span><br><span class="line">datanode1</span><br><span class="line">datanode2</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="11-优化-namenode-节点命令使用"><a href="#11-优化-namenode-节点命令使用" class="headerlink" title="11 优化 namenode 节点命令使用"></a>11 优化 namenode 节点命令使用</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;export PATH=<span class="variable">$PATH</span>:/usr/local/hadoop-2.8.0/bin/:/usr/local/hadoop-2.8.0/sbin/&quot;</span> &gt;&gt; ~/.bash_profile</span><br><span class="line">$ <span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="12-启动集群及测试"><a href="#12-启动集群及测试" class="headerlink" title="12 启动集群及测试"></a>12 启动集群及测试</h3><hr>
+<p>测试之前最好重启一遍三台机器，以确保配置都生效，并且没有其他问题。</p>
+<p>登录 <code>namenode</code> 节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add ~/.ssh/id_rsa     <span class="comment">### 验证密钥</span></span><br><span class="line">$ hadoop namenode -format   <span class="comment">### 初始化集群</span></span><br><span class="line">$ start-dfs.sh              <span class="comment">### 启动 HDFS</span></span><br><span class="line">$ start-yarn.sh             <span class="comment">### 启动 YARN</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="12-1-集群总览"><a href="#12-1-集群总览" class="headerlink" title="12.1 集群总览"></a>12.1 集群总览</h4><hr>
+<table>
+<thead>
+<tr>
+<th align="center">NodeName</th>
+<th align="center">Web</th>
+<th align="left">Address</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">namenote</td>
+<td align="center">HDFS</td>
+<td align="left"><a href="http://192.168.1.69:50070/">http://192.168.1.69:50070</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">RM</td>
+<td align="left"><a href="http://192.168.1.69:8088/">http://192.168.1.69:8088</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">NM</td>
+<td align="left"><a href="http://192.168.1.69:8042/">http://192.168.1.69:8042</a></td>
+</tr>
+<tr>
+<td align="center">datanode1</td>
+<td align="center">HDFS</td>
+<td align="left"><a href="http://192.168.1.70:50075/">http://192.168.1.70:50075</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">NM</td>
+<td align="left"><a href="http://192.168.1.70:8042/">http://192.168.1.70:8042</a></td>
+</tr>
+<tr>
+<td align="center">datanode2</td>
+<td align="center">HDFS</td>
+<td align="left"><a href="http://192.168.1.71:50075/">http://192.168.1.71:50075</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">NM</td>
+<td align="left"><a href="http://192.168.1.71:8042/">http://192.168.1.71:8042</a></td>
+</tr>
+</tbody></table>
+<h4 id="12-2-测试用例"><a href="#12-2-测试用例" class="headerlink" title="12.2 测试用例"></a>12.2 测试用例</h4><hr>
+<p>hadoop 自带了许多测试用例，所以可以很方便的快速测试集群是否搭建成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn jar /usr/local/hadoop-2.8.0/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.0.jar randomwriter random-data</span><br></pre></td></tr></table></figure>
+
+<p>执行上述命令后，打开 RM 以及 NM 的 URL ，查看任务是否被执行，如执行，则搭建成功</p>
+<h4 id="12-3-图片展示"><a href="#12-3-图片展示" class="headerlink" title="12.3 图片展示"></a>12.3 图片展示</h4><p><img src="https://image.locez.com/blog/hadoop-install-and-configure-01.png" alt="hadoop"></p>
+<p><img src="https://image.locez.com/blog/hadoop-install-and-configure-02.png" alt="hadoop-task"></p>
+<p><img src="https://image.locez.com/blog/hadoop-install-and-configure-03.png" alt="hadoop-task"></p>
+<h3 id="13-总结"><a href="#13-总结" class="headerlink" title="13 总结"></a>13 总结</h3><hr>
+<p>本文从零开始搭建了具有三个节点服务器的 Hadoop 集群，示范了 Hadoop 搭建集群的基本配置。并且从中我们可以知道 Hadoop 集群的每台机子的配置几乎是相同的，这是大量重复性的劳动，因此使用 <code>docker</code> 会大大加快集群的部署。文中的配置文件，是我根据我自己的三台服务器的机器硬件所决定的参数，读者应该根据自己的实际情况选择参数的设置，下文的参考资料给出了各种属性的说明以及默认值。</p>
+<h3 id="14-参考资料"><a href="#14-参考资料" class="headerlink" title="14 参考资料"></a>14 参考资料</h3><hr>
+<p><a href="http://hadoop.apache.org/docs/r2.8.0/hadoop-project-dist/hadoop-common/core-default.xml" title="core-default.xml">core-default.xml</a></p>
+<p><a href="http://hadoop.apache.org/docs/r2.8.0/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml" title="hdfs-default.xml">hdfs-default.xml</a></p>
+<p><a href="http://hadoop.apache.org/docs/r2.8.0/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml" title="mapred-default.xml">mapred-default.xml</a></p>
+<p><a href="http://hadoop.apache.org/docs/r2.8.0/hadoop-yarn/hadoop-yarn-common/yarn-default.xml" title="yarn-default.xml">yarn-default.xml</a></p>
+<p><a href="http://hadoop.apache.org/docs/r2.8.0/hadoop-project-dist/hadoop-common/DeprecatedProperties.html" title="DeprecatedProperties">DeprecatedProperties</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Hadoop-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Hadoop 是什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Hadoop-%E6%98%AF%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%88%86%E5%B8%83%E5%BC%8F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6%E6%A1%86%E6%9E%B6%EF%BC%8C%E8%83%BD%E5%9C%A8%E5%A4%A7%E5%9E%8B%E9%9B%86%E7%BE%A4%E4%B8%8A%E8%BF%90%E8%A1%8C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E3%80%82Hadoop-%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E4%BA%86-MapReduce-%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F%EF%BC%8C%E6%8A%8A%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%88%86%E6%88%90%E8%AE%B8%E5%A4%9A%E5%B0%8F%E9%83%A8%E5%88%86%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%83%A8%E5%88%86%E8%83%BD%E5%9C%A8%E4%BB%BB%E6%84%8F%E8%8A%82%E7%82%B9%E4%B8%8A%E8%BF%90%E8%A1%8C%E3%80%82%E5%B9%B6%E4%B8%94-Hadoop-%E6%8F%90%E4%BE%9B%E4%BA%86%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E6%89%80%E6%9C%89%E8%AE%A1%E7%AE%97%E8%8A%82%E7%82%B9%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E4%B8%BA%E9%9B%86%E7%BE%A4%E5%B8%A6%E6%9D%A5%E9%9D%9E%E5%B8%B8%E9%AB%98%E7%9A%84%E5%B8%A6%E5%AE%BD%E3%80%82-2-%E6%90%AD%E5%BB%BA%E8%AF%B4%E6%98%8E"><span class="toc-number"></span> <span class="toc-text">Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。### 2 搭建说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E8%8A%82%E7%82%B9%E6%9C%BA%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">2.1 节点机器配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%89%88%E6%9C%AC"><span class="toc-number"></span> <span class="toc-text">2.2 软件包版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85JDK-x3"><span class="toc-number"></span> <span class="toc-text">3 安装JDK x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-x3"><span class="toc-number"></span> <span class="toc-text">4 关闭防火墙 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-hostname-%E5%8F%8A%E5%B1%80%E5%9F%9F%E7%BD%91%E6%98%A0%E5%B0%84-x3"><span class="toc-number"></span> <span class="toc-text">5 配置 hostname 及局域网映射 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%88%9B%E5%BB%BA-hadoop-%E7%94%A8%E6%88%B7%E4%BB%A5%E5%8F%8A-hadoop-%E7%94%A8%E6%88%B7%E7%BB%84-x3"><span class="toc-number"></span> <span class="toc-text">6 创建 hadoop 用户以及 hadoop 用户组 x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-SSH-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">7 SSH 免密登录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-ssh-agent"><span class="toc-number"></span> <span class="toc-text">7.1 ssh-agent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E9%85%8D%E7%BD%AE%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">7.2 配置免密登录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E7%A3%81%E7%9B%98%E6%8C%82%E8%BD%BD%EF%BC%88OPtional%EF%BC%89-x3"><span class="toc-number"></span> <span class="toc-text">8 磁盘挂载（OPtional） x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AE%89%E8%A3%85-Hadoop-x3"><span class="toc-number"></span> <span class="toc-text">9 安装 Hadoop x3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E9%85%8D%E7%BD%AE-Hadoop-x3"><span class="toc-number"></span> <span class="toc-text">10 配置 Hadoop x3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#10-1-log-%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">10.1 log 存储位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-2-%E9%85%8D%E7%BD%AE-core-site-xml"><span class="toc-number"></span> <span class="toc-text">10.2 配置 core-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-3-%E9%85%8D%E7%BD%AE-hdfs-site-xml"><span class="toc-number"></span> <span class="toc-text">10.3 配置 hdfs-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-%E9%85%8D%E7%BD%AE-mapred-site-xml"><span class="toc-number"></span> <span class="toc-text">10.4 配置 mapred-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-5-%E9%85%8D%E7%BD%AE-yarn-site-xml"><span class="toc-number"></span> <span class="toc-text">10.5 配置 yarn-site.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-6-%E9%85%8D%E7%BD%AE-slaves"><span class="toc-number"></span> <span class="toc-text">10.6 配置 slaves</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E4%BC%98%E5%8C%96-namenode-%E8%8A%82%E7%82%B9%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">11 优化 namenode 节点命令使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4%E5%8F%8A%E6%B5%8B%E8%AF%95"><span class="toc-number"></span> <span class="toc-text">12 启动集群及测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-1-%E9%9B%86%E7%BE%A4%E6%80%BB%E8%A7%88"><span class="toc-number"></span> <span class="toc-text">12.1 集群总览</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number"></span> <span class="toc-text">12.2 测试用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-3-%E5%9B%BE%E7%89%87%E5%B1%95%E7%A4%BA"><span class="toc-number"></span> <span class="toc-text">12.3 图片展示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">13 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">14 参考资料</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&text=Hadoop 集群安装与配置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&is_video=false&description=Hadoop 集群安装与配置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hadoop 集群安装与配置&body=Check out this article: http://locez.github.io/linux/hadoop/hadoop-install-and-configure/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&title=Hadoop 集群安装与配置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&name=Hadoop 集群安装与配置&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/hadoop-install-and-configure-00.png&#34; alt=&#34;hadoop&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-Hadoop-是什么？&#34;&gt;&lt;a href=&#34;#1-Hadoop-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Hadoop 是什么？&#34;&gt;&lt;/a&gt;1 Hadoop 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;h2 id=&#34;Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明&#34;&gt;&lt;a href=&#34;#Apache-Hadoop-是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop-框架实现了-MapReduce-编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且-Hadoop-提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。-2-搭建说明&#34; class=&#34;headerlink&#34; title=&#34;Apache Hadoop 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。### 2 搭建说明&#34;&gt;&lt;/a&gt;&lt;a href=&#34;http://hadoop.apache.org/&#34; title=&#34;Welcome to Apache™ Hadoop®!&#34;&gt;Apache Hadoop&lt;/a&gt; 是一个支持数据密集型分布式应用程序的开源软件框架，能在大型集群上运行应用程序。Hadoop 框架实现了 MapReduce 编程范式，把应用程序分成许多小部分，每个部分能在任意节点上运行。并且 Hadoop 提供了分布式文件系统存储所有计算节点的数据，为集群带来非常高的带宽。&lt;br&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/hadoop/hadoop-install-and-configure/&t=Hadoop 集群安装与配置"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

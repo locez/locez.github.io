@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1背景 在学生时代我就非常喜欢 Gentoo Linux，在使用 Gentoo Linux 的过程中学习到了非常多有用宝贵的 Linux 基础知识，这些知识在我的职业生涯早期发挥了相当重要的作用。但是由于工作后的忙碌，以及工作需要使用公司的设备，逐渐没有空维护我的 Gentoo 操作系统。同时也由于笔记本性能后来确实无法跟上，后来将我的 XPS 13 多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gentoo Linux with ZFS">
+<meta property="og:url" content="http://locez.github.io/linux/gentoo-linux-with-zfs/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1背景 在学生时代我就非常喜欢 Gentoo Linux，在使用 Gentoo Linux 的过程中学习到了非常多有用宝贵的 Linux 基础知识，这些知识在我的职业生涯早期发挥了相当重要的作用。但是由于工作后的忙碌，以及工作需要使用公司的设备，逐渐没有空维护我的 Gentoo 操作系统。同时也由于笔记本性能后来确实无法跟上，后来将我的 XPS 13 多">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-04-13T15:14:05.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="zfs">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Gentoo Linux with ZFS</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/uncategorized/play-jx3-on-gentoo-linux/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/ai/ai-code-generator-user-experience/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/gentoo-linux-with-zfs/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&text=Gentoo Linux with ZFS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&is_video=false&description=Gentoo Linux with ZFS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gentoo Linux with ZFS&body=Check out this article: http://locez.github.io/linux/gentoo-linux-with-zfs/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&name=Gentoo Linux with ZFS&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/gentoo-linux-with-zfs/&t=Gentoo Linux with ZFS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">设备配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number"></span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BIOS-setup"><span class="toc-number"></span> <span class="toc-text">BIOS setup</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ZFS"><span class="toc-number"></span> <span class="toc-text">ZFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Gentoo"><span class="toc-number"></span> <span class="toc-text">安装 Gentoo</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">双系统启动配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">引用</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Gentoo Linux with ZFS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-04-13T15:14:05.000Z" class="dt-published" itemprop="datePublished">Apr 13 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/zfs/" rel="tag">zfs</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><hr>
+<p>在学生时代我就非常喜欢 <code>Gentoo Linux</code>，在使用 Gentoo Linux 的过程中学习到了非常多有用宝贵的 Linux 基础知识，这些知识在我的职业生涯早期发挥了相当重要的作用。但是由于工作后的忙碌，以及工作需要使用公司的设备，逐渐没有空维护我的 Gentoo 操作系统。同时也由于笔记本性能后来确实无法跟上，后来将我的 XPS 13 多装了一个 <code>Arch Linux</code> 使用至今。</p>
+<p>所幸随着我的游戏机纯 Windows 系统的性能逐渐下滑，无法维持正常的游戏质量，我决定新购设备，同时满足我的游戏以及回归 Gentoo 的需求。</p>
+<p>本文主要记录这次安装 Gentoo 的过程，有些东西可能不会详细展开。</p>
+<h3 id="设备配置"><a href="#设备配置" class="headerlink" title="设备配置"></a>设备配置</h3><hr>
+<ul>
+<li>CPU: AMD Ryzen 9 9950X3D 16-Core Processor</li>
+<li>MainBoard: MPG X870E CARBON WIFI</li>
+<li>Memroy Size: DDR5 96G</li>
+<li>Disk: 2 * 2T (ZFS mirror)</li>
+</ul>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><hr>
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><hr>
+<ul>
+<li>adminCD，支持 zfs 的 liveCD 安装环境</li>
+<li>Gentoo Stage3 ISO 文件</li>
+</ul>
+<p>我们使用 Gentoo 的 adminCD 来进行安装，我使用的是 <a href="https://github.com/ventoy/Ventoy">ventoy</a> 进行 USB 启动镜像制作。</p>
+<p>Gentoo 相关的文件，可以在 <a href="https://www.gentoo.org/downloads/">Downloads</a> 中找到，也可以选择一个镜像站进行加速下载。</p>
+<h4 id="BIOS-setup"><a href="#BIOS-setup" class="headerlink" title="BIOS setup"></a>BIOS setup</h4><hr>
+<ul>
+<li>关闭 secure boot</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><hr>
+<h4 id="ZFS"><a href="#ZFS" class="headerlink" title="ZFS"></a>ZFS</h4><hr>
+<p>由于我安装 Windows 时未手动分区，万恶的 Windows 这次只给我分了 100M 的 EFI 分区，所以我在此处需要进行额外的处理。</p>
+<p>我要将 2根 SSD 前 16G 切出来做 ESP 分区，都切是为了做对齐，总体的分区布局如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Part. #     Size        Partition Type            Partition Name</span><br><span class="line">----------------------------------------------------------------</span><br><span class="line">            1007.0 KiB  free space</span><br><span class="line">   1        16.0 GiB    EFI system partition      EFI System Partition</span><br><span class="line">   2        1.8 TiB     Linux filesystem          ZFS0</span><br><span class="line">            327.5 KiB   free space</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Part. #     Size        Partition Type            Partition Name</span><br><span class="line">----------------------------------------------------------------</span><br><span class="line">            1007.0 KiB  free space</span><br><span class="line">   1        16.0 GiB    Linux filesystem</span><br><span class="line">   2        1.8 TiB     Linux filesystem          ZFS1</span><br><span class="line">            327.5 KiB   free space</span><br></pre></td></tr></table></figure>
+
+<p>使用如下的命令创建 ZFS Pool，我们在 2 根 SSD 都划分了 16G，但是其中只需要一个 16G 做 ESP 分区，由于我的内存已经相对够大，所以我将另一根未设为 ESP 类型的，用作 ZFS 的 SLOG。根据需求，你也可以作为 SWAP 分区。</p>
+<p>其中的 id 可以通过 <code>ls -al /dev/disk/by-id/</code> 得到。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">zpool create -o feature@allocation_classes=enabled \</span><br><span class="line">             -o feature@async_destroy=enabled \</span><br><span class="line">             -o feature@bookmarks=enabled \</span><br><span class="line">             -o feature@bookmark_v2=enabled \</span><br><span class="line">             -o feature@device_rebuild=enabled \</span><br><span class="line">             -o feature@device_removal=enabled \</span><br><span class="line">             -o feature@draid=enabled \</span><br><span class="line">             -o feature@embedded_data=enabled \</span><br><span class="line">             -o feature@empty_bpobj=enabled \</span><br><span class="line">             -o feature@enabled_txg=enabled \</span><br><span class="line">             -o feature@encryption=enabled \</span><br><span class="line">             -o feature@extensible_dataset=enabled \</span><br><span class="line">             -o feature@filesystem_limits=enabled \</span><br><span class="line">             -o feature@hole_birth=enabled \</span><br><span class="line">             -o feature@large_blocks=enabled \</span><br><span class="line">             -o feature@large_dnode=enabled \</span><br><span class="line">             -o feature@livelist=enabled \</span><br><span class="line">             -o feature@log_spacemap=enabled \</span><br><span class="line">             -o feature@obsolete_counts=enabled \</span><br><span class="line">             -o feature@project_quota=enabled \</span><br><span class="line">             -o feature@resilver_defer=enabled \</span><br><span class="line">             -o feature@spacemap_histogram=enabled \</span><br><span class="line">             -o feature@spacemap_v2=enabled \</span><br><span class="line">             -o feature@userobj_accounting=enabled \</span><br><span class="line">             -o feature@zpool_checkpoint=enabled \</span><br><span class="line">             -o feature@zstd_compress=enabled \</span><br><span class="line">             -o ashift=12 \</span><br><span class="line">             -o autoexpand=on \</span><br><span class="line">             -o autoreplace=on \</span><br><span class="line">             -o autotrim=on \</span><br><span class="line">             -O acltype=posixacl \</span><br><span class="line">             -O canmount=off \</span><br><span class="line">             -O devices=off \</span><br><span class="line">             -O normalization=formC \</span><br><span class="line">             -O relatime=on \</span><br><span class="line">             -O xattr=sa \</span><br><span class="line">             -O compression=zstd \</span><br><span class="line">             -O dnodesize=auto \</span><br><span class="line">             -O overlay=off \</span><br><span class="line">             zroot \</span><br><span class="line">               mirror \</span><br><span class="line">                 nvme-ZHITAI_TiPlus7100_2TB_ZTA72T0AB2452406GT-part2 \</span><br><span class="line">                 nvme-ZHITAI_TiPlus7100_2TB_ZTA72T0AB245240A4C-part2 \</span><br><span class="line">               <span class="built_in">log</span> \</span><br><span class="line">                 nvme-ZHITAI_TiPlus7100_2TB_ZTA72T0AB245240A4C-part1 \</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建 rootfs 卷， 注意此处我使用了 zfs 加密，如果不需要可以去掉。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zfs create -o mountpoint=legacy \</span><br><span class="line">	-o canmount=noauto \</span><br><span class="line">	-o encryption=aes-256-gcm \</span><br><span class="line">	-o keylocation=prompt \</span><br><span class="line">	-o keyformat=passphrase \</span><br><span class="line">	zroot/root</span><br></pre></td></tr></table></figure>
+
+<p>创建 home 卷，此处将加密设置成与父卷一样的方式，但是不添加密码，我们就可以在开机时输入密码后共享同一个密码，无需二次解密。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zfs create -o mountpoint=legacy \</span><br><span class="line">	-o canmount=noauto \ </span><br><span class="line">	-o encryption=aes-256-gcm \</span><br><span class="line">	zroot/root/home</span><br></pre></td></tr></table></figure>
+
+<p>挂载对应的卷和分区，注意此处挂载的是 ESP 分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mount -t zfs zroot/root /mnt/gentoo</span><br><span class="line">mount -t zfs zroot/root/home /mnt/gentoo/home</span><br><span class="line">mount /dev/nvme0n1p1 /mnt/gentoo/boot</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-Gentoo"><a href="#安装-Gentoo" class="headerlink" title="安装 Gentoo"></a>安装 Gentoo</h4><hr>
+<p>下载解压 stage 3，我这里 example 选择 <code>systemd</code> 和 <code>desktop</code> 的，根据需求选择你要的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /mnt/gentoo</span><br><span class="line">wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20250406T165023Z/stage3-amd64-desktop-systemd-20250406T165023Z.tar.xz</span><br><span class="line">tar xpvf stage3-*.tar.xz --xattrs-include=<span class="string">&#x27;*.*&#x27;</span> --numeric-owner</span><br></pre></td></tr></table></figure>
+<p>配置 <code>/etc/portage/make.conf</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">USE=&quot;cjk dist-kernel dracut egl -handbook -kwallet networkmanager sddm systemd-boot wayland wacom&quot;</span><br><span class="line"></span><br><span class="line">MAKEOPTS=&quot;--jobs 16 --load-average 25&quot;</span><br><span class="line">INPUT_DEVICES=&quot;wacom&quot;</span><br><span class="line"></span><br><span class="line">CFLAGS=&quot;-march=native -O3 -pipe&quot;</span><br><span class="line">CXXFLAGS=&quot;$&#123;CFLAGS&#125;&quot;</span><br><span class="line">CPU_FLAGS=&quot;aes avx avx2 avx512_bf16 avx512_bitalg avx512_vbmi2 avx512_vnni avx512_vp2intersect avx512_vpopcntdq avx512bw avx512cd avx512dq avx512f avx512ifma avx512vbmi avx512vl f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 vpclmulqdq&quot;</span><br><span class="line">CPU_FLAGS_X86=&quot;$&#123;CPU_FLAGS&#125;&quot;</span><br><span class="line"></span><br><span class="line">GENTOO_MIRRORS=&quot;https://mirrors.ustc.edu.cn/gentoo https://mirrors.tuna.tsinghua.edu.cn/gentoo https://distfiles.gentoo.org&quot;</span><br></pre></td></tr></table></figure>
+<p>其中的 CPU_FLAGS 可以通过 <code>cpuid2cpuflags</code> 得到。</p>
+<p>配置必要的 package USE <code>/etc/portage/package.use/custom</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># required by Locez</span></span><br><span class="line">*/* CPU_FLAGS_X86: aes avx avx2 avx512_bf16 avx512_bitalg avx512_vbmi2 avx512_vnni avx512_vp2intersect avx512_vpopcntdq avx512bw avx512cd avx512dq avx512f avx51</span><br><span class="line">2ifma avx512vbmi avx512vl f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 vpclmulqdq</span><br><span class="line">*/* VIDEO_CARDS: -* amdgpu radeonsi nvidia</span><br></pre></td></tr></table></figure>
+<p>遵循新的标准，在这里继续配置 <code>CPU_FLAGS</code> 和 <code>VIDEO_CARDS</code>，其中显卡的需要根据硬件具体进行配置，我这里含有 AMD 的集显和 nvidia 的显卡</p>
+<p>准备 chroot</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> --dereference /etc/resolv.conf /mnt/gentoo/etc/</span><br><span class="line">mount --types proc /proc /mnt/gentoo/proc</span><br><span class="line">mount --rbind /sys /mnt/gentoo/sys</span><br><span class="line">mount --make-rslave /mnt/gentoo/sys</span><br><span class="line">mount --rbind /dev /mnt/gentoo/dev</span><br><span class="line">mount --make-rslave /mnt/gentoo/dev</span><br><span class="line">mount --<span class="built_in">bind</span> /run /mnt/gentoo/run</span><br><span class="line">mount --make-slave /mnt/gentoo/run</span><br><span class="line"></span><br><span class="line"><span class="built_in">chroot</span> /mnt/gentoo /bin/bash</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="built_in">export</span> PS1=<span class="string">&quot;(chroot) <span class="variable">$&#123;PS1&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置时区与区域</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> /etc/locale.gen | grep -v ^<span class="comment">#</span></span><br><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line"></span><br><span class="line">locale-gen</span><br></pre></td></tr></table></figure>
+
+<p>配置内核与 ZFS 内核模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">emerge-webrsync</span><br><span class="line">emerge -av sys-kernel/linux-firmware</span><br><span class="line">emerge -av sys-kernel/gentoo-kernel-bin</span><br><span class="line">emerge -av sys-fs/zfs sys-fs/zfs-kmod</span><br></pre></td></tr></table></figure>
+<p>配置 <code>dracut</code> 生成 <code>initramfs</code>，添加 ZFS 支持，以便开机的时候能正确使用加载 ZFS，其中 <code>systemd-ask-password</code> 是因为上述创建 ZFS Pool 的步骤中，我们在创建子卷的时候填写了密码，用这个来提示我们输入密码。</p>
+<p><strong>注意</strong>：配置前后的空格是必须的</p>
+<p><code>/etc/dracut.conf.d/zol.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fsck=<span class="string">&quot;yes&quot;</span></span><br><span class="line">add_dracutmodules+=<span class="string">&quot; zfs systemd-ask-password &quot;</span></span><br></pre></td></tr></table></figure>
+<p>生成 initramfs</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emerge --config sys-kernel/gentoo-kernel-bin</span><br></pre></td></tr></table></figure>
+
+<p>安装更新系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emerge --ask --verbose --update --deep --newuse @world app-shells/fish</span><br><span class="line">systemctl <span class="built_in">enable</span> networkmanager</span><br></pre></td></tr></table></figure>
+
+<p>安装 KDE 与 SDDM</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emerge -auDv kde-plasma/plasma-meta sddm</span><br><span class="line">systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></table></figure>
+
+<p>修改 sddm 配置，文章有实效性，最新的配置可以参考： <a href="https://github.com/KDE/plasma-workspace/blob/master/sddm-wayland-session/plasma-wayland.conf">plasma-wayland.conf</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[General]</span><br><span class="line">DisplayServer=wayland</span><br><span class="line">GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell</span><br><span class="line">InputMethod=</span><br><span class="line"></span><br><span class="line">[Theme]</span><br><span class="line">Current=breeze</span><br><span class="line"></span><br><span class="line">[Wayland]</span><br><span class="line">CompositorCommand=kwin_wayland --no-global-shortcuts --no-lockscreen --inputmethod maliit-keyboard --locale1</span><br></pre></td></tr></table></figure>
+
+<p>创建普通用户，并且配置对应权限分组，其中 sddm 踩坑在登录后需要 daemon group 才能正常运行（截至 20250413 仍然是这样，请注意时间有效性）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -G daemon,adm,wheel,audio,video,<span class="built_in">users</span> -s /usr/bin/fish locez</span><br><span class="line">passwd locez</span><br></pre></td></tr></table></figure>
+
+<p>生成 fstab</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emerge -a genfstab</span><br><span class="line">genfstab -U / &gt; /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p>配置启动项，通过 <code>bootctl</code> 安装，并且检查 &#x2F;boot 下的配置是否正确</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bootctl install</span><br><span class="line"><span class="built_in">ls</span> /boot</span><br><span class="line"></span><br><span class="line">❯ <span class="built_in">cat</span> /boot/loader/entries/gentoo-6.12.21-gentoo-dist.conf</span><br><span class="line"><span class="comment"># Boot Loader Specification type#1 entry</span></span><br><span class="line"><span class="comment"># File created by /usr/lib/kernel/install.d/90-loaderentry.install (systemd 256.10)</span></span><br><span class="line">title      Gentoo Linux</span><br><span class="line">version    6.12.21-gentoo-dist</span><br><span class="line">sort-key   gentoo</span><br><span class="line">options    dokeymap root=ZFS=zroot/root ro</span><br><span class="line">linux      /gentoo/6.12.21-gentoo-dist/linux</span><br><span class="line">initrd     /gentoo/6.12.21-gentoo-dist/initrd</span><br></pre></td></tr></table></figure>
+
+<p>重启进入系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">cd</span></span><br><span class="line">umount -l /mnt/gentoo/dev&#123;/shm,/pts,&#125;</span><br><span class="line">umount -n -R /mnt/gentoo</span><br><span class="line">zpool <span class="built_in">export</span> zroot</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p>到此为止， Gentoo 的整个安装过程已经结束，顺利的话能直接进入系统，不顺利的话只能 liveCD 继续 chroot 修问题啦。</p>
+<p>如果需要 chroot 修问题，这个时候需要在 liveCD 中解密，首次创建的时候输入密码没这个步骤</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zpool import zroot</span><br><span class="line">zfs load-key zroot/root</span><br></pre></td></tr></table></figure>
+<p>登录进去普通用户以后如果声音不正常还需要启动 <code>pipewire</code> 和 <code>wireplumber</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl --user <span class="built_in">enable</span> --now pipewire-pulse pipewire wireplumber</span><br></pre></td></tr></table></figure>
+
+<h3 id="双系统启动配置"><a href="#双系统启动配置" class="headerlink" title="双系统启动配置"></a>双系统启动配置</h3><hr>
+<p>由于使用了 2 个 ESP 分区，双系统启动有两种方式，一种是开机的时候选择启动项，另一种则使用 systemd-boot 管理。</p>
+<p>虽然 systemd-boot 无法直接管理另一个 ESP 分区中的启动，但是我们可以通过 UEFI SHELL 进行跳转。</p>
+<p>首先安装 <code>edk2</code>，将其拷贝到我们的 &#x2F;boot 中，这样启动选择后可以得到一个 UEFI SHELL，我们可以通过这个 SHELL 得到 Windows 的 <code>FS alias</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emerge -1 -a edk2-bin</span><br><span class="line">cp /usr/share/edk2-ovmf/Shell.efi /boot/shellx64.efi</span><br></pre></td></tr></table></figure>
+<p>重启然后登录到 UEFI SHELL 中，使用 map 命令得到 Windows 的 UEFI 的 FS alias</p>
+<p>然后手动创建以下启动项 <code>/boot/loader/entries/windows.conf</code>， 其中 <code>HD0b</code> 就是 FS alias</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title Windows 11</span><br><span class="line">efi     /shellx64.efi</span><br><span class="line">options -nointerrupt -nomap -noversion HD0b:EFI\Microsoft\Boot\Bootmgfw.efi</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><hr>
+<ul>
+<li><a href="https://wiki.gentoo.org/wiki/ZFS/rootfs">https://wiki.gentoo.org/wiki/ZFS/rootfs</a></li>
+<li><a href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base">https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base</a></li>
+<li><a href="https://github.com/KDE/plasma-workspace/blob/master/sddm-wayland-session/plasma-wayland.conf">https://github.com/KDE/plasma-workspace/blob/master/sddm-wayland-session/plasma-wayland.conf</a></li>
+<li><a href="https://openzfs.github.io/openzfs-docs/man/master/7/zfsprops.7.html">https://openzfs.github.io/openzfs-docs/man/master/7/zfsprops.7.html</a></li>
+<li><a href="https://wiki.archlinux.org/title/Systemd-boot">https://wiki.archlinux.org/title/Systemd-bootArchWiki-Systemd-boot</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">设备配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number"></span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BIOS-setup"><span class="toc-number"></span> <span class="toc-text">BIOS setup</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ZFS"><span class="toc-number"></span> <span class="toc-text">ZFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Gentoo"><span class="toc-number"></span> <span class="toc-text">安装 Gentoo</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">双系统启动配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">引用</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/gentoo-linux-with-zfs/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&text=Gentoo Linux with ZFS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&is_video=false&description=Gentoo Linux with ZFS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gentoo Linux with ZFS&body=Check out this article: http://locez.github.io/linux/gentoo-linux-with-zfs/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&title=Gentoo Linux with ZFS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/gentoo-linux-with-zfs/&name=Gentoo Linux with ZFS&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/gentoo-linux-with-zfs/&t=Gentoo Linux with ZFS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

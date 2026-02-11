@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。 阅读建议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新手指南： 手把手教你安装 Ubuntu 和 Fedora">
+<meta property="og:url" content="http://locez.github.io/Linux/install-ubuntu-and-fedora/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。 阅读建议">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-01.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-02.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-03.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-04.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-05.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-06.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-07.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-08.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-09.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-10.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-11.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-12.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-13.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-14.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-15.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-16.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-17.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-18.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-19.png">
+<meta property="og:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-20.png">
+<meta property="article:published_time" content="2015-07-26T19:00:37.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="fedora">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>新手指南： 手把手教你安装 Ubuntu 和 Fedora</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Linux/install-program-on-ubuntu-fedora/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Linux/Install-QQ-on-Linux/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/install-ubuntu-and-fedora/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&text=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&is_video=false&description=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新手指南： 手把手教你安装 Ubuntu 和 Fedora&body=Check out this article: http://locez.github.io/Linux/install-ubuntu-and-fedora/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&name=新手指南： 手把手教你安装 Ubuntu 和 Fedora&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。&lt;/p&gt;
+&lt;h3 id=&#34;阅读建议&#34;&gt;&lt;a href=&#34;#阅读建议&#34; class=&#34;headerlink&#34; title=&#34;阅读建议&#34;&gt;&lt;/a&gt;阅读建议&lt;/h3&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;本文将包含 Ubuntu 和 Fedora 两个发行版的安装，请先通篇浏览全文，再决定安装哪个发行版，并且配图有相应的文字说明，请不要忽视。&lt;/li&gt;
+&lt;li&gt;如果你是一位新手，强烈建议使用虚拟机操作，如果你相信自己可以解决问题，也可使用 &lt;strong&gt;UltraISO&lt;/strong&gt; 、&lt;strong&gt;USBWriter&lt;/strong&gt; 和 &lt;code&gt;dd&lt;/code&gt;命令写入 U 盘，进行实体机安装，此处不详述。&lt;/li&gt;
+&lt;li&gt;有任何问题都可以加入 &lt;strong&gt;Linux中国新手村&lt;/strong&gt; QQ 群提问，QQ 群号 &lt;code&gt;198889109&lt;/code&gt; ，验证请到 &lt;code&gt;linux.cn&lt;/code&gt; 主页获取 。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;Ubuntu-简介&#34;&gt;&lt;a href=&#34;#Ubuntu-简介&#34; class=&#34;headerlink&#34; title=&#34;Ubuntu 简介&#34;&gt;&lt;/a&gt;Ubuntu 简介&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;Ubuntu 是一个基于 Debian 的 GNU&amp;#x2F;Linux 操作系统，支持 X86 、64以及 PPC 架构。Ubuntu 每隔六个月发布一个版本，即每年的四月和十月，本文使用的是 &lt;strong&gt;15.04 64-bit&lt;/strong&gt; 版本，Ubuntu 对于新手应该是比较友好的一个 Linux 发行版，中文本地化也做的不错，有开箱即用的感觉。因为 Ubuntu 近几年用户群的增加，多了很多对于新手有用的资料，因此请不用担心遇到问题无法解决，善用搜索和提问，将使你更快速地成长。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/install-ubuntu-and-fedora/&t=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E5%BB%BA%E8%AE%AE"><span class="toc-number"></span> <span class="toc-text">阅读建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E7%AE%80%E4%BB%8B"><span class="toc-number"></span> <span class="toc-text">Ubuntu 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fedora-%E7%AE%80%E4%BB%8B"><span class="toc-number"></span> <span class="toc-text">Fedora 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E7%8E%AF%E5%A2%83"><span class="toc-number"></span> <span class="toc-text">本文环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Ubuntu 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E7%9B%98%E7%89%87"><span class="toc-number"></span> <span class="toc-text">1.新建与加载盘片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Ubuntu"><span class="toc-number"></span> <span class="toc-text">2.安装 Ubuntu</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fedora-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Fedora 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E7%9B%98%E7%89%87%E8%AF%B7%E5%8F%82%E8%80%83%E4%B8%8A%E9%9D%A2%E7%9A%84-Ubuntu-%E9%83%A8%E5%88%86"><span class="toc-number"></span> <span class="toc-text">1.新建与加载盘片请参考上面的 Ubuntu 部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Fedora"><span class="toc-number"></span> <span class="toc-text">2.安装 Fedora</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">参考资料</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        新手指南： 手把手教你安装 Ubuntu 和 Fedora
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-07-26T19:00:37.000Z" class="dt-published" itemprop="datePublished">Jul 26 2015</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/fedora/" rel="tag">fedora</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>, <a class="p-category" href="/tags/ubuntu/" rel="tag">ubuntu</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p>Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。</p>
+<h3 id="阅读建议"><a href="#阅读建议" class="headerlink" title="阅读建议"></a>阅读建议</h3><hr>
+<ul>
+<li>本文将包含 Ubuntu 和 Fedora 两个发行版的安装，请先通篇浏览全文，再决定安装哪个发行版，并且配图有相应的文字说明，请不要忽视。</li>
+<li>如果你是一位新手，强烈建议使用虚拟机操作，如果你相信自己可以解决问题，也可使用 <strong>UltraISO</strong> 、<strong>USBWriter</strong> 和 <code>dd</code>命令写入 U 盘，进行实体机安装，此处不详述。</li>
+<li>有任何问题都可以加入 <strong>Linux中国新手村</strong> QQ 群提问，QQ 群号 <code>198889109</code> ，验证请到 <code>linux.cn</code> 主页获取 。</li>
+</ul>
+<h3 id="Ubuntu-简介"><a href="#Ubuntu-简介" class="headerlink" title="Ubuntu 简介"></a>Ubuntu 简介</h3><hr>
+<p>Ubuntu 是一个基于 Debian 的 GNU&#x2F;Linux 操作系统，支持 X86 、64以及 PPC 架构。Ubuntu 每隔六个月发布一个版本，即每年的四月和十月，本文使用的是 <strong>15.04 64-bit</strong> 版本，Ubuntu 对于新手应该是比较友好的一个 Linux 发行版，中文本地化也做的不错，有开箱即用的感觉。因为 Ubuntu 近几年用户群的增加，多了很多对于新手有用的资料，因此请不用担心遇到问题无法解决，善用搜索和提问，将使你更快速地成长。</p>
+<span id="more"></span>
+<h3 id="Fedora-简介"><a href="#Fedora-简介" class="headerlink" title="Fedora 简介"></a>Fedora 简介</h3><hr>
+<p>Fedora 是一个由 Fedora 社区开发的 Linux 发行版，由 Red Hat 公司赞助，可以将 Fedora 看成是 Red Hat Linux 个人使用的代替，由于有 Red Hat 公司的支持，Fedora 的功能非常完善，还分为 WORKSTATION 、SERVER 和 CLOUD 版本。本文使用的是 <strong>Fedora 22 WORKSTATION （工作站）</strong>，Fedora 22 已经将包管理器从 <code>YUM</code> 改为 <code>DNF</code> ，因此建议学习者直接学习 <code>DNF</code> 。</p>
+<h3 id="本文环境"><a href="#本文环境" class="headerlink" title="本文环境"></a>本文环境</h3><hr>
+<ul>
+<li>Windows 8.1 64-bit</li>
+<li>VirtualBox-5.0 <a href="http://download.virtualbox.org/virtualbox/5.0.0/VirtualBox-5.0.0-101573-Win.exe">点此下载</a></li>
+<li>Ubuntu 15.04 64-bit <a href="http://releases.ubuntu.com/15.04/ubuntu-15.04-desktop-amd64.iso">点此下载</a></li>
+<li>Ubuntu 15.04 32-bit 适合配置较低的用户使用 <a href="http://releases.ubuntu.com/15.04/ubuntu-15.04-desktop-i386.iso">点此下载</a> </li>
+<li>Fedora 22 64-bit <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/22/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-22-3.iso">点此下载</a></li>
+<li>Fedora 22 32-bit 适合配置较低用户使用 <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/22/Workstation/i386/iso/Fedora-Live-Workstation-i686-22-3.iso">点此下载</a></li>
+</ul>
+<h3 id="Ubuntu-安装"><a href="#Ubuntu-安装" class="headerlink" title="Ubuntu 安装"></a>Ubuntu 安装</h3><hr>
+<h4 id="1-新建与加载盘片"><a href="#1-新建与加载盘片" class="headerlink" title="1.新建与加载盘片"></a>1.新建与加载盘片</h4><p>当你安装完 Vbox 后，打开你应该会看到下面这样的界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-00.png" alt="VBOX"></p>
+<p>点击新建后会出来如下图所示的界面，一般如图填写即可，内存可酌情填写</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-01.png" alt="NEWUBUNTU"></p>
+<p>下一步将创建虚拟硬盘，如图所示，默认位置为 C 盘，如果你不想在 C 盘创建，请确保你选择的盘格式为NTFS</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-02.png" alt="NEWUBUNTU"></p>
+<p>创建完成后，请点 <strong>设置</strong> 如图加载 ISO 文件</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-03.png" alt="LOADUBUNTUISO"></p>
+<h4 id="2-安装-Ubuntu"><a href="#2-安装-Ubuntu" class="headerlink" title="2.安装 Ubuntu"></a>2.安装 Ubuntu</h4><p>点击 <strong>启动</strong> ，会开机，进入如下界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-04.png" alt="INSTALLING"></p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-05.png" alt="INSTALLING2"></p>
+<p>这里请注意，如果你与笔者一样使用虚拟机，强烈建议选择 <strong>清除整个磁盘并安装 Ubuntu</strong> ，但如果你要装到实体机与 Windows 形成双系统时，请选择 <strong>其他选项</strong> ，但这要求你对 Linxu 有一定的了解且具备一定的基础进行分区操作，注意不要覆盖 Windows 的 C 盘，此处由于篇幅原因，不再详述。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-06.png" alt="INSTALLING3"></p>
+<p>如图，进行用户设定，<strong>计算机名</strong> 是主机名，<strong>用户名</strong> 是登录时用的账户名称，<strong>密码</strong> 则是你所设 <strong>用户名</strong> 的登录密码，请务必记牢。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-07.png" alt="INSTALLING4"></p>
+<p>这一步之后会选择时区，直接点下一步即可，键盘选择如下图</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-08.png" alt="SELECTKEYBOARD"></p>
+<p>配置选择已完成，接下来请耐心等待安装过程，如图，请不要点击 <strong>SKIP</strong> </p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-09.png" alt="INSTALLING"></p>
+<p>耐心等待安装完成，然后会重启进入系统，用你上面配置的用户名和密码登录，请注意最好不要登录 <strong>root</strong> ，你可以用 <code>sudo</code> 命令来获取相应的权限，下图是展示成果</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-10.png" alt="FINISH"></p>
+<h3 id="Fedora-安装"><a href="#Fedora-安装" class="headerlink" title="Fedora 安装"></a>Fedora 安装</h3><hr>
+<h4 id="1-新建与加载盘片请参考上面的-Ubuntu-部分"><a href="#1-新建与加载盘片请参考上面的-Ubuntu-部分" class="headerlink" title="1.新建与加载盘片请参考上面的 Ubuntu 部分"></a>1.新建与加载盘片请参考上面的 Ubuntu 部分</h4><h4 id="2-安装-Fedora"><a href="#2-安装-Fedora" class="headerlink" title="2.安装 Fedora"></a>2.安装 Fedora</h4><p>点击 <strong>启动</strong>，会开机，进入如下界面,如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-11.png" alt="STARTLIVECD"></p>
+<p>接下来依然是如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-12.png" alt="INSTALLING"></p>
+<p>然后是选择语言，选择完后进入如图界面</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-13.png" alt="INSTALLING1"></p>
+<p>配置安装位置，这里请注意，如果你与笔者一样使用虚拟机，强烈建议选择 <strong>自动配置分区</strong> ，但如果你要装到实体机与 Windows 形成双系统时，请选择 <strong>我要配置分区</strong> ，但这要求你对 Linxu 有一定的了解且具备一定的基础进行分区操作，注意不要覆盖 Windows 的 C 盘，此处由于篇幅原因，不再详述。</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-14.png" alt="INSTALLING2"></p>
+<p>下一步将创建 <strong>root</strong> 和 <strong>日常使用账户</strong> ，<strong>root</strong> 账户有最大的管理权限，你甚至可以将整个系统删除，所以使用 <strong>root</strong> 账户请务必小心，<strong>日常使用账户</strong> 应作为你的习惯使用账户，必要时只需使用 <code>sudo</code> 命令暂时提升权限即可，更多说明如图所示</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-15.png" alt="INSTALLING3"></p>
+<p><strong>root</strong>  配置只需创建密码即可，下图是 <strong>日常使用账户</strong> 配置</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-16.png" alt="INSTALLING4"></p>
+<p>配置完后将回到之前的界面，请耐心等待安装，如图</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-17.png" alt="INSTALLING5"></p>
+<p>安装完成，点击 <strong>退出</strong> 后，进入的依然是 Live CD 环境，请先关机，再执行下一步</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-18.png" alt="INSTALLING6"></p>
+<p>由于 Fedora 未自动卸载盘片，因此需要手动卸载盘片，否则将再次进入 Live CD 环境，请如图操作</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-19.png" alt="INSTALLING7"></p>
+<p>接下来则是点击 <strong>启动</strong> 进入你的 Fedora ，使用你上面设置的用户名和密码登录，请注意最好不要登录 <strong>root</strong> ，你可以用 <code>sudo</code> 命令来获取相应的权限，下图是展示成果</p>
+<p><img src="https://image.locez.com/blog/install-ubuntu-and-fedora-20.png" alt="INSTALLING8"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><hr>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/Ubuntu">Ubuntu-Wikipedia</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Fedora">Fedora-Wikipedia</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E5%BB%BA%E8%AE%AE"><span class="toc-number"></span> <span class="toc-text">阅读建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E7%AE%80%E4%BB%8B"><span class="toc-number"></span> <span class="toc-text">Ubuntu 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fedora-%E7%AE%80%E4%BB%8B"><span class="toc-number"></span> <span class="toc-text">Fedora 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E7%8E%AF%E5%A2%83"><span class="toc-number"></span> <span class="toc-text">本文环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Ubuntu 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E7%9B%98%E7%89%87"><span class="toc-number"></span> <span class="toc-text">1.新建与加载盘片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Ubuntu"><span class="toc-number"></span> <span class="toc-text">2.安装 Ubuntu</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fedora-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Fedora 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E7%9B%98%E7%89%87%E8%AF%B7%E5%8F%82%E8%80%83%E4%B8%8A%E9%9D%A2%E7%9A%84-Ubuntu-%E9%83%A8%E5%88%86"><span class="toc-number"></span> <span class="toc-text">1.新建与加载盘片请参考上面的 Ubuntu 部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Fedora"><span class="toc-number"></span> <span class="toc-text">2.安装 Fedora</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">参考资料</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/install-ubuntu-and-fedora/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&text=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&is_video=false&description=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新手指南： 手把手教你安装 Ubuntu 和 Fedora&body=Check out this article: http://locez.github.io/Linux/install-ubuntu-and-fedora/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&title=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/install-ubuntu-and-fedora/&name=新手指南： 手把手教你安装 Ubuntu 和 Fedora&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;Linux 由于开源，所以具备可定制性，因此衍生了许多发行版．Ubuntu 和 Fedora 算是其中对新手比较友好的两个发行版，主要是其安装较为简单，用户群多，有问题搜索出相关的信息或者找前辈解决。此文为 Linux 新手准备，通过展示整个安装过程来使 Linxu 新手完成安装 Ubuntu 或 Fedora ，也恳请各位前辈指出不足之处。&lt;/p&gt;
+&lt;h3 id=&#34;阅读建议&#34;&gt;&lt;a href=&#34;#阅读建议&#34; class=&#34;headerlink&#34; title=&#34;阅读建议&#34;&gt;&lt;/a&gt;阅读建议&lt;/h3&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;本文将包含 Ubuntu 和 Fedora 两个发行版的安装，请先通篇浏览全文，再决定安装哪个发行版，并且配图有相应的文字说明，请不要忽视。&lt;/li&gt;
+&lt;li&gt;如果你是一位新手，强烈建议使用虚拟机操作，如果你相信自己可以解决问题，也可使用 &lt;strong&gt;UltraISO&lt;/strong&gt; 、&lt;strong&gt;USBWriter&lt;/strong&gt; 和 &lt;code&gt;dd&lt;/code&gt;命令写入 U 盘，进行实体机安装，此处不详述。&lt;/li&gt;
+&lt;li&gt;有任何问题都可以加入 &lt;strong&gt;Linux中国新手村&lt;/strong&gt; QQ 群提问，QQ 群号 &lt;code&gt;198889109&lt;/code&gt; ，验证请到 &lt;code&gt;linux.cn&lt;/code&gt; 主页获取 。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;Ubuntu-简介&#34;&gt;&lt;a href=&#34;#Ubuntu-简介&#34; class=&#34;headerlink&#34; title=&#34;Ubuntu 简介&#34;&gt;&lt;/a&gt;Ubuntu 简介&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;Ubuntu 是一个基于 Debian 的 GNU&amp;#x2F;Linux 操作系统，支持 X86 、64以及 PPC 架构。Ubuntu 每隔六个月发布一个版本，即每年的四月和十月，本文使用的是 &lt;strong&gt;15.04 64-bit&lt;/strong&gt; 版本，Ubuntu 对于新手应该是比较友好的一个 Linux 发行版，中文本地化也做的不错，有开箱即用的感觉。因为 Ubuntu 近几年用户群的增加，多了很多对于新手有用的资料，因此请不用担心遇到问题无法解决，善用搜索和提问，将使你更快速地成长。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/install-ubuntu-and-fedora/&t=新手指南： 手把手教你安装 Ubuntu 和 Fedora"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

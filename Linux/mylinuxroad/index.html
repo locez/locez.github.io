@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1就前面的几篇文章来说，我一直是以 Ubuntu 与 Fedora 作为新手入门的系统，但是其实我真正想推荐的是 Arch ，经过前面的学习，或许你对 Linux 已经有了一个大致的了解，现在如果你想加速你的步伐，也许可以看看本文。如果要问为什么学习 Linux ，我也只能回答 Just for fun 。本文基本上是我个人见解，有不正确的地方恳请批评指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐新手使用 Arch Linux 入门">
+<meta property="og:url" content="http://locez.github.io/Linux/mylinuxroad/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1就前面的几篇文章来说，我一直是以 Ubuntu 与 Fedora 作为新手入门的系统，但是其实我真正想推荐的是 Arch ，经过前面的学习，或许你对 Linux 已经有了一个大致的了解，现在如果你想加速你的步伐，也许可以看看本文。如果要问为什么学习 Linux ，我也只能回答 Just for fun 。本文基本上是我个人见解，有不正确的地方恳请批评指">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/mylinuxroad-00.png">
+<meta property="article:published_time" content="2015-11-03T17:52:50.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.527Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/mylinuxroad-00.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>推荐新手使用 Arch Linux 入门</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/translation/best-markdown-editors-for-linux/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Linux/raspberry-pi/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/mylinuxroad/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/mylinuxroad/&text=推荐新手使用 Arch Linux 入门"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/mylinuxroad/&is_video=false&description=推荐新手使用 Arch Linux 入门"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=推荐新手使用 Arch Linux 入门&body=Check out this article: http://locez.github.io/Linux/mylinuxroad/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/mylinuxroad/&name=推荐新手使用 Arch Linux 入门&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/mylinuxroad-00.png&#34; alt=&#34;Arch Linux&#34;&gt;&lt;br&gt;就前面的几篇文章来说，我一直是&lt;a href=&#34;https://linux.cn/article-5893-1.html&#34;&gt;以 Ubuntu 与 Fedora 作为新手入门的系统&lt;/a&gt;，但是其实我真正想推荐的是 Arch ，经过前面的学习，或许你对 Linux 已经有了一个大致的了解，现在如果你想加速你的步伐，也许可以看看本文。如果要问为什么学习 Linux ，我也只能回答 Just for fun 。&lt;br&gt;本文基本上是我个人见解，有不正确的地方恳请批评指正，另外本文只是推荐 Arch ，并没有说 Arch 是最适合新手的。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/mylinuxroad/&t=推荐新手使用 Arch Linux 入门"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84-Linux-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF"><span class="toc-number"></span> <span class="toc-text">我的 Linux 学习之路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Arch-Linux-%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number"></span> <span class="toc-text">使用 Arch Linux 的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F"><span class="toc-number"></span> <span class="toc-text">结束</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        推荐新手使用 Arch Linux 入门
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-11-03T17:52:50.000Z" class="dt-published" itemprop="datePublished">Nov 3 2015</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.527Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p><img src="https://image.locez.com/blog/mylinuxroad-00.png" alt="Arch Linux"><br>就前面的几篇文章来说，我一直是<a href="https://linux.cn/article-5893-1.html">以 Ubuntu 与 Fedora 作为新手入门的系统</a>，但是其实我真正想推荐的是 Arch ，经过前面的学习，或许你对 Linux 已经有了一个大致的了解，现在如果你想加速你的步伐，也许可以看看本文。如果要问为什么学习 Linux ，我也只能回答 Just for fun 。<br>本文基本上是我个人见解，有不正确的地方恳请批评指正，另外本文只是推荐 Arch ，并没有说 Arch 是最适合新手的。</p>
+<span id="more"></span>
+<h2 id="我的-Linux-学习之路"><a href="#我的-Linux-学习之路" class="headerlink" title="我的 Linux 学习之路"></a>我的 Linux 学习之路</h2><hr>
+<p>谈起我的 Linux 学习之路，时间其实并不长，2014 年的 5 月份左右才加入 <a href="https://linux.cn/">Linux 中国</a> 的群，才开始了解这个系统，并且因为是高三了，我也不是不可能花太多时间在学习 Linux 这个系统上的，但是我的经验却是我花了相对很少的时间，已经能达到把 Linux 当作自己的桌面系统的程度了。</p>
+<p>一切起因只因为我电脑只有 512 Mb 的内存，这使得我这个一直以来的 xp 用户，最后连上个 QQ 都能卡死，这样忍受了很久，终于我去寻找解决的方法了。或许是因为我的想法的原因，解决方法并不是去为电脑升级硬件，而是寻找代替 xp 的系统，这时候 Linux 进入了我的眼球，到处都在说 Linux 轻便简洁，以及只需几十兆内存便可流畅运行。当然这时候我搜索出来的肯定是传说中的对新手最友好的 Ubuntu 了，最后我怀着激动的心情安装了它，当时是很开心的，觉得自己终于能换个系统玩了，可以摆脱过去卡机了。但事实是证明我天真了，Ubuntu 的 Unity 桌面，我的老古董机子根本吃不消，玩起来更卡了，甚至后来装 XUbuntu 也无济于事，遇到问题的时候，我去搜索答案能搜出来，但是答案却是基本是无效的，面对这种情况，我当时玩 Ubuntu 是什么东西也没学到的。</p>
+<p>Ubuntu 的体验令我有点沮丧，再者它不适合我机子。后来我又知道了 Debian ，这个发行版据称稳定健壮。我这次怀着犹豫的心情去安装了，安装过程不像 Ubuntu 那样顺利，记得应该遇到过一点问题，但还是解决了。这次的 Debian 安装让我很满意，我的电脑像复活了一样，再也不会卡顿了。然而面对 Debian 我能干什么？我后来发现我什么也没干，我不了解任何东西，我也只会用鼠标点点，右键查看一下属性，双击点个 <strong>可执行文件</strong> 。就这样过了一两个星期（我是只有周末才有半天学校回来碰个电脑的），有一天，我看到 Linux 中国的群里在讨论一个名为 <strong>Arch</strong> 的发行版，出于好奇我去搜索了一番，这便是我与 Arch 相遇的开始。</p>
+<p>Arch Linux 的设计理念是 <strong>轻量</strong> 、 <strong>简洁</strong> 这点正符合我心意，二话不说我就开始了我的 Arch 之旅。当时我还不懂什么是命令行，安装过程完全是参照 Arch Wiki 的过程，虽然不懂为什么，但是我却是一次安装成功，看着自己一步一步敲命令安装的系统当时特有成就感， Arch Wiki 提供了一条龙服务，刚安装完系统的 Arch 是不带桌面的，但是 Arch Wiki 提供了详细的桌面配置过程，以及输入法配置过程。查看自己的内存使用情况， LXDE + 32 位的 Arch Linux 我的内存占用才 70 M 左右，我知道我这次找到了真爱，于是一直使用 Arch 至今，也感谢我的电脑配置低，不然我很可能就停留在 Ubuntu 了。</p>
+<h2 id="使用-Arch-Linux-的优势"><a href="#使用-Arch-Linux-的优势" class="headerlink" title="使用 Arch Linux 的优势"></a>使用 Arch Linux 的优势</h2><hr>
+<p>至于我为什么要推荐 Arch Linux ？对于一个新手，它相对其他发行版有哪些优势呢？</p>
+<p>不少人会说 Arch 太难了，不适合新手，对新手并不友好。可我却不这么认为，难是因为你站在了一个较高的起点，而这个高的起点会使你更快地进步，更快地了解 Linux ，Arch 所带给我的就是这样一种学习体验。我从不会到会，再到教别人所用的时间并不长，也许有人会说我只是个特例，那么这篇文章就是写给那些想成为特例的人，学习是靠自己的，只要自己有心，又有什么学不会呢？最近 “Linux 中国-新手村” 里的许多新人，总是自己一上来就要答案，但是却不曾想过，自己为这个问题做了什么尝试，自己是否有毅力去坚持学习 Linux ？</p>
+<p>下面是自己认为推荐 Arch 的一些理由，仅代表我个人的观点：</p>
+<ul>
+<li>Arch 使你站在一个较高的起点入门，但相应的你会需要付出一点耐心去学习，并且你会学的更快</li>
+<li>Arch Wiki 非常丰富，就是我们遇到问题时解题的利器，在遇到问题时先去 Arch Wiki 搜索一下，基本可以解决，这比搜索引擎搜索出来的 Blog 或别人写的一点笔记要靠谱的多</li>
+<li>Arch 采用滚动更新的方式，因此你不用再考虑以后升级系统需要重装的问题</li>
+<li>Arch 除了基础的软件包外，不会附加一些多余的东西，所以你的系统基本上是你所需要的东西</li>
+<li>Arch 的 pacman 是非常简单高效的包管理工具，帮助你轻松管理系统</li>
+<li>Arch 的 AUR 仓库包含大量软件包，只需一个 makepkg 命令即可构建，非常方便</li>
+</ul>
+<p>基于上面的一些原因，我认为 Arch 其实是适合新手的。</p>
+<p>首先它比其他大多数发行版要自由；其次它没有预先安装的图形包管理工具，这使得我们必须在终端下完成我们的大部分操作，这将是我们从 Windows 鼠标模式逃离出来的一种动力与压力，因为你拿着鼠标没什么可干的；最后便是 Arch Wiki 对于绝大多数软件包要如何配置，遇到问题怎么去解决，都有详细的说明，这对于新手来说肯定是一个福音。</p>
+<p>我推荐 Arch 其实是把自己置于一个相对的窘迫的境地（但是其实笔者不觉得这是困境，我当时对 Arch 是一见钟情的，怀着极大的兴趣把 Arch 收下了），只有这样才会激活你的动力，战胜它，你就赢了自己，收获了技能，如果选择放弃，那么可能你不适合这种学习方式。</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><hr>
+<p>可以说我学习 Linux 基本都得益于 Arch 的 Wiki ，是它为我解决了很多问题，再也不用像无头苍蝇一样去搜索答案，当然你使用其他发行版也可以参照 Arch Wiki ，不要浪费了这份宝贵的资源。另外如果你是真心想学习 Linux ，我推荐你看看 Linus 的自传 《just for fun》，还有鸟哥的 《鸟哥的 Linux 私房菜》，自传会使你明白一小部分关于 Linux 的故事，我所做的也只是 just for fun ；而鸟哥的书则可以作为一本入门的书籍，鸟哥写的太详细了，选读部分内容就好。最后祝各位能在接下来的学习之路，奋勇向前。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84-Linux-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF"><span class="toc-number"></span> <span class="toc-text">我的 Linux 学习之路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Arch-Linux-%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number"></span> <span class="toc-text">使用 Arch Linux 的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F"><span class="toc-number"></span> <span class="toc-text">结束</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Linux/mylinuxroad/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Linux/mylinuxroad/&text=推荐新手使用 Arch Linux 入门"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Linux/mylinuxroad/&is_video=false&description=推荐新手使用 Arch Linux 入门"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=推荐新手使用 Arch Linux 入门&body=Check out this article: http://locez.github.io/Linux/mylinuxroad/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Linux/mylinuxroad/&title=推荐新手使用 Arch Linux 入门"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Linux/mylinuxroad/&name=推荐新手使用 Arch Linux 入门&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/mylinuxroad-00.png&#34; alt=&#34;Arch Linux&#34;&gt;&lt;br&gt;就前面的几篇文章来说，我一直是&lt;a href=&#34;https://linux.cn/article-5893-1.html&#34;&gt;以 Ubuntu 与 Fedora 作为新手入门的系统&lt;/a&gt;，但是其实我真正想推荐的是 Arch ，经过前面的学习，或许你对 Linux 已经有了一个大致的了解，现在如果你想加速你的步伐，也许可以看看本文。如果要问为什么学习 Linux ，我也只能回答 Just for fun 。&lt;br&gt;本文基本上是我个人见解，有不正确的地方恳请批评指正，另外本文只是推荐 Arch ，并没有说 Arch 是最适合新手的。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Linux/mylinuxroad/&t=推荐新手使用 Arch Linux 入门"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

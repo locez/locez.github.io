@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1 1 Docker 是什么？ Docker 是一个开源的容器引擎，而一个容器其实是一个虚拟化的独立的环境，因此开发者可以将应用打包到这样的一个 docker 容器中，然后发布到任何可以运行 docker 容器的机器中，实现一次打包多处部署，解决了因为环境问题而导致的部署难题。 1.1 容器是什么？ 与 容器 对应的一个概念就是 镜像,镜像可以看做我们平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 快速入门">
+<meta property="og:url" content="http://locez.github.io/linux/docker/docker-qucikly-start/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1 1 Docker 是什么？ Docker 是一个开源的容器引擎，而一个容器其实是一个虚拟化的独立的环境，因此开发者可以将应用打包到这样的一个 docker 容器中，然后发布到任何可以运行 docker 容器的机器中，实现一次打包多处部署，解决了因为环境问题而导致的部署难题。 1.1 容器是什么？ 与 容器 对应的一个概念就是 镜像,镜像可以看做我们平">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/docker-quickly-start-00.jpg">
+<meta property="article:published_time" content="2017-10-05T12:34:24.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/docker-quickly-start-00.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Docker 快速入门</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/docker/dockerfile/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/hadoop/hadoop-install-and-configure/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/docker/docker-qucikly-start/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/docker/docker-qucikly-start/&text=Docker 快速入门"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/docker/docker-qucikly-start/&is_video=false&description=Docker 快速入门"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker 快速入门&body=Check out this article: http://locez.github.io/linux/docker/docker-qucikly-start/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/docker/docker-qucikly-start/&name=Docker 快速入门&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/docker-quickly-start-00.jpg&#34; alt=&#34;docker&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-Docker-是什么？&#34;&gt;&lt;a href=&#34;#1-Docker-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Docker 是什么？&#34;&gt;&lt;/a&gt;1 Docker 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Docker&lt;/strong&gt;&lt;/em&gt; 是一个开源的容器引擎，而一个容器其实是一个虚拟化的独立的环境，因此开发者可以将应用打包到这样的一个 docker 容器中，然后发布到任何可以运行 docker 容器的机器中，实现一次打包多处部署，解决了因为环境问题而导致的部署难题。&lt;/p&gt;
+&lt;h4 id=&#34;1-1-容器是什么？&#34;&gt;&lt;a href=&#34;#1-1-容器是什么？&#34; class=&#34;headerlink&#34; title=&#34;1.1 容器是什么？&#34;&gt;&lt;/a&gt;1.1 容器是什么？&lt;/h4&gt;&lt;hr&gt;
+&lt;p&gt;与 &lt;em&gt;&lt;strong&gt;容器&lt;/strong&gt;&lt;/em&gt; 对应的一个概念就是 &lt;em&gt;&lt;strong&gt;镜像&lt;/strong&gt;&lt;/em&gt;,镜像可以看做我们平时装系统的镜像，里面就是一个运行环境。当然我比较喜欢将镜像比作一个我们面向对象编程中的 &lt;strong&gt;类&lt;/strong&gt;，而一个容器就是一个类的 &lt;strong&gt;实例&lt;/strong&gt;，因此可以根据一个镜像，创建出很多个容器，每一个容器都是具体的，我们可以在容器上面做出更改，然后再把这个容器打包成一个新的镜像，从而以后可以根据改动后的镜像创建出新的容器。而容器本身可以简单理解为是一个虚拟独立的运行环境，我们要做的是中这个环境中打包我们的应用，以便于再次部署。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/docker/docker-qucikly-start/&t=Docker 快速入门"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Docker-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Docker 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%AE%B9%E5%99%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1.1 容器是什么？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Docker"><span class="toc-number"></span> <span class="toc-text">2 安装 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%90%AF%E5%8A%A8-docker-%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number"></span> <span class="toc-text">2.1 启动 docker 守护进程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-docker-%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">3 docker 命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-docker-%E4%BD%BF%E7%94%A8%E5%AE%9E%E6%88%98"><span class="toc-number"></span> <span class="toc-text">4 docker 使用实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Docker 快速入门
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-05T12:34:24.000Z" class="dt-published" itemprop="datePublished">Oct 5 2017</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a> › <a class="category-link" href="/categories/linux/docker/">docker</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/docker/" rel="tag">docker</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p><img src="https://image.locez.com/blog/docker-quickly-start-00.jpg" alt="docker"></p>
+<h3 id="1-Docker-是什么？"><a href="#1-Docker-是什么？" class="headerlink" title="1 Docker 是什么？"></a>1 Docker 是什么？</h3><hr>
+<p><em><strong>Docker</strong></em> 是一个开源的容器引擎，而一个容器其实是一个虚拟化的独立的环境，因此开发者可以将应用打包到这样的一个 docker 容器中，然后发布到任何可以运行 docker 容器的机器中，实现一次打包多处部署，解决了因为环境问题而导致的部署难题。</p>
+<h4 id="1-1-容器是什么？"><a href="#1-1-容器是什么？" class="headerlink" title="1.1 容器是什么？"></a>1.1 容器是什么？</h4><hr>
+<p>与 <em><strong>容器</strong></em> 对应的一个概念就是 <em><strong>镜像</strong></em>,镜像可以看做我们平时装系统的镜像，里面就是一个运行环境。当然我比较喜欢将镜像比作一个我们面向对象编程中的 <strong>类</strong>，而一个容器就是一个类的 <strong>实例</strong>，因此可以根据一个镜像，创建出很多个容器，每一个容器都是具体的，我们可以在容器上面做出更改，然后再把这个容器打包成一个新的镜像，从而以后可以根据改动后的镜像创建出新的容器。而容器本身可以简单理解为是一个虚拟独立的运行环境，我们要做的是中这个环境中打包我们的应用，以便于再次部署。</p>
+<span id="more"></span>
+<h3 id="2-安装-Docker"><a href="#2-安装-Docker" class="headerlink" title="2 安装 Docker"></a>2 安装 Docker</h3><hr>
+<p>Gentoo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># emerge --ask docker</span><br></pre></td></tr></table></figure>
+
+<p>CentOS</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install docker-ce</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># apt-get install docker-ce</span><br></pre></td></tr></table></figure>
+
+<p>Arch</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># pacman -S docker</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="2-1-启动-docker-守护进程"><a href="#2-1-启动-docker-守护进程" class="headerlink" title="2.1 启动 docker 守护进程"></a>2.1 启动 docker 守护进程</h4><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start docker</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="3-docker-命令介绍"><a href="#3-docker-命令介绍" class="headerlink" title="3 docker 命令介绍"></a>3 docker 命令介绍</h3><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># docker --help</span><br><span class="line">管理命令:</span><br><span class="line">  container   管理容器</span><br><span class="line">  image       管理镜像</span><br><span class="line">  network     管理网络</span><br><span class="line"></span><br><span class="line">命令：</span><br><span class="line">  attach      介入到一个正在运行的容器</span><br><span class="line">  build       根据 Dockerfile 构建一个镜像</span><br><span class="line">  commit      根据容器的更改创建一个新的镜像</span><br><span class="line">  cp          在本地文件系统与容器中复制 文件/文件夹</span><br><span class="line">  create      创建一个新容器</span><br><span class="line">  exec        在容器中执行一条命令</span><br><span class="line">  images      列出镜像</span><br><span class="line">  kill        杀死一个或多个正在运行的容器	</span><br><span class="line">  logs        取得容器的日志</span><br><span class="line">  pause       暂停一个或多个容器的所有进程</span><br><span class="line">  ps          列出所有容器</span><br><span class="line">  pull        拉取一个镜像或仓库到 registry</span><br><span class="line">  push        推送一个镜像或仓库到 registry</span><br><span class="line">  rename      重命名一个容器</span><br><span class="line">  restart     重新启动一个或多个容器</span><br><span class="line">  rm          删除一个或多个容器</span><br><span class="line">  rmi         删除一个或多个镜像</span><br><span class="line">  run         在一个新的容器中执行一条命令</span><br><span class="line">  search      在 Docker Hub 中搜索镜像</span><br><span class="line">  start       启动一个或多个已经停止运行的容器</span><br><span class="line">  stats       显示一个容器的实时资源占用</span><br><span class="line">  stop        停止一个或多个正在运行的容器</span><br><span class="line">  tag         为镜像创建一个新的标签</span><br><span class="line">  top         显示一个容器内的所有进程</span><br><span class="line">  unpause     恢复一个或多个容器内所有被暂停的进程</span><br></pre></td></tr></table></figure>
+
+<p>在子命令中还有更多丰富的选项，可以使用 <code>docker COMMAND --help</code> 查看。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># docker run --help</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-docker-使用实战"><a href="#4-docker-使用实战" class="headerlink" title="4 docker 使用实战"></a>4 docker 使用实战</h3><hr>
+<p>接下来，我将利用 docker 部署一个 Nginx 服务器，作为讲解的例子。<br>要创建一个容器，那么我们必须先要有一个用于创建容器的镜像。<br>在 docker hub 中查找 nginx 相关镜像。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># docker search nginx</span><br><span class="line">NAME                                                   DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">nginx                                                  Official build of Nginx.                        6959      [OK]</span><br><span class="line">jwilder/nginx-proxy                                    Automated Nginx reverse proxy for docker c...   1134                 [OK]</span><br><span class="line">richarvey/nginx-php-fpm                                Container running Nginx + PHP-FPM capable ...   452                  [OK]</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>拉取官方镜像，其中上面的非官方镜像是用户们根据自己的需要制作的镜像，方便大家的使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># docker pull nginx</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/nginx</span><br><span class="line">afeb2bfd31c0: Pull complete</span><br><span class="line">7ff5d10493db: Downloading [===============&gt;                                   ] 6.651 MB/21.87 MB</span><br><span class="line">d2562f1ae1d0: Download complete</span><br></pre></td></tr></table></figure>
+
+<p>在这里顺便说一下，docker 镜像是分层存储的，所以上面的 nginx 镜像有 3 层，另外每根据新的容器制作一个新的镜像以后会给这个镜像加上一层。</p>
+<p>接下来直接利用这个镜像启动一个新的容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker run --name my-nginx -d -p 8080:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p>此时中浏览器中输入：<a href="http://localhost:8080/">http://localhost:8080/</a> 即可访问 nginx。<br>参数解释：</p>
+<ul>
+<li><code>--name</code> 为容器取一个名字</li>
+<li><code>-p</code> 参数语法为 <code>-p host port:container port</code>; <code>-p 8080:80</code> 将主机上的8080端口绑定到容器上的80端口，因此在主机中访问8080端口时其实就是访问 nginx 容器的80端口</li>
+<li><code>-d</code> 后台运行容器</li>
+</ul>
+<p>然后我们来看一个更复杂的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker run --name my-nginx \ </span><br><span class="line">	-v /host/path/nginx.conf:/etc/nginx/nginx.conf:ro \</span><br><span class="line">	-v /some/html:/usr/share/nginx/html:ro \</span><br><span class="line">	-p 8080:80 \</span><br><span class="line">	-d nginx</span><br></pre></td></tr></table></figure>
+
+<p>这个例子多了一个参数 <code>-v</code>，这个参数的作用是把本地的文件或者文件夹挂载到容器中，其中最后面的 <code>ro</code> 或者 <code>rw</code> 控制这个挂载是否可写。</p>
+<ul>
+<li><code>-v</code> 参数语法为 <code>-v host dir:container dir[:ro|rw]</code></li>
+</ul>
+<p>上面的命令将本地文件中的 <code>nginx.conf</code> 配置文件挂载到容器，并且将要展示的静态页面也挂载到容器。<br><em><strong>注意</strong></em>：在容器执行一条命令以后，当这个命令结束运行，容器也会结束运行。</p>
+<p>接下来让我们看看 docker 别的命令。<br>查看所有运行中的容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">1fe91b5a4cd4        nginx               &quot;nginx -g &#x27;daemon ...&quot;   39 minutes ago      Up 39 minutes       0.0.0.0:8080-&gt;80/tcp   my-nginx</span><br><span class="line"># docker ps -a ### 列出包括未运行的容器</span><br></pre></td></tr></table></figure>
+
+<p>查看容器运行日志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># docker logs my-nginx</span><br><span class="line">172.17.0.1 - - [05/Oct/2017:07:31:11 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0&quot; &quot;-&quot;</span><br><span class="line">2017/10/05 07:31:11 [error] 7#7: *1 open() &quot;/usr/share/nginx/html/favicon.ico&quot; failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: &quot;GET /favicon.ico HTTP/1.1&quot;, host: &quot;localhost:8080&quot;</span><br></pre></td></tr></table></figure>
+
+<p>重启容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># docker restart my-nginx</span><br><span class="line">my-nginx</span><br></pre></td></tr></table></figure>
+
+<p>停止运行一个容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># docker stop my-nginx</span><br><span class="line">my-nginx</span><br><span class="line"># docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br></pre></td></tr></table></figure>
+
+<p>启动一个已经存在的容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker start my-nginx</span><br><span class="line">my-nginx</span><br><span class="line"># docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">1fe91b5a4cd4        nginx               &quot;nginx -g &#x27;daemon ...&quot;   50 minutes ago      Up 3 seconds        0.0.0.0:8080-&gt;80/tcp   my-nginx</span><br></pre></td></tr></table></figure>
+
+<p>直接杀死一个运行中的容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker kill my-nginx</span><br></pre></td></tr></table></figure>
+
+<p>为容器重命名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker rename my-nginx new-nginx</span><br></pre></td></tr></table></figure>
+
+<p>删除容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker rm new-nginx</span><br></pre></td></tr></table></figure>
+
+<p>查看本机所有镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker imags</span><br></pre></td></tr></table></figure>
+
+<p>使用已经存在的容器创建一个镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># docker commit -m &quot;nothing changed&quot; my-nginx my-nginx-image</span><br><span class="line">sha256:f02483cdb842a0dc1730fe2c653603fa3271e71c31dbb442caccd7ad64860350</span><br><span class="line"># docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">my-nginx-image      latest              f02483cdb842        6 seconds ago       108 MB</span><br><span class="line">nginx               latest              da5939581ac8        3 weeks ago         108 MB</span><br></pre></td></tr></table></figure>
+
+<p>使用我们自己创建的镜像创建容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># docker run --name test -d -p 8081:80 my-nginx-image</span><br><span class="line">12ba86eabdef0121d875bdb547f1101d4eb54ff7cb36e20214fb1388659af83d</span><br><span class="line"># docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">12ba86eabdef        my-nginx-image      &quot;nginx -g &#x27;daemon ...&quot;   7 seconds ago       Up 5 seconds        0.0.0.0:8081-&gt;80/tcp   test</span><br><span class="line">299f4ede9e79        nginx               &quot;nginx -g &#x27;daemon ...&quot;   11 minutes ago      Up 11 minutes       0.0.0.0:8080-&gt;80/tcp   my-nginx</span><br></pre></td></tr></table></figure>
+
+<p>如果我们使用的容器的启动命令是一个 shell ，那么我们可以使用 <code>attach</code> 命令来介入这个容器，就跟我们使用 <code>ssh</code> 连接一台服务器差不多。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker attach some-container</span><br></pre></td></tr></table></figure>
+
+<p>在创建一个容器时直接启动一个可交互式的 shell， 并且退出后自动删除容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker run -it --rm  centos</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>本文介绍了 docker 的简单用法，同时也给出了一个实际的例子用来展示 docker 命令的各种操作。作为一个快速入门的文章，本文写的相对有点简单，很多概念上的东西还需要求查看别的资料理解，但是看完本文应该就具备使用 docker 的基本能力了。此外，后续的文章应该会写一点 <code>Dockerfile</code> 与 <code>docker-compose</code> 相关的内容。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Docker-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Docker 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%AE%B9%E5%99%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1.1 容器是什么？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Docker"><span class="toc-number"></span> <span class="toc-text">2 安装 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%90%AF%E5%8A%A8-docker-%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number"></span> <span class="toc-text">2.1 启动 docker 守护进程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-docker-%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">3 docker 命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-docker-%E4%BD%BF%E7%94%A8%E5%AE%9E%E6%88%98"><span class="toc-number"></span> <span class="toc-text">4 docker 使用实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/docker/docker-qucikly-start/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/docker/docker-qucikly-start/&text=Docker 快速入门"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/docker/docker-qucikly-start/&is_video=false&description=Docker 快速入门"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker 快速入门&body=Check out this article: http://locez.github.io/linux/docker/docker-qucikly-start/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/docker/docker-qucikly-start/&title=Docker 快速入门"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/docker/docker-qucikly-start/&name=Docker 快速入门&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/docker-quickly-start-00.jpg&#34; alt=&#34;docker&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-Docker-是什么？&#34;&gt;&lt;a href=&#34;#1-Docker-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Docker 是什么？&#34;&gt;&lt;/a&gt;1 Docker 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Docker&lt;/strong&gt;&lt;/em&gt; 是一个开源的容器引擎，而一个容器其实是一个虚拟化的独立的环境，因此开发者可以将应用打包到这样的一个 docker 容器中，然后发布到任何可以运行 docker 容器的机器中，实现一次打包多处部署，解决了因为环境问题而导致的部署难题。&lt;/p&gt;
+&lt;h4 id=&#34;1-1-容器是什么？&#34;&gt;&lt;a href=&#34;#1-1-容器是什么？&#34; class=&#34;headerlink&#34; title=&#34;1.1 容器是什么？&#34;&gt;&lt;/a&gt;1.1 容器是什么？&lt;/h4&gt;&lt;hr&gt;
+&lt;p&gt;与 &lt;em&gt;&lt;strong&gt;容器&lt;/strong&gt;&lt;/em&gt; 对应的一个概念就是 &lt;em&gt;&lt;strong&gt;镜像&lt;/strong&gt;&lt;/em&gt;,镜像可以看做我们平时装系统的镜像，里面就是一个运行环境。当然我比较喜欢将镜像比作一个我们面向对象编程中的 &lt;strong&gt;类&lt;/strong&gt;，而一个容器就是一个类的 &lt;strong&gt;实例&lt;/strong&gt;，因此可以根据一个镜像，创建出很多个容器，每一个容器都是具体的，我们可以在容器上面做出更改，然后再把这个容器打包成一个新的镜像，从而以后可以根据改动后的镜像创建出新的容器。而容器本身可以简单理解为是一个虚拟独立的运行环境，我们要做的是中这个环境中打包我们的应用，以便于再次部署。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/docker/docker-qucikly-start/&t=Docker 快速入门"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 11 Protocol Buffers 是什么？ Protocol Buffers 是 google 开发的一种开源的、跨平台的、可扩展的结构化数据序列化机制。使用 Protocol BUffers 可以定义只定义一次结构化的数据，然后通过生成的代码，在各种语言的数据流中都可以轻松高效的读取和写入定义好的结构化数据。 注: 因代码仓库名称为 protob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Protocol Buffers 食用方法">
+<meta property="og:url" content="http://locez.github.io/cpp/protobuf/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 11 Protocol Buffers 是什么？ Protocol Buffers 是 google 开发的一种开源的、跨平台的、可扩展的结构化数据序列化机制。使用 Protocol BUffers 可以定义只定义一次结构化的数据，然后通过生成的代码，在各种语言的数据流中都可以轻松高效的读取和写入定义好的结构化数据。 注: 因代码仓库名称为 protob">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-01-01T09:16:24.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.527Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="protobuf">
+<meta property="article:tag" content="protocol buffers">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Protocol Buffers 食用方法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/rust/opencv/windows/install-opencv-on-windows-for-rust/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/talk/locez-to-better-in-2020/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/cpp/protobuf/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/cpp/protobuf/&text=Protocol Buffers 食用方法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/cpp/protobuf/&is_video=false&description=Protocol Buffers 食用方法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Protocol Buffers 食用方法&body=Check out this article: http://locez.github.io/cpp/protobuf/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/cpp/protobuf/&name=Protocol Buffers 食用方法&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;1-Protocol-Buffers-是什么？&#34;&gt;&lt;a href=&#34;#1-Protocol-Buffers-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Protocol Buffers 是什么？&#34;&gt;&lt;/a&gt;1 Protocol Buffers 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Protocol Buffers&lt;/strong&gt;&lt;/em&gt; 是 google 开发的一种开源的、跨平台的、可扩展的结构化数据序列化机制。使用 Protocol BUffers 可以定义只定义一次结构化的数据，然后通过生成的代码，在各种语言的数据流中都可以轻松高效的读取和写入定义好的结构化数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注&lt;/strong&gt;: 因代码仓库名称为 &lt;strong&gt;protobuf&lt;/strong&gt;，以下为了行文简单， 统一使用 &lt;strong&gt;protobuf&lt;/strong&gt; 指代 &lt;strong&gt;Protocol Buffers&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;1-1-Protobuf-的优势是什么？&#34;&gt;&lt;a href=&#34;#1-1-Protobuf-的优势是什么？&#34; class=&#34;headerlink&#34; title=&#34;1.1 Protobuf 的优势是什么？&#34;&gt;&lt;/a&gt;1.1 Protobuf 的优势是什么？&lt;/h4&gt;&lt;hr&gt;
+&lt;p&gt;Protobuf 是一种结构化的，序列化和反序列化的机制，那么对比最常用的 &lt;strong&gt;json&lt;/strong&gt;、 &lt;strong&gt;xml&lt;/strong&gt; 有什么优势呢？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;序列化与反序列化执行效率高&lt;/li&gt;
+&lt;li&gt;序列化产物较小，在网络传输中可以更加节省带宽&lt;/li&gt;
+&lt;li&gt;支持直接生成各种语言的代码，访问接口统一舒适&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一个基本的 &lt;strong&gt;proto&lt;/strong&gt; 文件中的结构体定义如下（proto2 语法）:&lt;/p&gt;
+ &lt;figure class=&#34;highlight protobuf&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt; &lt;span class=&#34;keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;title class_&#34;&gt;Person&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;int32&lt;/span&gt; id = &lt;span class=&#34;number&#34;&gt;2&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/cpp/protobuf/&t=Protocol Buffers 食用方法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Protocol-Buffers-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Protocol Buffers 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Protobuf-%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1.1 Protobuf 的优势是什么？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-protobuf"><span class="toc-number"></span> <span class="toc-text">2 安装 protobuf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-protoc"><span class="toc-number"></span> <span class="toc-text">2.1 protoc</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-protobuf-%E4%BD%BF%E7%94%A8%E5%AE%9E%E6%88%98"><span class="toc-number"></span> <span class="toc-text">3 protobuf 使用实战</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-protobuf-%E8%AF%BB%E5%86%99%E3%80%81%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">3.1 protobuf 读写、序列化与反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-Protobuf-%E4%B8%8E-json-%E7%9A%84%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2"><span class="toc-number"></span> <span class="toc-text">3.2 Protobuf 与 json 的互相转换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">参考资料</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Protocol Buffers 食用方法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-01T09:16:24.000Z" class="dt-published" itemprop="datePublished">Jan 1 2021</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.527Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/cpp/">cpp</a> › <a class="category-link" href="/categories/linux/">linux</a> › <a class="category-link" href="/categories/protobuf/">protobuf</a> › <a class="category-link" href="/categories/protocol-buffers/">protocol buffers</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/cpp/" rel="tag">cpp</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>, <a class="p-category" href="/tags/protobuf/" rel="tag">protobuf</a>, <a class="p-category" href="/tags/protocol-buffers/" rel="tag">protocol buffers</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="1-Protocol-Buffers-是什么？"><a href="#1-Protocol-Buffers-是什么？" class="headerlink" title="1 Protocol Buffers 是什么？"></a>1 Protocol Buffers 是什么？</h3><hr>
+<p><em><strong>Protocol Buffers</strong></em> 是 google 开发的一种开源的、跨平台的、可扩展的结构化数据序列化机制。使用 Protocol BUffers 可以定义只定义一次结构化的数据，然后通过生成的代码，在各种语言的数据流中都可以轻松高效的读取和写入定义好的结构化数据。</p>
+<p><strong>注</strong>: 因代码仓库名称为 <strong>protobuf</strong>，以下为了行文简单， 统一使用 <strong>protobuf</strong> 指代 <strong>Protocol Buffers</strong></p>
+<h4 id="1-1-Protobuf-的优势是什么？"><a href="#1-1-Protobuf-的优势是什么？" class="headerlink" title="1.1 Protobuf 的优势是什么？"></a>1.1 Protobuf 的优势是什么？</h4><hr>
+<p>Protobuf 是一种结构化的，序列化和反序列化的机制，那么对比最常用的 <strong>json</strong>、 <strong>xml</strong> 有什么优势呢？</p>
+<ul>
+<li>序列化与反序列化执行效率高</li>
+<li>序列化产物较小，在网络传输中可以更加节省带宽</li>
+<li>支持直接生成各种语言的代码，访问接口统一舒适</li>
+</ul>
+<p>一个基本的 <strong>proto</strong> 文件中的结构体定义如下（proto2 语法）:</p>
+ <figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">message </span><span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="keyword">required</span> <span class="type">string</span> name = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">required</span> <span class="type">int32</span> id = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">optional</span> <span class="type">string</span> email = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>可以看到结构体中定义了字段的类型和名字，以及字段的对应的唯一的编号。其中编号用来定位在二进制数据中，字段的位置，所以一个结构体一旦使用了，就不应该再被更改。因为 protobuf 使用编号定位字段，所以序列化的时候不会带上 <strong>key</strong>，只会有 <strong>value</strong>，这就使得序列化产物非常小。通常 1 到 15 号用来标识一些比较频繁出现的数据。</p>
+<p>相对应地，一个 <strong>json</strong> 字符串如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Locez&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1234</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;locez@locez.com&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>上述的字符串就是 <strong>json</strong> 序列化后的产物，可以看到， json 序列化时会带上 <strong>key</strong>，使得序列化产物比 <strong>protobuf</strong> 大的多( <strong>xml</strong> 同理)，其次就是类似于 <strong>json</strong> 这种高度可读的数据，并没有保存数据的类型，在解析的时候，需要不断的判断或断言，找到正确的数据类型，然后绑定到这个数据类型上面去，而 <strong>protobuf</strong> 在序列化的时候会带入数据类型，从而提高它在反序列化时的效率。</p>
+<!-- more -->
+<h3 id="2-安装-protobuf"><a href="#2-安装-protobuf" class="headerlink" title="2 安装 protobuf"></a>2 安装 protobuf</h3><hr>
+<p>要使用 protobuf，首先需要生成 protobuf 目标语言的源代码，protobuf 提供了一个名为 <strong>protoc</strong> 的二进制程序，用来生成目标语言源代码。</p>
+<p>Gentoo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># emerge --ask protobuf</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># apt-get install libprotobuf-dev protobuf-compiler</span><br></pre></td></tr></table></figure>
+
+<p>Arch</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># pacman -S protobuf</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="2-1-protoc"><a href="#2-1-protoc" class="headerlink" title="2.1 protoc"></a>2.1 protoc</h4><hr>
+<p>使用 protoc 来生成目标语言的源代码， 主要使用的参数有两个:</p>
+<ul>
+<li><strong>-I</strong> 指定 <em>proto</em> 文件的搜索更目录，当在一个 <strong>proto</strong> 文件中使用相对路径 <strong>import</strong> 了另一个 <strong>proto</strong> 文件时，使用 <strong>-I</strong> 配置搜索的根目录</li>
+<li><strong>–language_out&#x3D;dir</strong> 生成目标语言的代码，且存放到 <strong>dir</strong> 中<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ protoc --help</span><br><span class="line">Usage: protoc [OPTION] PROTO_FILES</span><br><span class="line">Parse PROTO_FILES and generate output based on the options given:</span><br><span class="line">  -IPATH, --proto_path=PATH   Specify the directory in which to search for</span><br><span class="line">                              imports.  May be specified multiple times;</span><br><span class="line">                              directories will be searched in order.  If not</span><br><span class="line">                              given, the current working directory is used.</span><br><span class="line">                              If not found in any of the these directories,</span><br><span class="line">                              the --descriptor_set_in descriptors will be</span><br><span class="line">                              checked for required proto file.</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">  --cpp_out=OUT_DIR           Generate C++ header and source.</span><br><span class="line">  --csharp_out=OUT_DIR        Generate C# source file.</span><br><span class="line">  --java_out=OUT_DIR          Generate Java source file.</span><br><span class="line">  --js_out=OUT_DIR            Generate JavaScript source.</span><br><span class="line">  --objc_out=OUT_DIR          Generate Objective-C header and source.</span><br><span class="line">  --php_out=OUT_DIR           Generate PHP source file.</span><br><span class="line">  --python_out=OUT_DIR        Generate Python source file.</span><br><span class="line">  --ruby_out=OUT_DIR          Generate Ruby source file.</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-protobuf-使用实战"><a href="#3-protobuf-使用实战" class="headerlink" title="3 protobuf 使用实战"></a>3 protobuf 使用实战</h3><hr>
+<p>接下来，将使用 <code>cpp</code> 进行一些 protobuf 使用的实战，演示 protobuf 的能力</p>
+<p>项目结构主要如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">~/protobuf-examples</span><br><span class="line">$ tree .</span><br><span class="line">.</span><br><span class="line">├── cpp</span><br><span class="line">│   └── read_write.cpp</span><br><span class="line">└── proto</span><br><span class="line">    └── AddressBook.protoo</span><br></pre></td></tr></table></figure>
+
+<p>生成 <strong>cpp</strong> 代码的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ protoc -I ./proto/ --cpp_out=cpp/proto proto/*</span><br></pre></td></tr></table></figure>
+
+<p>为了便于工程上的管理，本文的 example 最终采用 cmake 构建，项目结构如下， 生成 cpp 文件的操作在 <strong>CMakeLists.txt</strong> 中完成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/protobuf-examples</span><br><span class="line">$ tree .</span><br><span class="line">.</span><br><span class="line">├── cpp</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   ├── pb2json.cpp</span><br><span class="line">│   ├── proto -&gt; ../proto</span><br><span class="line">│   └── read_write.cpp</span><br><span class="line">└── proto</span><br><span class="line">    ├── AddressBook.proto</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-1-protobuf-读写、序列化与反序列化"><a href="#3-1-protobuf-读写、序列化与反序列化" class="headerlink" title="3.1 protobuf 读写、序列化与反序列化"></a>3.1 protobuf 读写、序列化与反序列化</h4><p>该 example 的 proto 文件如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto2&quot;</span>;</span><br><span class="line"></span><br><span class="line">package address_book;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  optional string name = <span class="number">1</span>;</span><br><span class="line">  optional int32 id = <span class="number">2</span>;</span><br><span class="line">  optional string email = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">enum</span> <span class="title class_">PhoneType</span> &#123;</span><br><span class="line">    MOBILE = <span class="number">0</span>;</span><br><span class="line">    HOME = <span class="number">1</span>;</span><br><span class="line">    WORK = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  message PhoneNumber &#123;</span><br><span class="line">    optional string number = <span class="number">1</span>;</span><br><span class="line">    optional PhoneType type = <span class="number">2</span> [<span class="keyword">default</span> = HOME];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 可重复的</span></span><br><span class="line">  repeated PhoneNumber phone = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">  repeated Person people = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Protobuf 所生成的 cpp 代码，以 <strong>object.set_variable(value)</strong> 的形式进行赋值操作，以 <strong>object.variable()</strong> 的形式进行访问</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pb/AddressBook.pb.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 声明一个地址簿对象</span></span><br><span class="line">    address_book::AddressBook address_book;</span><br><span class="line">    <span class="comment">// repeated 标识符的字段为 0 - n 个，接口是 add_xxx(), 获取一个用于读写的指针</span></span><br><span class="line">    <span class="keyword">auto</span> people = address_book.<span class="built_in">add_people</span>();</span><br><span class="line">    <span class="comment">// 使用　set_xxx() 方法填写属性</span></span><br><span class="line">    people-&gt;<span class="built_in">set_email</span>(<span class="string">&quot;locez@locez.com&quot;</span>);</span><br><span class="line">    people-&gt;<span class="built_in">set_id</span>(<span class="number">0</span>);</span><br><span class="line">    people-&gt;<span class="built_in">set_name</span>(<span class="string">&quot;locez&quot;</span>);</span><br><span class="line">    <span class="keyword">auto</span> phone_number = people-&gt;<span class="built_in">add_phone</span>();</span><br><span class="line">    phone_number-&gt;<span class="built_in">set_number</span>(<span class="string">&quot;123456789&quot;</span>);</span><br><span class="line">    <span class="comment">// enum 枚举通过命名空间访问</span></span><br><span class="line">    phone_number-&gt;<span class="built_in">set_type</span>(address_book::Person::PhoneType::Person_PhoneType_HOME);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;readable: \n&quot;</span></span><br><span class="line">              &lt;&lt; address_book.<span class="built_in">DebugString</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">auto</span> serialized_data = address_book.<span class="built_in">SerializeAsString</span>();</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;binary: ===\n&quot;</span></span><br><span class="line">              &lt;&lt; serialized_data &lt;&lt; <span class="string">&quot;\n===\n&quot;</span></span><br><span class="line">              &lt;&lt; <span class="string">&quot; length: &quot;</span> &lt;&lt; serialized_data.<span class="built_in">length</span>() &lt;&lt; std::endl &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    address_book::AddressBook address_book_new;</span><br><span class="line">    <span class="comment">// 反序列化</span></span><br><span class="line">    address_book_new.<span class="built_in">ParseFromString</span>(serialized_data);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;readable: \n&quot;</span> &lt;&lt; address_book_new.<span class="built_in">DebugString</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// repeadted 标识符的字段为 0 - n 个，访问需要遍历</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; address_book_new.<span class="built_in">people_size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> people_new = address_book_new.<span class="built_in">people</span>(i);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;name: &quot;</span> &lt;&lt; people_new.<span class="built_in">name</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">./bin/read_write</span><br><span class="line">readable:</span><br><span class="line">people &#123;</span><br><span class="line">  name: <span class="string">&quot;locez&quot;</span></span><br><span class="line">  <span class="built_in">id</span>: 0</span><br><span class="line">  email: <span class="string">&quot;locez@locez.com&quot;</span></span><br><span class="line">  phone &#123;</span><br><span class="line">    number: <span class="string">&quot;123456789&quot;</span></span><br><span class="line">    <span class="built_in">type</span>: HOME</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">binary: ===</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line">locezlocez@locez.com<span class="string">&quot;</span></span><br><span class="line"><span class="string">        123456789</span></span><br><span class="line"><span class="string">===</span></span><br><span class="line"><span class="string"> length: 43</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">readable:</span></span><br><span class="line"><span class="string">people &#123;</span></span><br><span class="line"><span class="string">  name: &quot;</span>locez<span class="string">&quot;</span></span><br><span class="line"><span class="string">  id: 0</span></span><br><span class="line"><span class="string">  email: &quot;</span>locez@locez.com<span class="string">&quot;</span></span><br><span class="line"><span class="string">  phone &#123;</span></span><br><span class="line"><span class="string">    number: &quot;</span>123456789<span class="string">&quot;</span></span><br><span class="line"><span class="string">    type: HOME</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">name: locez</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-Protobuf-与-json-的互相转换"><a href="#3-2-Protobuf-与-json-的互相转换" class="headerlink" title="3.2 Protobuf 与 json 的互相转换"></a>3.2 Protobuf 与 json 的互相转换</h4><p>protobuf 提供了与 json 互相转换的能力，以便于更好的在各种系统之间共享数据</p>
+<p>proto 文件如下：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> json_person;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="type">string</span> name = <span class="number">1</span>;</span><br><span class="line">  <span class="type">int32</span> id = <span class="number">2</span>;</span><br><span class="line">  <span class="type">string</span> email = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">enum </span><span class="title class_">PhoneType</span> &#123; MOBILE = <span class="number">0</span>; HOME = <span class="number">1</span>; WORK = <span class="number">2</span>; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">message </span><span class="title class_">PhoneNumber</span> &#123;</span><br><span class="line">    <span class="type">string</span> number = <span class="number">1</span> [json_name = <span class="string">&quot;phone_number&quot;</span>];</span><br><span class="line">    PhoneType type = <span class="number">2</span> [json_name = <span class="string">&quot;phone_type&quot;</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  PhoneNumber phone = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>protobuf 提供了一些序列化选项和反序列化选项，用来影响与 json 转换的具体行为，具体的例子如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;google/protobuf/util/json_util.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;proto/JsonPerson.pb.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> std::string &amp;title, <span class="type">const</span> std::string &amp;option, <span class="type">const</span> std::string &amp;content)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; title &lt;&lt; <span class="string">&quot;  (&quot;</span> &lt;&lt; option &lt;&lt; <span class="string">&quot;):\n&quot;</span></span><br><span class="line">              &lt;&lt; content &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    json_person::Person person;</span><br><span class="line">    person.<span class="built_in">set_name</span>(<span class="string">&quot;locez&quot;</span>);</span><br><span class="line">    person.<span class="built_in">set_email</span>(<span class="string">&quot;locez@locez.com&quot;</span>);</span><br><span class="line">    person.<span class="built_in">mutable_phone</span>()-&gt;<span class="built_in">set_type</span>(json_person::Person::PhoneType::Person_PhoneType_MOBILE);</span><br><span class="line">    person.<span class="built_in">mutable_phone</span>()-&gt;<span class="built_in">set_number</span>(<span class="string">&quot;1000000&quot;</span>);</span><br><span class="line">    std::string result;</span><br><span class="line">    <span class="comment">// 使用默认选项序列化成 json， 会忽略默认的值，如果带有 json_name 则会按照 json_name 定义的名字序列化该字段</span></span><br><span class="line">    google::protobuf::util::<span class="built_in">MessageToJsonString</span>(person, &amp;result);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;serailize1&quot;</span>, <span class="string">&quot;default option&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    google::protobuf::util::JsonOptions serial_options;</span><br><span class="line">    <span class="comment">// 在 field 中指定了 json_name 的选项，但是序列化时，保留原有的字段名字</span></span><br><span class="line">    serial_options.preserve_proto_field_names = <span class="literal">true</span>;</span><br><span class="line">    result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    google::protobuf::util::<span class="built_in">MessageToJsonString</span>(person, &amp;result, serial_options);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;serialize2&quot;</span>, <span class="string">&quot;perserve proto field names = true&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    serial_options = google::protobuf::util::<span class="built_in">JsonOptions</span>();</span><br><span class="line">    <span class="comment">// add whitespace 选项会使得序列化后的 json 更加美观可读</span></span><br><span class="line">    serial_options.add_whitespace = <span class="literal">true</span>;</span><br><span class="line">    result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    google::protobuf::util::<span class="built_in">MessageToJsonString</span>(person, &amp;result, serial_options);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;serialize3&quot;</span>, <span class="string">&quot;add whitespace = true&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    serial_options = google::protobuf::util::<span class="built_in">JsonOptions</span>();</span><br><span class="line">    <span class="comment">// 默认值的字段也序列化</span></span><br><span class="line">    serial_options.always_print_primitive_fields = <span class="literal">true</span>;</span><br><span class="line">    result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    google::protobuf::util::<span class="built_in">MessageToJsonString</span>(person, &amp;result, serial_options);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;serialize4&quot;</span>, <span class="string">&quot;always_print_primitive_fields = true&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    serial_options = google::protobuf::util::<span class="built_in">JsonOptions</span>();</span><br><span class="line">    serial_options.always_print_primitive_fields = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">// 枚举序列化成对应的 int 型数字，而不是对应的字面量字符串</span></span><br><span class="line">    serial_options.always_print_enums_as_ints = <span class="literal">true</span>;</span><br><span class="line">    result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    google::protobuf::util::<span class="built_in">MessageToJsonString</span>(person, &amp;result, serial_options);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;serialize5&quot;</span>, <span class="string">&quot;always_print_enums_as_ints = true&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个 json 字符串多了一个 unknown_field 的字段，该字段没有在 proto 文件里面定义</span></span><br><span class="line">    std::string json_string = <span class="string">R&quot;(&#123;&quot;name&quot;:&quot;locez&quot;,&quot;id&quot;:0,&quot;email&quot;:&quot;locez@locez.com&quot;,&quot;phone&quot;:&#123;&quot;phone_number&quot;:&quot;1000000&quot;,&quot;phone_type&quot;:0,&quot;unknown_field&quot;:0&#125;&#125;)&quot;</span>;</span><br><span class="line">    json_person::Person p;</span><br><span class="line">    <span class="keyword">auto</span> status = google::protobuf::util::<span class="built_in">JsonStringToMessage</span>(json_string, &amp;p);</span><br><span class="line">    <span class="keyword">if</span> (status.<span class="built_in">ok</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deserialize1&quot;</span>, <span class="string">&quot;default option&quot;</span>, p.<span class="built_in">DebugString</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deserialize1 failed&quot;</span>, <span class="string">&quot;default option&quot;</span>, status.<span class="built_in">error_message</span>().<span class="built_in">ToString</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    google::protobuf::util::JsonParseOptions deserialize_options;</span><br><span class="line">    <span class="comment">// 忽略不存在的字段，只解析存在的可以解析的字段</span></span><br><span class="line">    deserialize_options.ignore_unknown_fields = <span class="literal">true</span>;</span><br><span class="line">    status = google::protobuf::util::<span class="built_in">JsonStringToMessage</span>(json_string, &amp;p, deserialize_options);</span><br><span class="line">    <span class="keyword">if</span> (status.<span class="built_in">ok</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deserialize2&quot;</span>, <span class="string">&quot;ignore_unknown_fields = true&quot;</span>, p.<span class="built_in">DebugString</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deserialize1 failed&quot;</span>, <span class="string">&quot;ignore_unknown_fields = true&quot;</span>, status.<span class="built_in">error_message</span>().<span class="built_in">ToString</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">./bin/pb2json</span><br><span class="line">serailize1  (default option):</span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;locez&quot;</span>,<span class="string">&quot;email&quot;</span>:<span class="string">&quot;locez@locez.com&quot;</span>,<span class="string">&quot;phone&quot;</span>:&#123;<span class="string">&quot;phone_number&quot;</span>:<span class="string">&quot;1000000&quot;</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">serialize2  (perserve proto field names = <span class="literal">true</span>):</span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;locez&quot;</span>,<span class="string">&quot;email&quot;</span>:<span class="string">&quot;locez@locez.com&quot;</span>,<span class="string">&quot;phone&quot;</span>:&#123;<span class="string">&quot;number&quot;</span>:<span class="string">&quot;1000000&quot;</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">serialize3  (add whitespace = <span class="literal">true</span>):</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;name&quot;</span>: <span class="string">&quot;locez&quot;</span>,</span><br><span class="line"> <span class="string">&quot;email&quot;</span>: <span class="string">&quot;locez@locez.com&quot;</span>,</span><br><span class="line"> <span class="string">&quot;phone&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;phone_number&quot;</span>: <span class="string">&quot;1000000&quot;</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">serialize4  (always_print_primitive_fields = <span class="literal">true</span>):</span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;locez&quot;</span>,<span class="string">&quot;id&quot;</span>:0,<span class="string">&quot;email&quot;</span>:<span class="string">&quot;locez@locez.com&quot;</span>,<span class="string">&quot;phone&quot;</span>:&#123;<span class="string">&quot;phone_number&quot;</span>:<span class="string">&quot;1000000&quot;</span>,<span class="string">&quot;phone_type&quot;</span>:<span class="string">&quot;MOBILE&quot;</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">serialize5  (always_print_enums_as_ints = <span class="literal">true</span>):</span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;locez&quot;</span>,<span class="string">&quot;id&quot;</span>:0,<span class="string">&quot;email&quot;</span>:<span class="string">&quot;locez@locez.com&quot;</span>,<span class="string">&quot;phone&quot;</span>:&#123;<span class="string">&quot;phone_number&quot;</span>:<span class="string">&quot;1000000&quot;</span>,<span class="string">&quot;phone_type&quot;</span>:0&#125;&#125;</span><br><span class="line"></span><br><span class="line">deserialize1 failed  (default option):</span><br><span class="line">(phone) unknown_field: Cannot find field.</span><br><span class="line"></span><br><span class="line">deserialize2  (ignore_unknown_fields = <span class="literal">true</span>):</span><br><span class="line">name: <span class="string">&quot;locez&quot;</span></span><br><span class="line">email: <span class="string">&quot;locez@locez.com&quot;</span></span><br><span class="line">phone &#123;</span><br><span class="line">  number: <span class="string">&quot;1000000&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>未完待续</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li>本文代码仓库-<a href="https://github.com/locez/protobuf_examples">protobuf_examples</a>，文中的所有示例代码都可以在此找到</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Protocol-Buffers-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Protocol Buffers 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Protobuf-%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1.1 Protobuf 的优势是什么？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-protobuf"><span class="toc-number"></span> <span class="toc-text">2 安装 protobuf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-protoc"><span class="toc-number"></span> <span class="toc-text">2.1 protoc</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-protobuf-%E4%BD%BF%E7%94%A8%E5%AE%9E%E6%88%98"><span class="toc-number"></span> <span class="toc-text">3 protobuf 使用实战</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-protobuf-%E8%AF%BB%E5%86%99%E3%80%81%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">3.1 protobuf 读写、序列化与反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-Protobuf-%E4%B8%8E-json-%E7%9A%84%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2"><span class="toc-number"></span> <span class="toc-text">3.2 Protobuf 与 json 的互相转换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">参考资料</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/cpp/protobuf/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/cpp/protobuf/&text=Protocol Buffers 食用方法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/cpp/protobuf/&is_video=false&description=Protocol Buffers 食用方法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Protocol Buffers 食用方法&body=Check out this article: http://locez.github.io/cpp/protobuf/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/cpp/protobuf/&title=Protocol Buffers 食用方法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/cpp/protobuf/&name=Protocol Buffers 食用方法&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;1-Protocol-Buffers-是什么？&#34;&gt;&lt;a href=&#34;#1-Protocol-Buffers-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Protocol Buffers 是什么？&#34;&gt;&lt;/a&gt;1 Protocol Buffers 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Protocol Buffers&lt;/strong&gt;&lt;/em&gt; 是 google 开发的一种开源的、跨平台的、可扩展的结构化数据序列化机制。使用 Protocol BUffers 可以定义只定义一次结构化的数据，然后通过生成的代码，在各种语言的数据流中都可以轻松高效的读取和写入定义好的结构化数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注&lt;/strong&gt;: 因代码仓库名称为 &lt;strong&gt;protobuf&lt;/strong&gt;，以下为了行文简单， 统一使用 &lt;strong&gt;protobuf&lt;/strong&gt; 指代 &lt;strong&gt;Protocol Buffers&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;1-1-Protobuf-的优势是什么？&#34;&gt;&lt;a href=&#34;#1-1-Protobuf-的优势是什么？&#34; class=&#34;headerlink&#34; title=&#34;1.1 Protobuf 的优势是什么？&#34;&gt;&lt;/a&gt;1.1 Protobuf 的优势是什么？&lt;/h4&gt;&lt;hr&gt;
+&lt;p&gt;Protobuf 是一种结构化的，序列化和反序列化的机制，那么对比最常用的 &lt;strong&gt;json&lt;/strong&gt;、 &lt;strong&gt;xml&lt;/strong&gt; 有什么优势呢？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;序列化与反序列化执行效率高&lt;/li&gt;
+&lt;li&gt;序列化产物较小，在网络传输中可以更加节省带宽&lt;/li&gt;
+&lt;li&gt;支持直接生成各种语言的代码，访问接口统一舒适&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一个基本的 &lt;strong&gt;proto&lt;/strong&gt; 文件中的结构体定义如下（proto2 语法）:&lt;/p&gt;
+ &lt;figure class=&#34;highlight protobuf&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt; &lt;span class=&#34;keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;title class_&#34;&gt;Person&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;int32&lt;/span&gt; id = &lt;span class=&#34;number&#34;&gt;2&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;type&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/cpp/protobuf/&t=Protocol Buffers 食用方法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

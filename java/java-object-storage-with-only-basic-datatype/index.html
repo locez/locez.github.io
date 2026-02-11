@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 Serializable 对该类的对象进行序列化，并用 ObjectOutputStream 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 存储只拥有基本数据类型字段的对象">
+<meta property="og:url" content="http://locez.github.io/java/java-object-storage-with-only-basic-datatype/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 Serializable 对该类的对象进行序列化，并用 ObjectOutputStream 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-11-11T01:10:23.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>java 存储只拥有基本数据类型字段的对象</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/cryptography/yubikey-pgp-card/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/docker/dockerfile/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&text=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&is_video=false&description=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java 存储只拥有基本数据类型字段的对象&body=Check out this article: http://locez.github.io/java/java-object-storage-with-only-basic-datatype/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&name=java 存储只拥有基本数据类型字段的对象&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 &lt;code&gt;Serializable&lt;/code&gt; 对该类的对象进行序列化，并用 &lt;code&gt;ObjectOutputStream&lt;/code&gt; 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息，静态成员理论上是属于类信息，因此无法采用序列化保存。&lt;/p&gt;
+&lt;p&gt;以下是我在作业过程中遇到的题目，要求将字段属性存入到文件中，然后能从文件中读取出来。于是我使用了 &lt;code&gt;泛型&lt;/code&gt; 与 &lt;code&gt;反射&lt;/code&gt;，将这两个方法写成通用的了。&lt;/p&gt;
+&lt;figure class=&#34;highlight java&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;static&lt;/span&gt; &amp;lt;T&amp;gt; &lt;span class=&#34;keyword&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;title function_&#34;&gt;saveFields&lt;/span&gt;&lt;span class=&#34;params&#34;&gt;(T t, String path, &lt;span class=&#34;type&#34;&gt;char&lt;/span&gt; separated)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;static&lt;/span&gt; &amp;lt;T&amp;gt; &lt;span class=&#34;keyword&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;title function_&#34;&gt;getFields&lt;/span&gt;&lt;span class=&#34;params&#34;&gt;(T t, String path, &lt;span class=&#34;type&#34;&gt;char&lt;/span&gt; separated)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&t=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Main"><span class="toc-number"></span> <span class="toc-text">Main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-txt"><span class="toc-number"></span> <span class="toc-text">data.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#saveFields"><span class="toc-number"></span> <span class="toc-text">saveFields</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getFields"><span class="toc-number"></span> <span class="toc-text">getFields</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        java 存储只拥有基本数据类型字段的对象
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-11-11T01:10:23.000Z" class="dt-published" itemprop="datePublished">Nov 11 2017</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/java/">java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/java/" rel="tag">java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p>有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 <code>Serializable</code> 对该类的对象进行序列化，并用 <code>ObjectOutputStream</code> 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息，静态成员理论上是属于类信息，因此无法采用序列化保存。</p>
+<p>以下是我在作业过程中遇到的题目，要求将字段属性存入到文件中，然后能从文件中读取出来。于是我使用了 <code>泛型</code> 与 <code>反射</code>，将这两个方法写成通用的了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">saveFields</span><span class="params">(T t, String path, <span class="type">char</span> separated)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">getFields</span><span class="params">(T t, String path, <span class="type">char</span> separated)</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h3 id="Main"><a href="#Main" class="headerlink" title="Main"></a>Main</h3><hr>
+<p>上面两个方法只能处理 Java 基本数据类型对应的包装类以及 <code>String</code> 类型，别的类型不支持，主要是因为这几个类型的数据是可以直接阅读观察的，因此很容易从文本中通过反射重新建立对象。<br>接下来看一个使用的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// write your code here.</span></span><br><span class="line">        person.setIdNo(<span class="string">&quot;20171111&quot;</span>);</span><br><span class="line">        person.setName(<span class="string">&quot;Locez&quot;</span>);</span><br><span class="line">        person.setAge(<span class="number">0</span>);</span><br><span class="line">        person.setSex(<span class="string">&quot;Male&quot;</span>);</span><br><span class="line">        person.setIsMerried(<span class="literal">false</span>);</span><br><span class="line">        <span class="comment">//保存对象的属性</span></span><br><span class="line">        saveFields(person, <span class="string">&quot;data.txt&quot;</span>, <span class="string">&#x27;:&#x27;</span>);</span><br><span class="line">        <span class="type">Person</span> <span class="variable">testPerson</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">        <span class="comment">//将保存的属性赋值给新对象</span></span><br><span class="line">        getFields(testPerson, <span class="string">&quot;data.txt&quot;</span>, <span class="string">&#x27;:&#x27;</span>);</span><br><span class="line">        System.out.println(testPerson.getName());</span><br><span class="line">        System.out.println(testPerson.getAge());</span><br><span class="line">        System.out.println(testPerson.getIsMerried());</span><br><span class="line">        System.out.println(testPerson.score);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="data-txt"><a href="#data-txt" class="headerlink" title="data.txt"></a>data.txt</h3><hr>
+<p>写入后的文件内容应该如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name:Locez</span><br><span class="line">sex:Male</span><br><span class="line">age:0</span><br><span class="line">idNo:20171111</span><br><span class="line">isMerried:false</span><br><span class="line">score:2333.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="saveFields"><a href="#saveFields" class="headerlink" title="saveFields"></a>saveFields</h3><hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> t    对象实例</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> path 存储路径</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> separated 分隔符</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">saveFields</span><span class="params">(T t, String path, <span class="type">char</span> separated)</span> &#123;</span><br><span class="line">     Class&lt;T&gt; clazz = (Class&lt;T&gt;) t.getClass();</span><br><span class="line">     Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">     <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">     <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">         field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">             result += field.getName() + separated + field.get(t) + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">         &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">             e.printStackTrace();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">try</span> (<span class="type">OutputStreamWriter</span> <span class="variable">osw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(path)))) &#123;</span><br><span class="line">         osw.write(result);</span><br><span class="line">         osw.flush();</span><br><span class="line">     &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="getFields"><a href="#getFields" class="headerlink" title="getFields"></a>getFields</h3><hr>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> t         对象实例</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> path      存储路径</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> separated 分隔符</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">getFields</span><span class="params">(T t, String path, <span class="type">char</span> separated)</span> &#123;</span><br><span class="line">    Class&lt;T&gt; clazz = (Class&lt;T&gt;) t.getClass();</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(path))))) &#123;</span><br><span class="line">        <span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">string</span> <span class="operator">=</span> scanner.nextLine();</span><br><span class="line">            <span class="type">String</span> <span class="variable">fieldName</span> <span class="operator">=</span> string.split(String.valueOf(separated))[<span class="number">0</span>];</span><br><span class="line">            <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> string.split(String.valueOf(separated))[<span class="number">1</span>];</span><br><span class="line">            <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> clazz.getDeclaredField(fieldName);</span><br><span class="line">            <span class="comment">//获取字段类型的 Class 信息，下面根据字段类型的不同做不同的处理。</span></span><br><span class="line">            Class&lt;?&gt; fieldClass = Class.forName(field.getType().getCanonicalName());</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (! (field.getType().getSimpleName().equals(<span class="string">&quot;String&quot;</span>))) &#123;</span><br><span class="line">                <span class="comment">//非 String 类则通过类的 valueOf 方法将 String 类型转为目标类型</span></span><br><span class="line">                <span class="keyword">if</span> (! value.equals(<span class="string">&quot;null&quot;</span>)) &#123;</span><br><span class="line">                    <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> fieldClass.getDeclaredMethod(<span class="string">&quot;valueOf&quot;</span>, String.class);</span><br><span class="line">                    field.set(t, method.invoke(fieldClass, value));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                field.set(t, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Main"><span class="toc-number"></span> <span class="toc-text">Main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-txt"><span class="toc-number"></span> <span class="toc-text">data.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#saveFields"><span class="toc-number"></span> <span class="toc-text">saveFields</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getFields"><span class="toc-number"></span> <span class="toc-text">getFields</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&text=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&is_video=false&description=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java 存储只拥有基本数据类型字段的对象&body=Check out this article: http://locez.github.io/java/java-object-storage-with-only-basic-datatype/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&title=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&name=java 存储只拥有基本数据类型字段的对象&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;有时候我们需要存储一个 Java 对象的信息，以便软件在下次打开的时候还能获取到原来的属性。通常在这种情况下，我们可以实现接口 &lt;code&gt;Serializable&lt;/code&gt; 对该类的对象进行序列化，并用 &lt;code&gt;ObjectOutputStream&lt;/code&gt; 将对象写入文件，那么下次就可以从文件中把这个对象读取出来。但是序列化有一个问题就是静态成员不能被序列化，因为序列化是保存的对象的信息，静态成员理论上是属于类信息，因此无法采用序列化保存。&lt;/p&gt;
+&lt;p&gt;以下是我在作业过程中遇到的题目，要求将字段属性存入到文件中，然后能从文件中读取出来。于是我使用了 &lt;code&gt;泛型&lt;/code&gt; 与 &lt;code&gt;反射&lt;/code&gt;，将这两个方法写成通用的了。&lt;/p&gt;
+&lt;figure class=&#34;highlight java&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;static&lt;/span&gt; &amp;lt;T&amp;gt; &lt;span class=&#34;keyword&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;title function_&#34;&gt;saveFields&lt;/span&gt;&lt;span class=&#34;params&#34;&gt;(T t, String path, &lt;span class=&#34;type&#34;&gt;char&lt;/span&gt; separated)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;keyword&#34;&gt;static&lt;/span&gt; &amp;lt;T&amp;gt; &lt;span class=&#34;keyword&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;title function_&#34;&gt;getFields&lt;/span&gt;&lt;span class=&#34;params&#34;&gt;(T t, String path, &lt;span class=&#34;type&#34;&gt;char&lt;/span&gt; separated)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/java/java-object-storage-with-only-basic-datatype/&t=java 存储只拥有基本数据类型字段的对象"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

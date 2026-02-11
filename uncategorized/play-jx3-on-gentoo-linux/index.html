@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1系统安装 对 Gentoo Linux 感兴趣的同学，可以参考我的一篇博客 Gentoo Linux with ZFS Steam 安装 Gentoo 里面 Steam 安装需要开启 lib32，需要启用对应的 package use，我们直接参考官方文档 https:&#x2F;&#x2F;wiki.gentoo.org&#x2F;wiki&#x2F;Steam 安装 PROTON-GE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Gentoo Linux 下畅玩剑网3">
+<meta property="og:url" content="http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1系统安装 对 Gentoo Linux 感兴趣的同学，可以参考我的一篇博客 Gentoo Linux with ZFS Steam 安装 Gentoo 里面 Steam 安装需要开启 lib32，需要启用对应的 package use，我们直接参考官方文档 https:&#x2F;&#x2F;wiki.gentoo.org&#x2F;wiki&#x2F;Steam 安装 PROTON-GE">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-04-19T13:00:46.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.527Z">
+<meta property="article:author" content="Locez">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>在 Gentoo Linux 下畅玩剑网3</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/install-gentoo-on-rk3588/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/gentoo-linux-with-zfs/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&text=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&is_video=false&description=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 Gentoo Linux 下畅玩剑网3&body=Check out this article: http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&name=在 Gentoo Linux 下畅玩剑网3&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&t=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">系统安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Steam-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Steam 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-PROTON-GE"><span class="toc-number"></span> <span class="toc-text">安装 PROTON-GE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-ntfs-%E6%94%AF%E6%8C%81"><span class="toc-number"></span> <span class="toc-text">安装 ntfs 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="toc-number"></span> <span class="toc-text">挂载磁盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Steam-%E8%AE%BE%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Steam 设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%91%E7%BD%913%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">剑网3配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-dxvk-%E4%BC%98%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">配置 dxvk 优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">引用</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        在 Gentoo Linux 下畅玩剑网3
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-04-19T13:00:46.000Z" class="dt-published" itemprop="datePublished">Apr 19 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.527Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h3><hr>
+<p>对 Gentoo Linux 感兴趣的同学，可以参考我的一篇博客 <a href="https://locez.com/linux/gentoo-linux-with-zfs/">Gentoo Linux with ZFS</a></p>
+<h3 id="Steam-安装"><a href="#Steam-安装" class="headerlink" title="Steam 安装"></a>Steam 安装</h3><hr>
+<p>Gentoo 里面 Steam 安装需要开启 lib32，需要启用对应的 package use，我们直接参考官方文档 <a href="https://wiki.gentoo.org/wiki/Steam">https://wiki.gentoo.org/wiki/Steam</a></p>
+<h3 id="安装-PROTON-GE"><a href="#安装-PROTON-GE" class="headerlink" title="安装 PROTON-GE"></a>安装 PROTON-GE</h3><hr>
+<p>使用如下脚本进行安装，安装后重启 steam 即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -euo pipefail</span><br><span class="line"></span><br><span class="line"><span class="comment"># make temp working directory</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Creating temporary working directory...&quot;</span></span><br><span class="line"><span class="built_in">rm</span> -rf /tmp/proton-ge-custom</span><br><span class="line"><span class="built_in">mkdir</span> /tmp/proton-ge-custom</span><br><span class="line"><span class="built_in">cd</span> /tmp/proton-ge-custom</span><br><span class="line"></span><br><span class="line"><span class="comment"># download tarball</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Fetching tarball URL...&quot;</span></span><br><span class="line">tarball_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | <span class="built_in">cut</span> -d\&quot; -f4 | grep .tar.gz)</span><br><span class="line">tarball_name=$(<span class="built_in">basename</span> <span class="variable">$tarball_url</span>)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Downloading tarball: <span class="variable">$tarball_name</span>...&quot;</span></span><br><span class="line">curl -<span class="comment"># -L $tarball_url -o $tarball_name --no-progress-meter</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># download checksum</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Fetching checksum URL...&quot;</span></span><br><span class="line">checksum_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | <span class="built_in">cut</span> -d\&quot; -f4 | grep .<span class="built_in">sha512sum</span>)</span><br><span class="line">checksum_name=$(<span class="built_in">basename</span> <span class="variable">$checksum_url</span>)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Downloading checksum: <span class="variable">$checksum_name</span>...&quot;</span></span><br><span class="line">curl -<span class="comment"># -L $checksum_url -o $checksum_name --no-progress-meter</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># check tarball with checksum</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Verifying tarball <span class="variable">$tarball_name</span> with checksum <span class="variable">$checksum_name</span>...&quot;</span></span><br><span class="line"><span class="built_in">sha512sum</span> -c <span class="variable">$checksum_name</span></span><br><span class="line"><span class="comment"># if result is ok, continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># make steam directory if it does not exist</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Creating Steam directory if it does not exist...&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/.steam/root/compatibilitytools.d</span><br><span class="line"></span><br><span class="line"><span class="comment"># extract proton tarball to steam directory</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Extracting <span class="variable">$tarball_name</span> to Steam directory...&quot;</span></span><br><span class="line">tar -xf <span class="variable">$tarball_name</span> -C ~/.steam/root/compatibilitytools.d/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;All done :)&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-ntfs-支持"><a href="#安装-ntfs-支持" class="headerlink" title="安装 ntfs 支持"></a>安装 ntfs 支持</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo emerge --ask sys-fs/ntfs3g</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：双系统挂载同一块硬盘，需要将 Windows 上的快速启动关了，否则 Linux 下挂载会变成 ReadOnly</p>
+<h3 id="挂载磁盘"><a href="#挂载磁盘" class="headerlink" title="挂载磁盘"></a>挂载磁盘</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /data/GameDisk1</span><br><span class="line">sudo mount /dev/nvme1n1p2 /data/GameDisk1/</span><br></pre></td></tr></table></figure>
+
+<p>将磁盘加入 fstab，方便开机自动加载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo genfstab -U / &gt; /etc/fstab</span><br></pre></td></tr></table></figure>
+<p>具体的挂载参数应该如下 &#x2F;etc&#x2F;fstab</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UUID=AAAAAAAAAAAA   /data/GameDisk1 ntfs            rw,user_id=0,group_id=0,allow_other,blksize=4096        0 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="Steam-设置"><a href="#Steam-设置" class="headerlink" title="Steam 设置"></a>Steam 设置</h3><hr>
+<p>添加非 Steam 游戏，然后选择到剑网 3 的启动器 <code>SeasunGame.exe</code></p>
+<p>启动选项填入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DXVK_ASYNC=1 LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 %command%</span><br></pre></td></tr></table></figure>
+
+<p>兼容性选择：<code>GE-Proton-9-*</code></p>
+<h3 id="剑网3配置"><a href="#剑网3配置" class="headerlink" title="剑网3配置"></a>剑网3配置</h3><hr>
+<p>剑网3中需要添加一个跳过显卡检测的配置，才能正常启动游戏</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /data/GameDisk1/JX3/SeasunGame/Game/JX3/bin/zhcn_hd/</span><br><span class="line">vim config.ini</span><br></pre></td></tr></table></figure>
+<p>在 <code>Debug</code> Section 中添加 <code>SkipVideoCardScoreUpdate=1</code>，添加完配置大致如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Debug]</span></span><br><span class="line"><span class="attr">3DEngineDebugInfo</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">Console</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">PakFirst</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">EnableProfile</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">EnableDebugBreakCheck</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">TopPoint</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">SkipVideoCardScoreUpdate</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-dxvk-优化"><a href="#配置-dxvk-优化" class="headerlink" title="配置 dxvk 优化"></a>配置 dxvk 优化</h3><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/dxvk</span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; ~/.config/dxvk/dxvk.conf</span></span><br><span class="line"><span class="string">&gt; # 显存与线程优化</span></span><br><span class="line"><span class="string">dxgi.numBackBuffers = 3</span></span><br><span class="line"><span class="string">d3d11.maxImplicitDiscardSize = 256</span></span><br><span class="line"><span class="string">d3d12.enableMapMemoryFlag = True</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 画质增强（减少渲染模糊）</span></span><br><span class="line"><span class="string">dxgi.syncInterval = 0</span></span><br><span class="line"><span class="string">d3d11.forceTearing = True</span></span><br><span class="line"><span class="string">&gt; EOF</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>: 目前旗舰版电影画质以上直接登录会导致过图直接卡死，经过实测，只需要回到 Windows 下登录，然后选择画质标准，再将标准所有性能参数拉满，即可解决，然后也能得到不错的画质体验</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><hr>
+<p>感谢 <a href="https://origin.jx3box.com/tool/39093">【技术向讨论】关于在Wine (SteamDeck) 下运行剑网3的可行性与实现方法（证实可行！）</a> 一文中的 SkipVideoCardScoreUpdate&#x3D;1 参数提供，少走了一些弯路</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">系统安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Steam-%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">Steam 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-PROTON-GE"><span class="toc-number"></span> <span class="toc-text">安装 PROTON-GE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-ntfs-%E6%94%AF%E6%8C%81"><span class="toc-number"></span> <span class="toc-text">安装 ntfs 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="toc-number"></span> <span class="toc-text">挂载磁盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Steam-%E8%AE%BE%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Steam 设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%91%E7%BD%913%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">剑网3配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-dxvk-%E4%BC%98%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">配置 dxvk 优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">引用</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&text=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&is_video=false&description=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 Gentoo Linux 下畅玩剑网3&body=Check out this article: http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&title=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&name=在 Gentoo Linux 下畅玩剑网3&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/uncategorized/play-jx3-on-gentoo-linux/&t=在 Gentoo Linux 下畅玩剑网3"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

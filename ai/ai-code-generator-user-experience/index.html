@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1背景 AI 代码生成器是一个非常有用的工具，它可以帮助程序员快速生成代码，提高开发效率。现在市面上有很多 AI 代码生成器，例如 ChatGPT、GitHub Copilot、Cursor 等。这些 AI 代码生成器都宣传自己的代码生成能力非常强，因此今天我们就来看看这些 AI 代码生成器的用户体验。 由于笔者比较熟悉 C++ 和 Python，本文主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 代码生成产品体验">
+<meta property="og:url" content="http://locez.github.io/ai/ai-code-generator-user-experience/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1背景 AI 代码生成器是一个非常有用的工具，它可以帮助程序员快速生成代码，提高开发效率。现在市面上有很多 AI 代码生成器，例如 ChatGPT、GitHub Copilot、Cursor 等。这些 AI 代码生成器都宣传自己的代码生成能力非常强，因此今天我们就来看看这些 AI 代码生成器的用户体验。 由于笔者比较熟悉 C++ 和 Python，本文主">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-01-19T07:17:46.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.525Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="llm">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>AI 代码生成产品体验</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/gentoo-linux-with-zfs/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/qnap-nas-user-experience-diary/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/ai/ai-code-generator-user-experience/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/ai/ai-code-generator-user-experience/&text=AI 代码生成产品体验"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/ai/ai-code-generator-user-experience/&is_video=false&description=AI 代码生成产品体验"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AI 代码生成产品体验&body=Check out this article: http://locez.github.io/ai/ai-code-generator-user-experience/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/ai/ai-code-generator-user-experience/&name=AI 代码生成产品体验&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/ai/ai-code-generator-user-experience/&t=AI 代码生成产品体验"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E4%BA%A7%E5%93%81"><span class="toc-number"></span> <span class="toc-text">评测产品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E7%BB%B4%E5%BA%A6"><span class="toc-number"></span> <span class="toc-text">评测维度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number"></span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Question-1"><span class="toc-number"></span> <span class="toc-text">Question 1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Question-2"><span class="toc-number"></span> <span class="toc-text">Question 2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">评测结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">附录</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        AI 代码生成产品体验
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-19T07:17:46.000Z" class="dt-published" itemprop="datePublished">Jan 19 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.525Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/ai/">ai</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/llm/" rel="tag">llm</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><hr>
+<p>AI 代码生成器是一个非常有用的工具，它可以帮助程序员快速生成代码，提高开发效率。现在市面上有很多 AI 代码生成器，例如 ChatGPT、GitHub Copilot、Cursor 等。这些 AI 代码生成器都宣传自己的代码生成能力非常强，因此今天我们就来看看这些 AI 代码生成器的用户体验。</p>
+<p>由于笔者比较熟悉 <code>C++</code> 和 <code>Python</code>，本文主要以这两种语言进行评测。另外就是该评测主要由评测人员的水平决定（也就是我的主观意识），因此请不要将评测结果作为 AI 代码生成器的唯一依据。我只能按照我对代码标准的理解来评价 AI 代码生成的表现。</p>
+<h3 id="评测产品"><a href="#评测产品" class="headerlink" title="评测产品"></a>评测产品</h3><hr>
+<p>由于有大量的 AI 产品，以及我个人的精力有限，有些需要 API token，我也没有足够的精力去测试。因此，我只测试了以下几个 AI 代码生成器：</p>
+<ul>
+<li>Cursor（claude-3.5-sonnet）</li>
+<li>DeepSeek</li>
+<li>Marscode</li>
+</ul>
+<p>后续有时间会增加其它产品的体验</p>
+<h3 id="评测维度"><a href="#评测维度" class="headerlink" title="评测维度"></a>评测维度</h3><hr>
+<p>我们来看看 AI 代码生成器的评测维度，包括以下几个方面：</p>
+<ul>
+<li>功能的正确性</li>
+<li>代码理解和解释能力</li>
+<li>代码生成能力</li>
+<li>交互方式</li>
+</ul>
+<p>评分以 <code>5</code> 分为满分标准，打分涉及主观，请酌情谅解。</p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><hr>
+<h4 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1"></a>Question 1</h4><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">请生成一个用户注册功能的代码，要求如下：</span><br><span class="line">1. 使用 Python 和 Flask 框架。</span><br><span class="line">2. 用户信息包括用户名、密码、邮箱。</span><br><span class="line">3. 密码需要加密存储。</span><br><span class="line">4. 返回注册成功的 JSON 响应。</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>结果</th>
+<th>得分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cursor</td>
+<td>功能完整，且处理了异常，但是代码结构不如 deepseek</td>
+<td>4.8</td>
+</tr>
+<tr>
+<td>deepseek</td>
+<td>功能完整，但未处理异常</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td>marscode</td>
+<td>生成未涉及到数据库配置和存储，不足以直接生产应用</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<h4 id="Question-2"><a href="#Question-2" class="headerlink" title="Question 2"></a>Question 2</h4><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请生成一个用户登录功能的代码，要求如下：</span><br><span class="line">1. 使用 Python 和 Flask 框架。</span><br><span class="line">2. 验证用户名和密码。</span><br><span class="line">3. 返回登录成功的 JSON 响应，包含 JWT Token。</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>结果</th>
+<th>得分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cursor</td>
+<td>在追加生成中，生成功能完整，但是未 import 对应模块</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td>deepseek</td>
+<td>在追加生成中，生成功能完整，但是未 import 对应模块</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td>marscode</td>
+<td>直接触发了 bug</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>附赠 <code>marscode</code> 的 bug 代码，一直在循环生成 <code>8X8Y</code>，没搞明白为什么</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟数据库存储用户信息</span></span><br><span class="line">users = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: <span class="string">&#x27;testuser&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;$2b$12$I9T8W6v2Z0W0n8Y2g6g7uO8X8Y8X8Y8X8Y8X8Y8X8Y8X....</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>写到此处，发现要详尽的列出测试过程，还有一些使用方式的问题比较困难，因此接下来直接给出一些评分项</p>
+<h4 id="评测结果"><a href="#评测结果" class="headerlink" title="评测结果"></a>评测结果</h4><hr>
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>代码生成能力</th>
+<th>生成注释</th>
+<th>代码解释能力</th>
+<th>单测生成能力</th>
+<th>Bug 查找能力</th>
+<th>总分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cursor</td>
+<td>4.8</td>
+<td>4.9</td>
+<td>4.5</td>
+<td>4.0</td>
+<td>4.5</td>
+<td>22.7</td>
+</tr>
+<tr>
+<td>deepseek</td>
+<td>4.5</td>
+<td>4.3</td>
+<td>4.3</td>
+<td>4.5</td>
+<td>3.5</td>
+<td>21.1</td>
+</tr>
+<tr>
+<td>marscode</td>
+<td>3.5</td>
+<td>4.2</td>
+<td>3.0</td>
+<td>4.6</td>
+<td>3.0</td>
+<td>18.3</td>
+</tr>
+</tbody></table>
+<p><code>cursor</code> 是我第一次体验，不太清楚是内部优化了还是 <code>claude-3.5-sonnet</code> 模型的优势（在此之前我未用过），整体表现是非常不错的。操作上总体和 <code>deepseek</code> 很接近，但是 <code>cursor</code> 更加保守一些，生成的代码健壮性会更强。<code>deepseek</code> 是以 <code>continue</code> 插件接入的，有些使用体验细节略微差了一点</p>
+<p><code>marscode</code> 则在代码方便能力稍弱，但是它提供了一个很方便的插件，有一些操作直接点击插件上显示的按钮即可实现。生成单测能力来看是体验非常好的。</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><hr>
+<p><strong>NOTE</strong>: 其中的 bug 查找能力，来源于我之前写的一个 <code>c++</code> BUG，这个 BUG 导致的根本原因是 <code>remove_if</code> 是 <code>copy</code> 覆盖实现的，因此线程在这个移动的过程中就已经出现了异常，AI 时常会觉得删除最后的元素就完事了，这三个都没能识别出真正的问题，其中 <code>deepseek</code> 和 <code>marscode</code> 甚至没能修复，但是 Cursor 的保守策略使得他转用了 <code>find_if</code> 来实现相似的功能，相当于修复了该程序，源程序如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;atomic&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  std::vector&lt;std::pair&lt; std::thread::id,std::thread&gt;&gt; threads;</span><br><span class="line">  std::atomic_bool running;</span><br><span class="line">  std::mutex mutex;</span><br><span class="line">  running = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> worker = [&amp;]()&#123;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>));</span><br><span class="line">    <span class="keyword">auto</span> id = std::this_thread::<span class="built_in">get_id</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    <span class="keyword">auto</span> it = std::<span class="built_in">remove_if</span>(threads.<span class="built_in">begin</span>(), threads.<span class="built_in">end</span>(), [&amp;](<span class="type">const</span> <span class="keyword">auto</span>&amp; pair)&#123;    <span class="keyword">return</span> pair.first == id;&#125;);</span><br><span class="line">    it-&gt;second.<span class="built_in">detach</span>();</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i =<span class="number">0</span> ; i&lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">      std::thread thread = std::<span class="built_in">thread</span>(worker);</span><br><span class="line">      threads.<span class="built_in">emplace_back</span>(thread.<span class="built_in">get_id</span>(), std::<span class="built_in">move</span>(thread));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">20000</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E4%BA%A7%E5%93%81"><span class="toc-number"></span> <span class="toc-text">评测产品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E7%BB%B4%E5%BA%A6"><span class="toc-number"></span> <span class="toc-text">评测维度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number"></span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Question-1"><span class="toc-number"></span> <span class="toc-text">Question 1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Question-2"><span class="toc-number"></span> <span class="toc-text">Question 2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%84%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">评测结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">附录</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/ai/ai-code-generator-user-experience/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/ai/ai-code-generator-user-experience/&text=AI 代码生成产品体验"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/ai/ai-code-generator-user-experience/&is_video=false&description=AI 代码生成产品体验"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AI 代码生成产品体验&body=Check out this article: http://locez.github.io/ai/ai-code-generator-user-experience/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/ai/ai-code-generator-user-experience/&title=AI 代码生成产品体验"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/ai/ai-code-generator-user-experience/&name=AI 代码生成产品体验&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/ai/ai-code-generator-user-experience/&t=AI 代码生成产品体验"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

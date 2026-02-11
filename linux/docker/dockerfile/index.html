@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1在之前的文章中我们提到可以通过容器创建一个我们自定义过的镜像，那么我们是否可以直接通过基础的镜像直接自定义镜像呢？答案当然是可以的，在 Docker 中我们可以从名为 Dockerfile 的文件中读取指令并且自动构建镜像。在本文中，将介绍 Dockerfile 的基本语法以及基本知识。 1 Dockerfile 是什么？ Dockerfile 其实是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 快速入门之 Dockerfile">
+<meta property="og:url" content="http://locez.github.io/linux/docker/dockerfile/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1在之前的文章中我们提到可以通过容器创建一个我们自定义过的镜像，那么我们是否可以直接通过基础的镜像直接自定义镜像呢？答案当然是可以的，在 Docker 中我们可以从名为 Dockerfile 的文件中读取指令并且自动构建镜像。在本文中，将介绍 Dockerfile 的基本语法以及基本知识。 1 Dockerfile 是什么？ Dockerfile 其实是">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/docker-quickly-start-00.jpg">
+<meta property="article:published_time" content="2017-10-20T14:47:47.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/docker-quickly-start-00.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Docker 快速入门之 Dockerfile</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/java/java-object-storage-with-only-basic-datatype/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/docker/docker-qucikly-start/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/docker/dockerfile/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/docker/dockerfile/&text=Docker 快速入门之 Dockerfile"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/docker/dockerfile/&is_video=false&description=Docker 快速入门之 Dockerfile"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker 快速入门之 Dockerfile&body=Check out this article: http://locez.github.io/linux/docker/dockerfile/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/docker/dockerfile/&name=Docker 快速入门之 Dockerfile&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/docker-quickly-start-00.jpg&#34; alt=&#34;docker&#34;&gt;&lt;br&gt;在之前的文章中我们提到可以通过容器创建一个我们自定义过的镜像，那么我们是否可以直接通过基础的镜像直接自定义镜像呢？答案当然是可以的，在 Docker 中我们可以从名为 &lt;code&gt;Dockerfile&lt;/code&gt; 的文件中读取指令并且自动构建镜像。在本文中，将介绍 Dockerfile 的基本语法以及基本知识。&lt;/p&gt;
+&lt;h3 id=&#34;1-Dockerfile-是什么？&#34;&gt;&lt;a href=&#34;#1-Dockerfile-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Dockerfile 是什么？&#34;&gt;&lt;/a&gt;1 Dockerfile 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;Dockerfile 其实是一份文本文档，里面包含了用户可以用来操作镜像的一些指令。通过顺序执行这些指令，最后得到一个自定义的镜像，这有点类似于我们的 &lt;code&gt;shell script&lt;/code&gt;。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/docker/dockerfile/&t=Docker 快速入门之 Dockerfile"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Dockerfile-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Dockerfile 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Dockerfile-%E7%A4%BA%E4%BE%8B"><span class="toc-number"></span> <span class="toc-text">2 Dockerfile 示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="toc-number"></span> <span class="toc-text">构建镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Dockerfile-%E6%8C%87%E4%BB%A4%E8%A7%A3%E9%87%8A"><span class="toc-number"></span> <span class="toc-text">3 Dockerfile 指令解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-FROM"><span class="toc-number"></span> <span class="toc-text">3.1 FROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-RUN"><span class="toc-number"></span> <span class="toc-text">3.2 RUN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-CMD"><span class="toc-number"></span> <span class="toc-text">3.3 CMD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-LABEL"><span class="toc-number"></span> <span class="toc-text">3.4 LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-EXPOSE"><span class="toc-number"></span> <span class="toc-text">3.5 EXPOSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-ENV"><span class="toc-number"></span> <span class="toc-text">3.6 ENV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-ADD"><span class="toc-number"></span> <span class="toc-text">3.7 ADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-8-COPY"><span class="toc-number"></span> <span class="toc-text">3.8 COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-9-ENTRYPOINT"><span class="toc-number"></span> <span class="toc-text">3.9 ENTRYPOINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-10-VOLUME"><span class="toc-number"></span> <span class="toc-text">3.10 VOLUME</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-11-USER"><span class="toc-number"></span> <span class="toc-text">3.11 USER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-12-WORKDIR"><span class="toc-number"></span> <span class="toc-text">3.12 WORKDIR</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">4 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">5 参考资料</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Docker 快速入门之 Dockerfile
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-20T14:47:47.000Z" class="dt-published" itemprop="datePublished">Oct 20 2017</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a> › <a class="category-link" href="/categories/linux/docker/">docker</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/docker/" rel="tag">docker</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><p><img src="https://image.locez.com/blog/docker-quickly-start-00.jpg" alt="docker"><br>在之前的文章中我们提到可以通过容器创建一个我们自定义过的镜像，那么我们是否可以直接通过基础的镜像直接自定义镜像呢？答案当然是可以的，在 Docker 中我们可以从名为 <code>Dockerfile</code> 的文件中读取指令并且自动构建镜像。在本文中，将介绍 Dockerfile 的基本语法以及基本知识。</p>
+<h3 id="1-Dockerfile-是什么？"><a href="#1-Dockerfile-是什么？" class="headerlink" title="1 Dockerfile 是什么？"></a>1 Dockerfile 是什么？</h3><hr>
+<p>Dockerfile 其实是一份文本文档，里面包含了用户可以用来操作镜像的一些指令。通过顺序执行这些指令，最后得到一个自定义的镜像，这有点类似于我们的 <code>shell script</code>。</p>
+<span id="more"></span>
+<h3 id="2-Dockerfile-示例"><a href="#2-Dockerfile-示例" class="headerlink" title="2 Dockerfile 示例"></a>2 Dockerfile 示例</h3><hr>
+<p>接下来先看一个 Dockerfile 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">LABEL maintainer=&quot;Locez &lt;locez@locez.com&gt;&quot;</span><br><span class="line">ENV TEST=&quot;This is a test env&quot;</span><br><span class="line">COPY nginx.repo /etc/yum.repos.d/nginx.repo</span><br><span class="line">RUN yum update -y &amp;&amp; \</span><br><span class="line">        yum install -y nginx</span><br><span class="line">COPY nginx.conf /etc/nginx/nginx.conf</span><br><span class="line">COPY index.html /usr/share/nginx/html/index.html</span><br><span class="line">COPY index_files/ /usr/share/nginx/html/index_files/</span><br><span class="line">EXPOSE 80</span><br><span class="line">CMD [&quot;/usr/sbin/nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>在上面我们可以看到 Dockerfile 中的一些指令，通过名称我们也可以猜到这些指令大概是干嘛的，其中有一些对文件的操作，因此我们先来看看用于存放 Dockerfile 的这个目录的目录结构:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># tree .</span><br><span class="line">.</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── index_files</span><br><span class="line">│   ├── 145049z4og8xyjhx4xy8go.jpg</span><br><span class="line">│   ├── 222746e5vh38d7ey3leyps.jpg</span><br><span class="line">│   ├── 88x31.png</span><br><span class="line">│   ├── archlinux-splash.png</span><br><span class="line">│   ├── bdshare.css</span><br><span class="line">│   ├── Best-Linux-Markdown-Editors.png</span><br><span class="line">│   ├── core.js</span><br><span class="line">│   ├── docker-icon.jpg</span><br><span class="line">│   ├── hadoop-pic1.png</span><br><span class="line">│   ├── jquery_002.js</span><br><span class="line">│   ├── jquery.css</span><br><span class="line">│   ├── jquery.js</span><br><span class="line">│   ├── MathJax.js</span><br><span class="line">│   ├── pic.gif</span><br><span class="line">│   ├── raspberrypiraspberry-pi-logo.jpg</span><br><span class="line">│   ├── script.js</span><br><span class="line">│   ├── scrollup.png</span><br><span class="line">│   ├── share.js</span><br><span class="line">│   ├── style.css</span><br><span class="line">│   └── z_stat.js</span><br><span class="line">├── index.html</span><br><span class="line">├── nginx.conf</span><br><span class="line">└── nginx.repo</span><br><span class="line"></span><br><span class="line">1 directory, 24 files</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><hr>
+<p>在当前目录下执行以下命令构建镜像:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># docker build -t locez/nginx .</span><br><span class="line">Sending build context to Docker daemon 1.851 MB</span><br><span class="line">Step 1/10 : FROM centos</span><br><span class="line"> ---&gt; 196e0ce0c9fb</span><br><span class="line">Step 2/10 : LABEL maintainer &quot;Locez &lt;locez@locez.com&gt;&quot;</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 9bba3042bcdb</span><br><span class="line">Step 3/10 : ENV TEST &quot;This is a test env&quot;</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; c0ffe95ea0c5</span><br><span class="line">Step 4/10 : COPY nginx.repo /etc/yum.repos.d/nginx.repo</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; bb6ee4c30d56</span><br><span class="line">Step 5/10 : RUN yum update -y &amp;&amp;        yum install -y nginx</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 6d46b41099c3</span><br><span class="line">Step 6/10 : COPY nginx.conf /etc/nginx/nginx.conf</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; cfe908390aae</span><br><span class="line">Step 7/10 : COPY index.html /usr/share/nginx/html/index.html</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 21729476079d</span><br><span class="line">Step 8/10 : COPY index_files/ /usr/share/nginx/html/index_files/</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 662f06ec7b46</span><br><span class="line">Step 9/10 : EXPOSE 80</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 30db5a889d0a</span><br><span class="line">Step 10/10 : CMD /usr/sbin/nginx -g daemon off;</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; d29b9d4036d2</span><br><span class="line">Successfully built d29b9d4036d2</span><br></pre></td></tr></table></figure>
+
+<p>然后用该镜像启动容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># docker run -d -it --rm --name test-nginx -p 8080:80 locez/nginx</span><br><span class="line">e06fd991ca1b202e08cf1578f8046355fcbba10dd9a90e11d43282f3a1e36d29</span><br></pre></td></tr></table></figure>
+
+<p>用浏览器访问 <code>http://localhost:8080/</code> 即可看到部署的内容。</p>
+<h3 id="3-Dockerfile-指令解释"><a href="#3-Dockerfile-指令解释" class="headerlink" title="3 Dockerfile 指令解释"></a>3 Dockerfile 指令解释</h3><hr>
+<p>Dockerfile 支持 <code>FROM</code>, <code>RUN</code>, <code>CMD</code>, <code>LABEL</code>, <code>EXPOSE</code>, <code>ENV</code>, <code>ADD</code>, <code>COPY</code>, <code>ENTRYPOINT</code>, <code>VOLUME</code>, <code>USER</code>, <code>WORKDIR</code>, <code>ARG</code>, <code>ONBUILD</code>, <code>SHELL</code> 等指令，这里只选择常用的几个进行讲解，可结合上面的示例进行理解。其它的请自行查阅官方文档。</p>
+<h4 id="3-1-FROM"><a href="#3-1-FROM" class="headerlink" title="3.1 FROM"></a>3.1 FROM</h4><hr>
+<p><code>FROM</code> 指令用于指定要操作的基础镜像，因为在我们构建我们自己的镜像的时候需要一个基础镜像。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM &lt;image&gt; [AS &lt;name&gt;]</span><br><span class="line">FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>[AS &lt;name&gt;]</code> 为指定一个名称，在一个 Dockerfile 中多次使用 <code>FROM</code> 时如有需要，可用 <code>COPY --from=&lt;name|index&gt;</code> 语法进行复制。</p>
+<h4 id="3-2-RUN"><a href="#3-2-RUN" class="headerlink" title="3.2 RUN"></a>3.2 RUN</h4><hr>
+<p><code>RUN</code> 指令用于执行命令，并且是在新的一层上执行，并把执行后的结果提交，也就是生成新的一层。基于这个问题，我们在使用 <code>RUN</code> 指令时应该尽可能的把要执行的命令一次写完，以减少最后生成的镜像的层数。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUN &lt;command&gt;</span><br><span class="line">RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-CMD"><a href="#3-3-CMD" class="headerlink" title="3.3 CMD"></a>3.3 CMD</h4><hr>
+<p><code>CMD</code> 指令用于给容器启动时指定一个用于执行的命令，例如上例中的 nginx 启动命令。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</span><br><span class="line">CMD [&quot;param1&quot;,&quot;param2&quot;] ### 用于给 ENTRYPOINT 指令提供默认参数</span><br><span class="line">CMD command param1 param2</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-4-LABEL"><a href="#3-4-LABEL" class="headerlink" title="3.4 LABEL"></a>3.4 LABEL</h4><hr>
+<p><code>LABEL</code> 指令用于为镜像指定标签，可用 <code>docker inspect</code> 命令查看。可用来代替被舍弃的 <code>MAINTAINER</code> 命令。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-5-EXPOSE"><a href="#3-5-EXPOSE" class="headerlink" title="3.5 EXPOSE"></a>3.5 EXPOSE</h4><hr>
+<p><code>EXPOSE</code> 指令用于告诉 Docker 容器监听的特殊端口，但是此时端口还没有暴露给 host ，只有当在运行一个容器显式用参数 <code>-p</code> 或者 <code>-P</code> 的时候才会暴露端口。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-6-ENV"><a href="#3-6-ENV" class="headerlink" title="3.6 ENV"></a>3.6 ENV</h4><hr>
+<p><code>ENV</code> 指令用于设定环境变量。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV &lt;key&gt; &lt;value&gt;</span><br><span class="line">ENV &lt;key&gt;=&lt;value&gt; ...</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-7-ADD"><a href="#3-7-ADD" class="headerlink" title="3.7 ADD"></a>3.7 ADD</h4><hr>
+<p><code>ADD</code> 指令用于复制新文件，目录，远程文件到容器中。其中 <code>&lt;src&gt;</code> 可以为文件，目录，URL，若为可解压文件，在复制后会解压。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADD &lt;src&gt;... &lt;dest&gt;</span><br><span class="line">ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-8-COPY"><a href="#3-8-COPY" class="headerlink" title="3.8 COPY"></a>3.8 COPY</h4><hr>
+<p><code>COPY</code> 指令与 <code>ADD</code> 指令非常相似，但 <code>COPY</code> 比较直观且简单，它只支持本地的文件以及目录的复制，不像 <code>ADD</code> 指令可以远程获取文件并解压。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COPY &lt;src&gt;... &lt;dest&gt;</span><br><span class="line">COPY [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-9-ENTRYPOINT"><a href="#3-9-ENTRYPOINT" class="headerlink" title="3.9 ENTRYPOINT"></a>3.9 ENTRYPOINT</h4><hr>
+<p><code>ENTRYPOINT</code> 指令也跟 <code>CMD</code> 指令相似，用于指定容器启动时执行的命令。当使用 <code>ENTRYPOINT</code> 指令时，可用 <code>CMD</code> 命令配合，这样在启动容器时，可以对 <code>CMD</code> 指令写入的参数进行覆盖。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;top&quot;,&quot;-b&quot;]</span><br><span class="line">CMD [&quot;-c&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>-c</code> 参数可以在启动时覆盖 <code>docker run -it --rm --name test  top -H</code>。<br>如果要覆盖 <code>ENTRYPOINT</code> 指令则用 <code>--entrypoint</code> 参数启动容器。</p>
+<h4 id="3-10-VOLUME"><a href="#3-10-VOLUME" class="headerlink" title="3.10 VOLUME"></a>3.10 VOLUME</h4><hr>
+<p><code>VOLUME</code> 指令用于为容器创建一个挂载点，这个挂载点可以用来挂载 <code>本地文件/文件夹</code> 也可以用来挂载 <code>数据卷</code>。其中若在启动一个新容器时没有指定挂载目录，则会自动创建一个数据卷，当容器被销毁时，数据卷如果没有被其它容器引用则会被删除。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [&quot;/data1&quot;,&quot;/data2&quot;]</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-11-USER"><a href="#3-11-USER" class="headerlink" title="3.11 USER"></a>3.11 USER</h4><hr>
+<p><code>USER</code> 指令用于设置执行 <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code> 等指令的用户以及用户组。默认为 <code>root</code> 用户。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USER &lt;user&gt;[:&lt;group&gt;]</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="3-12-WORKDIR"><a href="#3-12-WORKDIR" class="headerlink" title="3.12 WORKDIR"></a>3.12 WORKDIR</h4><hr>
+<p><code>WORKDIR</code> 指令用于设置 <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code>, <code>ADD</code> 等指令的工作目录。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WORKDIR /path/to/workdir</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h3><hr>
+<p>本文从一个具体的例子出发，讲述了如何利用 Dockerfile 构建镜像，然后解释了 Dockerfile 文件中的指令的语法，有关更多内容可访问官方文档。</p>
+<h3 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5 参考资料"></a>5 参考资料</h3><hr>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Dockerfile-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">1 Dockerfile 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Dockerfile-%E7%A4%BA%E4%BE%8B"><span class="toc-number"></span> <span class="toc-text">2 Dockerfile 示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="toc-number"></span> <span class="toc-text">构建镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Dockerfile-%E6%8C%87%E4%BB%A4%E8%A7%A3%E9%87%8A"><span class="toc-number"></span> <span class="toc-text">3 Dockerfile 指令解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-FROM"><span class="toc-number"></span> <span class="toc-text">3.1 FROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-RUN"><span class="toc-number"></span> <span class="toc-text">3.2 RUN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-CMD"><span class="toc-number"></span> <span class="toc-text">3.3 CMD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-LABEL"><span class="toc-number"></span> <span class="toc-text">3.4 LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-EXPOSE"><span class="toc-number"></span> <span class="toc-text">3.5 EXPOSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-ENV"><span class="toc-number"></span> <span class="toc-text">3.6 ENV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-ADD"><span class="toc-number"></span> <span class="toc-text">3.7 ADD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-8-COPY"><span class="toc-number"></span> <span class="toc-text">3.8 COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-9-ENTRYPOINT"><span class="toc-number"></span> <span class="toc-text">3.9 ENTRYPOINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-10-VOLUME"><span class="toc-number"></span> <span class="toc-text">3.10 VOLUME</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-11-USER"><span class="toc-number"></span> <span class="toc-text">3.11 USER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-12-WORKDIR"><span class="toc-number"></span> <span class="toc-text">3.12 WORKDIR</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">4 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number"></span> <span class="toc-text">5 参考资料</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/docker/dockerfile/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/docker/dockerfile/&text=Docker 快速入门之 Dockerfile"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/docker/dockerfile/&is_video=false&description=Docker 快速入门之 Dockerfile"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker 快速入门之 Dockerfile&body=Check out this article: http://locez.github.io/linux/docker/dockerfile/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/docker/dockerfile/&title=Docker 快速入门之 Dockerfile"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/docker/dockerfile/&name=Docker 快速入门之 Dockerfile&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/docker-quickly-start-00.jpg&#34; alt=&#34;docker&#34;&gt;&lt;br&gt;在之前的文章中我们提到可以通过容器创建一个我们自定义过的镜像，那么我们是否可以直接通过基础的镜像直接自定义镜像呢？答案当然是可以的，在 Docker 中我们可以从名为 &lt;code&gt;Dockerfile&lt;/code&gt; 的文件中读取指令并且自动构建镜像。在本文中，将介绍 Dockerfile 的基本语法以及基本知识。&lt;/p&gt;
+&lt;h3 id=&#34;1-Dockerfile-是什么？&#34;&gt;&lt;a href=&#34;#1-Dockerfile-是什么？&#34; class=&#34;headerlink&#34; title=&#34;1 Dockerfile 是什么？&#34;&gt;&lt;/a&gt;1 Dockerfile 是什么？&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;Dockerfile 其实是一份文本文档，里面包含了用户可以用来操作镜像的一些指令。通过顺序执行这些指令，最后得到一个自定义的镜像，这有点类似于我们的 &lt;code&gt;shell script&lt;/code&gt;。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/docker/dockerfile/&t=Docker 快速入门之 Dockerfile"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

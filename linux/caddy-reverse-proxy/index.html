@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1目标 本文目标为在 Linux 环境中搭建 Caddy HTTPS 反向代理服务器，并解决前端跨域问题 前置条件  Linux 服务器一个  背景 在前端项目中，我们经常需要访问一些其它域名提供的 API，这种时候我们会碰到跨域问题 CORS。  跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 example-a.com 的 Jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caddy：构建 HTTPS 反向代理，解决跨域访问问题">
+<meta property="og:url" content="http://locez.github.io/linux/caddy-reverse-proxy/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1目标 本文目标为在 Linux 环境中搭建 Caddy HTTPS 反向代理服务器，并解决前端跨域问题 前置条件  Linux 服务器一个  背景 在前端项目中，我们经常需要访问一些其它域名提供的 API，这种时候我们会碰到跨域问题 CORS。  跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 example-a.com 的 Jav">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-07-03T22:53:27.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.525Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="caddy">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Caddy：构建 HTTPS 反向代理，解决跨域访问问题</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/qnap-nas-user-experience-diary/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/rust/opencv/windows/install-opencv-on-windows-for-rust/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/caddy-reverse-proxy/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/caddy-reverse-proxy/&text=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/caddy-reverse-proxy/&is_video=false&description=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Caddy：构建 HTTPS 反向代理，解决跨域访问问题&body=Check out this article: http://locez.github.io/linux/caddy-reverse-proxy/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/caddy-reverse-proxy/&name=Caddy：构建 HTTPS 反向代理，解决跨域访问问题&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;https://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;目标&#34;&gt;&lt;a href=&#34;#目标&#34; class=&#34;headerlink&#34; title=&#34;目标&#34;&gt;&lt;/a&gt;目标&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;本文目标为在 Linux 环境中搭建 Caddy HTTPS 反向代理服务器，并解决前端跨域问题&lt;/p&gt;
+&lt;h3 id=&#34;前置条件&#34;&gt;&lt;a href=&#34;#前置条件&#34; class=&#34;headerlink&#34; title=&#34;前置条件&#34;&gt;&lt;/a&gt;前置条件&lt;/h3&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;Linux 服务器一个&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;背景&#34;&gt;&lt;a href=&#34;#背景&#34; class=&#34;headerlink&#34; title=&#34;背景&#34;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;在前端项目中，我们经常需要访问一些其它域名提供的 API，这种时候我们会碰到跨域问题 &lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS&#34;&gt;CORS&lt;/a&gt;。 &lt;/p&gt;
+&lt;p&gt;跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 &lt;code&gt;example-a.com&lt;/code&gt; 的 JavaScript 默认情况下是不可以访问 &lt;code&gt;example-b.com&lt;/code&gt; 的资源的，除非 &lt;code&gt;example-b.com&lt;/code&gt; 的返回包含了正确的 &lt;code&gt;CORS&lt;/code&gt; 响应头。更多可以参考 &lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy&#34;&gt;同源策领 Same-origin policy&lt;/a&gt; 。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/caddy-reverse-proxy/&t=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number"></span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Caddy"><span class="toc-number"></span> <span class="toc-text">Caddy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Linux 服务器配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E6%8D%A2%E6%88%90-Arch-Linux%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">将服务器转换成 Arch Linux（可选）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker"><span class="toc-number"></span> <span class="toc-text">docker</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">配置 docker 镜像加速（可选）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Caddy"><span class="toc-number"></span> <span class="toc-text">配置 Caddy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number"></span> <span class="toc-text">扩展</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Caddy：构建 HTTPS 反向代理，解决跨域访问问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-03T22:53:27.000Z" class="dt-published" itemprop="datePublished">Jul 3 2024</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.525Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/caddy/" rel="tag">caddy</a>, <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><hr>
+<p>本文目标为在 Linux 环境中搭建 Caddy HTTPS 反向代理服务器，并解决前端跨域问题</p>
+<h3 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h3><hr>
+<ul>
+<li>Linux 服务器一个</li>
+</ul>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><hr>
+<p>在前端项目中，我们经常需要访问一些其它域名提供的 API，这种时候我们会碰到跨域问题 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS">CORS</a>。 </p>
+<p>跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 <code>example-a.com</code> 的 JavaScript 默认情况下是不可以访问 <code>example-b.com</code> 的资源的，除非 <code>example-b.com</code> 的返回包含了正确的 <code>CORS</code> 响应头。更多可以参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">同源策领 Same-origin policy</a> 。</p>
+<span id="more"></span>
+<h3 id="Caddy"><a href="#Caddy" class="headerlink" title="Caddy"></a>Caddy</h3><hr>
+<p><a href="https://github.com/caddyserver/caddy">Caddy</a> 是一个使用 go 语言编写的，开源的 Web 服务器。Caddy 支持大多数 Nginx 支持的功能，它对比 Nginx 具有如下的特点：</p>
+<ul>
+<li>配置简单</li>
+<li>自动签发 HTTPS</li>
+</ul>
+<p>在一些性能要求不是特别高的场景下，Caddy 只需简单的配置便能让我们快速搭建起一个具备 HTTPS 的 Web 服务器，这是它最大的优势。</p>
+<h3 id="Linux-服务器配置"><a href="#Linux-服务器配置" class="headerlink" title="Linux 服务器配置"></a>Linux 服务器配置</h3><hr>
+<p>本文基于国内的腾讯云服务器进行说明，其中会有一些特色的配置，可选择跳过。</p>
+<h4 id="将服务器转换成-Arch-Linux（可选）"><a href="#将服务器转换成-Arch-Linux（可选）" class="headerlink" title="将服务器转换成 Arch Linux（可选）"></a>将服务器转换成 Arch Linux（可选）</h4><hr>
+<p>使用 <a href="https://github.com/felixonmars/vps2arch">vps2arch</a> 将服务器转成 Arch Linux</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 使用 root 执行</span></span><br><span class="line"><span class="comment"># wget https://felixc.at/vps2arch</span></span><br><span class="line"><span class="comment"># chmod +x vps2arch</span></span><br><span class="line"><span class="comment"># ./vps2arch</span></span><br></pre></td></tr></table></figure>
+<p>在转换成功后，需要修改 DNS 为腾讯云内网 DNS 地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /etc/resolv.conf</span></span><br><span class="line"><span class="string">nameserver 183.60.83.19</span></span><br><span class="line"><span class="string">nameserver 183.60.82.98</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h4><hr>
+<p>首先需要安装 docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 安装 docker</span></span><br><span class="line">$ sudo pacman -S docker docker-compose</span><br><span class="line"><span class="comment">### 开启启动 docker</span></span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> docker</span><br><span class="line"><span class="comment">### 启动 docker</span></span><br><span class="line">$ sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置-docker-镜像加速（可选）"><a href="#配置-docker-镜像加速（可选）" class="headerlink" title="配置 docker 镜像加速（可选）"></a>配置 docker 镜像加速（可选）</h5><hr>
+<p>由于国内的环境问题，我们需要加速访问 docker 镜像仓库，下列的地址是腾讯云的内网地址，可以根据情况修改成其它的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /etc/docker/daemon.json</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">   &quot;registry-mirrors&quot;: [</span></span><br><span class="line"><span class="string">        &quot;https://mirror.ccs.tencentyun.com&quot;</span></span><br><span class="line"><span class="string">  ]</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Caddy"><a href="#配置-Caddy" class="headerlink" title="配置 Caddy"></a>配置 Caddy</h3><hr>
+<p>我们先来看一下整个的项目结构</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tree .</span><br><span class="line">.</span><br><span class="line">├── Caddyfile</span><br><span class="line">├── certs</span><br><span class="line">│   ├── proxy.locez.com.key</span><br><span class="line">│   └── proxy.locez.com.pem</span><br><span class="line">└── docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p><code>Caddyfile</code> 是我们最主要的编辑文件，<code>certs</code> 是由于国内的环境原因，我们无法在 <code>80</code>, <code>443</code> 端口中架设未经备案的服务，因此我们无法通过这种方式去自动续签，一种折中的方式是自备证书，下文会介绍如何使用其它方式去做验证。</p>
+<p><code>Caddyfile</code> 的内容如下</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 代理的域名</span></span><br><span class="line"><span class="string">proxy.locez.com:443</span> &#123;</span><br><span class="line">    <span class="comment"># 手动上传的证书</span></span><br><span class="line">    <span class="string">tls</span> <span class="string">/etc/certs/proxy.locez.com.pem</span> <span class="string">/etc/certs/proxy.locez.com.key</span></span><br><span class="line">    <span class="comment"># 反向代理的地址</span></span><br><span class="line">    <span class="string">reverse_proxy</span> <span class="string">https://example.com</span> &#123;</span><br><span class="line">        <span class="string">header_up</span> <span class="string">Host</span> &#123;<span class="string">upstream_hostport</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 指定一个匹配 OPTIONS 请求方法的匹配器</span></span><br><span class="line">    <span class="string">@cors_preflight</span> &#123;</span><br><span class="line">        <span class="string">method</span> <span class="string">OPTIONS</span></span><br><span class="line">        <span class="string">header</span> <span class="string">Origin</span> <span class="string">*</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理这个匹配器，返回 204，并且允许跨域</span></span><br><span class="line">    <span class="string">handle</span> <span class="string">@cors_preflight</span> &#123;</span><br><span class="line">        <span class="string">respond</span> <span class="number">204</span></span><br><span class="line">        <span class="string">header</span> <span class="string">Access-Control-Allow-Origin</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">        <span class="string">header</span> <span class="string">Access-Control-Allow-Methods</span> <span class="string">&quot;GET, POST, OPTIONS&quot;</span></span><br><span class="line">        <span class="string">header</span> <span class="string">Access-Control-Allow-Headers</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置允许跨域的响应头</span></span><br><span class="line">    <span class="string">header</span> &#123;</span><br><span class="line">        <span class="string">Access-Control-Allow-Origin</span> <span class="string">*</span></span><br><span class="line">        <span class="string">Access-Control-Allow-Methods</span> <span class="string">&quot;GET, POST, OPTIONS&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>docker-compose.yml</code> 的配置如下，可以修改为你需要的端口，在使用这份配置之前，我们还需要额外创建一个持久的 <code>volume</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker volume create proxy_caddy_data</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">caddy:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">caddy</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">cap_add:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443/udp&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/certs:/etc/certs</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/Caddyfile:/etc/caddy/Caddyfile</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">proxy_caddy_data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">caddy_config:/config</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">proxy_caddy_data:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">caddy_config:</span></span><br></pre></td></tr></table></figure>
+<p>证书部分没有解释如何申请，请自己到各自云厂商签一个 3 个月的免费证书就可以了，至此本文关于如何搭建一个反向代理服务器就讲解完了。</p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><hr>
+<p>Caddy 支持自动续签 HTTPS 证书，签发证书是需要验证域名所有权的，得证明这个域名是你的，证书商才会给你签名认证这个证书。目前我们有以下几种认证方式 <a href="https://letsencrypt.org/docs/challenge-types/">challenge-types</a></p>
+<ul>
+<li>HTTP-01 验证，在 80 端口下在指定的路径下放置一个指定的文件，由证书签发者去访问，可以访问成功，就是验证成功，该方法是最常用的方法，但是由于环境问题，我们无法使用该方法进行验证。</li>
+<li>DNS-01 验证，通过域名系统进行验证，新增一条解析记录 <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code>，然后域名签发者去查询这条域名记录为特定的值，就是验证成功</li>
+<li>TLS-SNI-01验证，已经废除</li>
+<li>TLS-ALPN-01验证，使用 443 端口进行类似 HTTP-01 一样的验证，在国内依然不可用</li>
+</ul>
+<p>综上，我们在国内的环境下能用的只有 <code>DNS-01</code> 这种方式，但是 <code>DNS-01</code> 这种方式是需要 DNS 厂商支持的，DNS 厂商有对应的 API 修改记录值才可以。目前绝大多数厂商都支持，但是仍然有一个问题，那就是默认的 Caddy 是不支持这样的厂商特定的 API 请求的，我们需要自行编译对应的模块，让它支持对应的  DNS Challenge。</p>
+<p>我们通过 <a href="https://github.com/caddyserver/xcaddy">xcaddy</a> 来帮助我们完成这个工作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest</span><br></pre></td></tr></table></figure>
+<p>这里以 <a href="https://github.com/caddy-dns/alidns">阿里 DNS 模块</a> 为例，构建支持的版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xcaddy build --with github.com/caddy-dns/alidns</span><br></pre></td></tr></table></figure>
+<p>当然也可以选择在 <a href="https://caddyserver.com/download">caddyserver</a> 直接下载对应的插件版本，或者使用 go 容器最小化构建一个 caddy 版本</p>
+<p>首先我们需要一个 <code>.env</code> 文件来存储我们的密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOMAIN=https://example.locez.com, https://example-1.locez.com</span><br><span class="line">LOG_FILE=access.log</span><br><span class="line">EMAIL=locez@locez.com</span><br><span class="line">ALIYUN_ACCESS_KEY_ID=</span><br><span class="line">ALIYUN_ACCESS_KEY_SECRET=</span><br></pre></td></tr></table></figure>
+<p>我们这次的 <code>Caddyfile</code> 会如下这样子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;$DOMAIN&#125;:443 &#123;</span><br><span class="line">        log &#123;</span><br><span class="line">                level INFO</span><br><span class="line">                output file &#123;$LOG_FILE&#125; &#123;</span><br><span class="line">                        roll_size 10MB</span><br><span class="line">                        roll_keep 10</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # 使用 ACME DNS-01 challenge 获取证书</span><br><span class="line">        tls &#123;</span><br><span class="line">                dns alidns &#123;</span><br><span class="line">                        access_key_id &#123;$ALIYUN_ACCESS_KEY_ID&#125;</span><br><span class="line">                        access_key_secret &#123;$ALIYUN_ACCESS_KEY_SECRET&#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        encode gzip</span><br><span class="line"></span><br><span class="line">        reverse_proxy example.com:80 &#123;</span><br><span class="line">                header_up X-Real-IP &#123;remote_host&#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>docker-compose.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">caddy:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">caddy:2</span></span><br><span class="line">  <span class="attr">container_name:</span> <span class="string">caddy</span></span><br><span class="line">  <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">80</span><span class="string">:80</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">443</span><span class="string">:443</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">./caddy:/usr/bin/caddy</span>  <span class="comment"># 上述步骤自定义构建的 caddy</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">./Caddyfile:/etc/caddy/Caddyfile:ro</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">./caddy-config:/config</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">./caddy-data:/data</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">DOMAIN:</span> <span class="string">&quot;$&#123;DOMAIN&#125;&quot;</span>  <span class="comment"># 域名</span></span><br><span class="line">    <span class="attr">EMAIL:</span> <span class="string">&quot;$&#123;EMAIL&#125;&quot;</span>        <span class="comment"># ACME 认证使用的邮箱</span></span><br><span class="line">    <span class="attr">LOG_FILE:</span> <span class="string">&quot;$&#123;LOG_FILE&#125;&quot;</span></span><br><span class="line">    <span class="attr">ALIYUN_ACCESS_KEY_ID:</span> <span class="string">&quot;$&#123;ALIYUN_ACCESS_KEY_ID&#125;&quot;</span></span><br><span class="line">    <span class="attr">ALIYUN_ACCESS_KEY_SECRET:</span> <span class="string">&quot;$&#123;ALIYUN_ACCESS_KEY_SECRET&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number"></span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Caddy"><span class="toc-number"></span> <span class="toc-text">Caddy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Linux 服务器配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AC%E6%8D%A2%E6%88%90-Arch-Linux%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">将服务器转换成 Arch Linux（可选）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker"><span class="toc-number"></span> <span class="toc-text">docker</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">配置 docker 镜像加速（可选）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Caddy"><span class="toc-number"></span> <span class="toc-text">配置 Caddy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number"></span> <span class="toc-text">扩展</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/caddy-reverse-proxy/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/caddy-reverse-proxy/&text=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/caddy-reverse-proxy/&is_video=false&description=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Caddy：构建 HTTPS 反向代理，解决跨域访问问题&body=Check out this article: http://locez.github.io/linux/caddy-reverse-proxy/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/caddy-reverse-proxy/&title=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/caddy-reverse-proxy/&name=Caddy：构建 HTTPS 反向代理，解决跨域访问问题&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;https://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;目标&#34;&gt;&lt;a href=&#34;#目标&#34; class=&#34;headerlink&#34; title=&#34;目标&#34;&gt;&lt;/a&gt;目标&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;本文目标为在 Linux 环境中搭建 Caddy HTTPS 反向代理服务器，并解决前端跨域问题&lt;/p&gt;
+&lt;h3 id=&#34;前置条件&#34;&gt;&lt;a href=&#34;#前置条件&#34; class=&#34;headerlink&#34; title=&#34;前置条件&#34;&gt;&lt;/a&gt;前置条件&lt;/h3&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;Linux 服务器一个&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;背景&#34;&gt;&lt;a href=&#34;#背景&#34; class=&#34;headerlink&#34; title=&#34;背景&#34;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;在前端项目中，我们经常需要访问一些其它域名提供的 API，这种时候我们会碰到跨域问题 &lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS&#34;&gt;CORS&lt;/a&gt;。 &lt;/p&gt;
+&lt;p&gt;跨域机制本质上是一种安全机制，浏览器只能访问它自己的同源资源，比如 &lt;code&gt;example-a.com&lt;/code&gt; 的 JavaScript 默认情况下是不可以访问 &lt;code&gt;example-b.com&lt;/code&gt; 的资源的，除非 &lt;code&gt;example-b.com&lt;/code&gt; 的返回包含了正确的 &lt;code&gt;CORS&lt;/code&gt; 响应头。更多可以参考 &lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy&#34;&gt;同源策领 Same-origin policy&lt;/a&gt; 。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/caddy-reverse-proxy/&t=Caddy：构建 HTTPS 反向代理，解决跨域访问问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

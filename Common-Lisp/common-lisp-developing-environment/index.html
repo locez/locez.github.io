@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="本文在windows xp下测试通过。 工具：sublime text 2、SBCL(Steel Bank Common Lisp)   【自行搜索下载】 one安装SBCL，格式为msi，很容易安装。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Common Lisp开发环境">
+<meta property="og:url" content="http://locez.github.io/Common-Lisp/common-lisp-developing-environment/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="本文在windows xp下测试通过。 工具：sublime text 2、SBCL(Steel Bank Common Lisp)   【自行搜索下载】 one安装SBCL，格式为msi，很容易安装。">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/common-lisp-developing-environment-00.jpg">
+<meta property="og:image" content="https://image.locez.com/blog/common-lisp-developing-environment-01.png">
+<meta property="og:image" content="https://image.locez.com/blog/common-lisp-developing-environment-02.png">
+<meta property="og:image" content="https://image.locez.com/blog/common-lisp-developing-environment-03.png">
+<meta property="og:image" content="https://image.locez.com/blog/common-lisp-developing-environment-04.png">
+<meta property="article:published_time" content="2014-02-06T23:06:54.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.525Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="lisp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/common-lisp-developing-environment-00.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>Common Lisp开发环境</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/JAVA/codingame-tron-battle/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/JAVA/jni-java-native-interface/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&text=Common Lisp开发环境"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&is_video=false&description=Common Lisp开发环境"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Common Lisp开发环境&body=Check out this article: http://locez.github.io/Common-Lisp/common-lisp-developing-environment/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&name=Common Lisp开发环境&description=&lt;p&gt;本文在windows xp下测试通过。&lt;/p&gt;
+&lt;p&gt;工具：sublime text 2、SBCL(Steel Bank Common Lisp)   【自行搜索下载】&lt;/p&gt;
+&lt;h2 id=&#34;one&#34;&gt;&lt;a href=&#34;#one&#34; class=&#34;headerlink&#34; title=&#34;one&#34;&gt;&lt;/a&gt;one&lt;/h2&gt;&lt;p&gt;安装SBCL，格式为msi，很容易安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/common-lisp-developing-environment-00.jpg&#34; alt=&#34;sbcl&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&t=Common Lisp开发环境"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#one"><span class="toc-number">1.</span> <span class="toc-text">one</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#two"><span class="toc-number">2.</span> <span class="toc-text">two</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#three"><span class="toc-number"></span> <span class="toc-text">three</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Common Lisp开发环境
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2014-02-06T23:06:54.000Z" class="dt-published" itemprop="datePublished">Feb 6 2014</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.525Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Common-Lisp/">Common Lisp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/lisp/" rel="tag">lisp</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>本文在windows xp下测试通过。</p>
+<p>工具：sublime text 2、SBCL(Steel Bank Common Lisp)   【自行搜索下载】</p>
+<h2 id="one"><a href="#one" class="headerlink" title="one"></a>one</h2><p>安装SBCL，格式为msi，很容易安装。</p>
+<p><img src="https://image.locez.com/blog/common-lisp-developing-environment-00.jpg" alt="sbcl"></p>
+<span id="more"></span>
+
+<p>安装完后可以在菜单找到</p>
+<p><img src="https://image.locez.com/blog/common-lisp-developing-environment-01.png" alt="sbclmenu"></p>
+<p>点击执行，可以直接输入lisp代码运行：</p>
+<p><img src="https://image.locez.com/blog/common-lisp-developing-environment-02.png" alt="sbclexecute"></p>
+<p>查看环境变量可知已经自动配置好了系统PATH.</p>
+<h2 id="two"><a href="#two" class="headerlink" title="two"></a>two</h2><p>解压Sublime Text 2</p>
+<p>打开Sublime Text 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Toos</span><br><span class="line">Build System</span><br><span class="line">new Build System...</span><br></pre></td></tr></table></figure>
+
+<p>弹出的框中输入以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;cmd&quot;</span>: [<span class="string">&quot;sbcl&quot;</span>, <span class="string">&quot;--script&quot;</span>,<span class="string">&quot;<span class="variable">$file</span>&quot;</span>],</span><br><span class="line"><span class="string">&quot;file_regex&quot;</span>: <span class="string">&quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;</span>,</span><br><span class="line"><span class="string">&quot;selector&quot;</span>: <span class="string">&quot;source.lisp&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如图：</p>
+<p><img src="https://image.locez.com/blog/common-lisp-developing-environment-03.png" alt="st2lispbuild"></p>
+<p>然后保存名字为lisp即可。配置到此完成。</p>
+<h1 id="three"><a href="#three" class="headerlink" title="three"></a>three</h1><p>测试一下吧！新建一个helloworld.lisp文件</p>
+<p>然后键入以下代码：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> sayHello()</span><br><span class="line">	(<span class="name">format</span> <span class="literal">t</span> <span class="string">&quot;hello world~%&quot;</span>))</span><br><span class="line">(<span class="name">sayHello</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://image.locez.com/blog/common-lisp-developing-environment-04.png" alt="st2lispexcute1"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#one"><span class="toc-number">1.</span> <span class="toc-text">one</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#two"><span class="toc-number">2.</span> <span class="toc-text">two</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#three"><span class="toc-number"></span> <span class="toc-text">three</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&text=Common Lisp开发环境"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&is_video=false&description=Common Lisp开发环境"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Common Lisp开发环境&body=Check out this article: http://locez.github.io/Common-Lisp/common-lisp-developing-environment/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&title=Common Lisp开发环境"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&name=Common Lisp开发环境&description=&lt;p&gt;本文在windows xp下测试通过。&lt;/p&gt;
+&lt;p&gt;工具：sublime text 2、SBCL(Steel Bank Common Lisp)   【自行搜索下载】&lt;/p&gt;
+&lt;h2 id=&#34;one&#34;&gt;&lt;a href=&#34;#one&#34; class=&#34;headerlink&#34; title=&#34;one&#34;&gt;&lt;/a&gt;one&lt;/h2&gt;&lt;p&gt;安装SBCL，格式为msi，很容易安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://image.locez.com/blog/common-lisp-developing-environment-00.jpg&#34; alt=&#34;sbcl&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/Common-Lisp/common-lisp-developing-environment/&t=Common Lisp开发环境"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

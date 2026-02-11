@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1阅读说明 本文为 QNAP NAS 系统使用心得记录，主要记录一些使用过程中遇到的问题和解决方法。但是本文不是 QNAP NAS 系统的入门教程，本文的总体方向是容器方向，因此本文不会介绍 QNAP NAS 系统基本安装和使用方法。 NOTE：本文大多数 IP 地址都是随便编造的，请酌情思考，复制粘贴 基本信息  型号：TS-464c2 内存：40G">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QNAP NAS 使用心得记录">
+<meta property="og:url" content="http://locez.github.io/linux/qnap-nas-user-experience-diary/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1阅读说明 本文为 QNAP NAS 系统使用心得记录，主要记录一些使用过程中遇到的问题和解决方法。但是本文不是 QNAP NAS 系统的入门教程，本文的总体方向是容器方向，因此本文不会介绍 QNAP NAS 系统基本安装和使用方法。 NOTE：本文大多数 IP 地址都是随便编造的，请酌情思考，复制粘贴 基本信息  型号：TS-464c2 内存：40G">
+<meta property="og:locale">
+<meta property="og:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/ipv6-setup.png">
+<meta property="og:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/subnet-route-setup.png">
+<meta property="og:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/qnap-http-proxy.png">
+<meta property="og:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/qnap-create-user.png">
+<meta property="og:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/ban-qbittorrent.png">
+<meta property="article:published_time" content="2025-01-11T06:18:20.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.527Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="qnap">
+<meta property="article:tag" content="nas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.locez.com/blog/qnap-nas-user-experience-diary/ipv6-setup.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>QNAP NAS 使用心得记录</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/ai/ai-code-generator-user-experience/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/caddy-reverse-proxy/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/qnap-nas-user-experience-diary/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&text=QNAP NAS 使用心得记录"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&is_video=false&description=QNAP NAS 使用心得记录"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=QNAP NAS 使用心得记录&body=Check out this article: http://locez.github.io/linux/qnap-nas-user-experience-diary/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&name=QNAP NAS 使用心得记录&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/qnap-nas-user-experience-diary/&t=QNAP NAS 使用心得记录"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E8%AF%B4%E6%98%8E"><span class="toc-number"></span> <span class="toc-text">阅读说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number"></span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv6-%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">IPv6 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">SSH 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number"></span> <span class="toc-text">组网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">共享配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number"></span> <span class="toc-text">配置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#traefik-%E7%BD%91%E5%85%B3%E9%83%A8%E7%BD%B2"><span class="toc-number"></span> <span class="toc-text">traefik 网关部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IPv6"><span class="toc-number"></span> <span class="toc-text">IPv6</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%93%E7%94%A8%E7%9A%84-traefik-%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">创建专用的 traefik 网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cloudflare"><span class="toc-number"></span> <span class="toc-text">cloudflare</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-compose-yml"><span class="toc-number"></span> <span class="toc-text">docker-compose.yml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emby"><span class="toc-number"></span> <span class="toc-text">emby</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#qnap-%E7%9A%84%E7%AE%A1%E7%90%86%E9%9D%A2%E6%9D%BF"><span class="toc-number"></span> <span class="toc-text">qnap 的管理面板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#qBittorrent"><span class="toc-number"></span> <span class="toc-text">qBittorrent</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number"></span> <span class="toc-text">用户创建与文件访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">创建网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-compose-yml-1"><span class="toc-number"></span> <span class="toc-text">docker-compose.yml</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        QNAP NAS 使用心得记录
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-11T06:18:20.000Z" class="dt-published" itemprop="datePublished">Jan 11 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.527Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/linux/" rel="tag">linux</a>, <a class="p-category" href="/tags/nas/" rel="tag">nas</a>, <a class="p-category" href="/tags/qnap/" rel="tag">qnap</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="阅读说明"><a href="#阅读说明" class="headerlink" title="阅读说明"></a>阅读说明</h3><hr>
+<p>本文为 QNAP NAS 系统使用心得记录，主要记录一些使用过程中遇到的问题和解决方法。但是本文不是 QNAP NAS 系统的入门教程，本文的总体方向是容器方向，因此本文不会介绍 QNAP NAS 系统基本安装和使用方法。</p>
+<p><strong>NOTE</strong>：本文大多数 IP 地址都是随便编造的，请酌情思考，复制粘贴</p>
+<h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><hr>
+<ul>
+<li>型号：TS-464c2</li>
+<li>内存：40G</li>
+<li>硬盘：2T SSD + 64T HDD</li>
+<li>系统：QuTS hero 5.2</li>
+<li>网络：IPv4 + IPv6</li>
+</ul>
+<h3 id="IPv6-配置"><a href="#IPv6-配置" class="headerlink" title="IPv6 配置"></a>IPv6 配置</h3><hr>
+<p>QNAP 的 IPv6 默认是关闭的，需要在控制台设置中按以下路径开启</p>
+<p><img src="https://image.locez.com/blog/qnap-nas-user-experience-diary/ipv6-setup.png" alt="ipv6-setup"></p>
+<p><strong>NOTE</strong>: 由于安全原因，不建议对外公网开放 IPv6 服务。本文开启 IPv6 主要是为了后文的内网穿透，此处为可选。</p>
+<h3 id="SSH-配置"><a href="#SSH-配置" class="headerlink" title="SSH 配置"></a>SSH 配置</h3><hr>
+<p>在 QNAP 的设置中心中开启 <code>SSH</code> 配置，后续的许多操作需要 <code>SSH</code> 才能进行</p>
+<h3 id="组网穿透"><a href="#组网穿透" class="headerlink" title="组网穿透"></a>组网穿透</h3><hr>
+<h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><hr>
+<p>组网直接选择 <code>tailscale</code> 提供的服务即可。在上述的过程中，我们去主动打开 <code>IPv6</code> 仅仅是为了内网穿透，后续的操作都可以通过 <code>tailscale</code> 来进行。</p>
+<p><code>tailscale</code> 提供了 3 位免费用户的服务，并且支持 100 台机器，对个人来说是完全够用了。</p>
+<p>首先在 QNAP 的 App 中心中选择 <code>tailscale</code> 应用并安装，然后登录你的账号，这个时候机器已经加入到组网中</p>
+<p>ssh 登录机器，输入以下命令，先找到 <code>tailscale</code> 的安装目录，就可以得到查看 <code>tailscale</code> 的状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">ps aux |grep [t]ailscale</span><br><span class="line">23329 admin     85112 S   /share/ZFS530_DATA/.qpkg/Tailscale/tailscaled --port 41641 --statedir=/share/ZFS530_DATA/.qpkg/Tailscale/state --socket=/tmp/tailscale/tailscaled.sock</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 tailscale 的状态，在这里可以看到节点的连接状态，是否是直连和中继</span></span><br><span class="line">/share/ZFS530_DATA/.qpkg/Tailscale/tailscale status</span><br><span class="line">1.1.1.1   nas-locez            olocez@      linux   -</span><br><span class="line">1.1.1.2   alarmpi              olocez@      linux   offline</span><br><span class="line">1.1.1.3   iphone-14-1          public.locez@ iOS     offline</span><br><span class="line">1.1.1.4   iphone-14            olocez@      iOS     offline</span><br><span class="line">1.1.1.5   oneplus-in2020       olocez@      android offline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查网络状态， 在这里可以看出是否启用 ipv6 等信息</span></span><br><span class="line">/share/ZFS530_DATA/.qpkg/Tailscale/tailscale netcheck</span><br><span class="line"></span><br><span class="line">Report:</span><br><span class="line">        * UDP: <span class="literal">true</span></span><br><span class="line">        * IPv4: <span class="built_in">yes</span>, 1.1.1.1:1234</span><br><span class="line">        * IPv6: <span class="built_in">yes</span>, [::2]:5678</span><br><span class="line">        * MappingVariesByDestIP: <span class="literal">false</span></span><br><span class="line">        * HairPinning: <span class="literal">false</span></span><br><span class="line">        * PortMapping:</span><br><span class="line">        * CaptivePortal: <span class="literal">false</span></span><br><span class="line">        * Nearest DERP: Tokyo</span><br><span class="line">        * DERP latency:</span><br><span class="line">                - tok: 118.1ms (Tokyo)</span><br><span class="line">                - hkg: 148.4ms (Hong Kong)</span><br><span class="line">                - sin: 152.6ms (Singapore)</span><br><span class="line">                - lax: 164.5ms (Los Angeles)</span><br><span class="line">                - sea: 176.9ms (Seattle)</span><br><span class="line">                - sfo: 190.5ms (San Francisco)</span><br><span class="line">                - dfw: 198.9ms (Dallas)</span><br><span class="line">                - den: 204.2ms (Denver)</span><br></pre></td></tr></table></figure>
+
+<p><code>tailscale</code> 有一个叫做 <code>subnet</code> 的功能，这个功能，可以让你通过一台机器部署访问整个内网，例如我以下的例子就是将 <code>192.168.1.16</code> 这个 IP 单独暴露出去子网路由了，组网能连进来的时候只能访问这一个 ip，这样的好处是你的 dns 域名设置只需要设置一次，无论你是直连还是组网都只需要用 <code>xxx.locez.com</code> 这一个域名就行了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/share/ZFS530_DATA/.qpkg/Tailscale/tailscale up --advertise-routes=192.168.1.16/32 --accept-routes</span><br></pre></td></tr></table></figure>
+<p>然后还需要到 <code>tailcale</code> 面板中设置子网路由，这样组网的设备才能访问到子网路由的设备</p>
+<p><img src="https://image.locez.com/blog/qnap-nas-user-experience-diary/subnet-route-setup.png" alt="subnet-route-setup"></p>
+<h4 id="共享配置"><a href="#共享配置" class="headerlink" title="共享配置"></a>共享配置</h4><hr>
+<p><code>tailscale</code> 默认需要登录才能使用，因此免费用户与其它人共享不是特别安全，我这里采取了利用一个公共账号再加 ACL 配置的方式去实现共享。</p>
+<p>首先我们创建一个新的邮箱账号（对于国内用户建议是 outlook），例如我的是 <code>public.locez@outlook.com</code>，然后对这个账号进行安全配置，比如验证邮箱，两步验证等，后续是要将这个邮箱账号发送给你信任的朋友直接使用的，因此必要的配置还是要做，要始终将邮箱的所有权掌握在自己手中。</p>
+<p>然后在 <code>tailscale</code> 中登录这个账号，并用主用户邀请这个 <code>public.locez</code> 加入 <code>tailnet</code>，设置角色为 <code>member</code>。</p>
+<p>然后我们打开 <code>tailscale</code> 的 <code>Access Controls</code> 标签页，添加以下配置，这里没用自己新建分组或者标签，而是直接使用默认的分组和标签，这样比较方便。这样我们只需要在这里控制访客用户能访问哪些 IP 和端口，就可以选择共享的时候要暴露什么给别人了，这个方案除了麻烦一点意外，整体的安全性是非常有保障的。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;acls&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="comment">// 管理员可以访问所有设备</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;accept&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;users&quot;</span><span class="punctuation">:</span>  <span class="punctuation">[</span><span class="string">&quot;autogroup:admin&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;ports&quot;</span><span class="punctuation">:</span>  <span class="punctuation">[</span><span class="string">&quot;*:*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="comment">// 默认的访客分组只能访问 192.168.1.16 的 443 端口</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;accept&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;users&quot;</span><span class="punctuation">:</span>  <span class="punctuation">[</span><span class="string">&quot;autogroup:member&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;ports&quot;</span><span class="punctuation">:</span>  <span class="punctuation">[</span><span class="string">&quot;192.168.1.16:443&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">	<span class="attr">&quot;ssh&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="comment">// Allow all users to SSH into their own devices in check mode.</span></span><br><span class="line">		<span class="comment">// Comment this section out if you want to define specific restrictions.</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;check&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;src&quot;</span><span class="punctuation">:</span>    <span class="punctuation">[</span><span class="string">&quot;autogroup:member&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;dst&quot;</span><span class="punctuation">:</span>    <span class="punctuation">[</span><span class="string">&quot;autogroup:self&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;users&quot;</span><span class="punctuation">:</span>  <span class="punctuation">[</span><span class="string">&quot;autogroup:nonroot&quot;</span><span class="punctuation">,</span> <span class="string">&quot;root&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>NOTE</strong>： 一个账户通常对应一个 <code>tailnet</code>，因此这个账号的设备都在同一个 <code>tailnet</code> 中，因此这个账号的设备都可以互相访问，这个账号的设备也可以访问主用户的设备，但是主用户的设备不能访问这个账号的设备。</p>
+<p>接下来就可以让朋友登录这个 <code>public.locez</code> 的 <code>tailscale</code> 账户，然后使用了，在它的机器加入到组网后，记得还需要到 <code>tailscale</code> 的面板上去同意</p>
+<h3 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h3><hr>
+<p>接下来马上就要用到 <code>docker</code> 了，众所周知 <code>docker</code> 现在访问困难，<code>dockerd</code> 无法拉取镜像，所以需要一个代理，网上的方法很多，改配置文件什么的，其实都不靠谱，你会发现根本不生效，还搞得特别复杂。</p>
+<p>首先按照下图配置代理地址</p>
+<p><img src="https://image.locez.com/blog/qnap-nas-user-experience-diary/qnap-http-proxy.png" alt="qnap-http-proxy"></p>
+<p>接下来 ssh 到机器上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切到管理员账户下，普通用户执行脚本会有限制，权限没做好，部分会成功部分会失败</span></span><br><span class="line">sudo -i</span><br><span class="line"><span class="comment"># 重启一下整个应用，让进程在启动的时候能配到这个代理地址</span></span><br><span class="line">/etc/init.d/container-station.sh restart</span><br></pre></td></tr></table></figure>
+
+<p><strong>NOTE</strong>: 通过这样配置以后，ssh 登录的终端也会走这个代理，但是具体的容器仍然是无法走的，因此在需要的容器还得额外配置代理地址</p>
+<h3 id="traefik-网关部署"><a href="#traefik-网关部署" class="headerlink" title="traefik 网关部署"></a>traefik 网关部署</h3><hr>
+<p>现在服务已经可以对外暴露了，但是所有的都是用 IP 访问的，不容易记忆，因此我们需要用域名来访问我们的服务，这里我们使用 <code>traefik</code> 来做反向代理。<code>traefik</code> 还能用来做证书管理，用 <code>traefik</code> 来为我们提供 <code>HTTPS</code> 证书，这样我们就不需要自己去管理证书了，并且可以将所有对外提供的服务都加上 <code>HTTPS</code>，假设有一天需要对公网暴露，安全性会增加不少。</p>
+<p><strong>NOTE</strong>：在使用 QNAP 的过程中，我尝试使用了 <code>IPv6</code>，为了以后能有机会暴露出服务，碰到 <code>IPv6</code> 这部分内容可以选择性跳过，不添加 <code>IPv6</code> 相关选项即可</p>
+<h4 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h4><hr>
+<p>QNAP 的 docker 默认不启用 IPv6，甚至系统也没有带相关的内核模块，要启用这块还是有点麻烦。</p>
+<p>用以下命令找到 <code>docker</code> 的配置文件，如果没找到将 <code>awk</code> 过滤删除</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps aux |grep [/]docker.json | awk -F <span class="string">&#x27; &#x27;</span> <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span></span><br><span class="line">/share/ZFS530_DATA/.qpkg/container-station/etc/docker.json</span><br></pre></td></tr></table></figure>
+<p>编辑这个文件，将 <code>ip6tables</code> 改成 <code>true</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;ip6tables&quot;</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>此时如果去创建容器会发现无法启动了，是因为缺失 ip6tables_nat 内核模块，到 <a href="https://github.com/mammo0/qnap-ip6tables_nat-module">qnap-ip6tables_nat-module</a> 这个项目下载内核模块，然后放到 NAS 中的目录去，比如我放到了 <code>/share/Container/container-station-data/application/kernel_mods</code> 目录</p>
+<p>接着参考 <a href="https://www.qnap.com/en/how-to/faq/article/running-your-own-application-at-startup">QNAP 的官方文档</a>，创建一个开机启动 <code>autorun.sh</code> 脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">mount $(/sbin/hal_app --get_boot_pd port_id=0)6 /tmp/config</span><br><span class="line">vim /tmp/config/autorun.sh</span><br><span class="line"><span class="built_in">chmod</span> +x /tmp/config/autorun.sh</span><br><span class="line"><span class="comment"># 一定要取消挂载</span></span><br><span class="line">umount /tmp/config</span><br></pre></td></tr></table></figure>
+
+<p>脚本内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ip6-tables</span></span><br><span class="line">/sbin/modprobe ip6_tables</span><br><span class="line">/sbin/modprobe nf_nat</span><br><span class="line">/sbin/modprobe xt_MASQUERADE</span><br><span class="line"></span><br><span class="line">insmod /share/Container/container-station-data/application/kernel_mods/ip6t_NPT.ko</span><br><span class="line">insmod /share/Container/container-station-data/application/kernel_mods/nf_reject_ipv6.ko</span><br><span class="line">insmod /share/Container/container-station-data/application/kernel_mods/ip6t_REJECT.ko</span><br><span class="line">insmod /share/Container/container-station-data/application/kernel_mods/ip6table_nat.ko</span><br></pre></td></tr></table></figure>
+
+<p>在确定在 <code>控制面板</code>-<code>硬件</code>-<code>启动时运行用户定义的进程</code> 是勾选状态以后，重启 NAS，让内核加载就行了</p>
+<p><strong>NOTE</strong>：请务必使用 <code>uname -a</code> 确认系统内核版本，和上述仓库提供的版本的差异有多大</p>
+<h4 id="创建专用的-traefik-网络"><a href="#创建专用的-traefik-网络" class="headerlink" title="创建专用的 traefik 网络"></a>创建专用的 traefik 网络</h4><hr>
+<p>参考 <a href="https://docs.docker.com/engine/daemon/ipv6/">IPv6</a> 创建 IPv6 网络</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --ipv6 --subnet 2001:db8::/64 traefik</span><br></pre></td></tr></table></figure>
+
+<h4 id="cloudflare"><a href="#cloudflare" class="headerlink" title="cloudflare"></a>cloudflare</h4><hr>
+<p>我们使用 <code>cloudflare</code> 来进行 <code>dns challenge</code> 验证域名，签发证书，需要你将域名的 <code>nameserver</code> 指到 cloudflare，并且申请 cloudflare 的 API token，注意限制好 API token 的作用域和权限</p>
+<h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><hr>
+<p><code>.env</code> 文件格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CF_DNS_API_TOKEN=</span><br><span class="line">CF_API_EMAIL=</span><br></pre></td></tr></table></figure>
+
+<p>给出以下一个完整的 <code>docker-compose.yml</code> 文件，利用容器就可以将自己的服务都通过 <code>traefik</code> 来代理，并且自动签发证书</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">traefik:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">traefik:v3.2</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">traefik</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span></span><br><span class="line">      <span class="comment"># 用来提供动态配置，从文件载入非 docker provider 的配置</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Container/apps/traefik/config/:/dynamic/config/</span>  </span><br><span class="line">      <span class="comment"># 证书存储路径,要确保 acme.json 的权限是 600</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Container/apps/traefik/certs:/certs</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="comment"># 存储 CF 的 API token</span></span><br><span class="line">    <span class="attr">env_file:</span> <span class="string">/share/Container/apps/traefik/secrets/.env</span></span><br><span class="line">    <span class="comment"># 指定上述创建的网络</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">traefik</span></span><br><span class="line">    <span class="attr">extra_hosts:</span></span><br><span class="line">      <span class="comment"># 手动映射该地址</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;host.docker.internal:192.168.1.16&quot;</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--api.insecure=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--api.dashboard=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--log.level=INFO&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--entrypoints.websecure.address=:443&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--entrypoints.web.address=:80&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 由 docker 动态发现</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--providers.docker.endpoint=unix:///var/run/docker.sock&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--providers.docker.exposedByDefault=false&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 从文件加载配置</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--providers.file.directory=/dynamic/config&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 定义一个 resolver，此处用 cloudflare</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.dnschallenge=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.dnsChallenge.resolvers=1.1.1.1:53,8.8.8.8:53&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.dnsChallenge.provider=cloudflare&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.email=olocez@gmail.com&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.storage=/certs/acme.json&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--certificatesresolvers.myresolver.acme.dnsChallenge.delayBeforeCheck=30&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.enable=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.entrypoints=websecure&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.tls=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.rule=Host(`traefik.example.com`)&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.tls.domains[0].main=example.me&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.tls.domains[0].sans=*.example.me&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard.service=dashboard@internal&quot;</span></span><br><span class="line">      </span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard-api.entrypoints=websecure&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard-api.tls=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard-api.rule=Host(`traefik.example`) &amp;&amp; PathPrefix(`/api`)&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard-api.service=api@internal&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.traefik-dashboard-api.tls.certresolver=myresolver&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 声明是外部网络</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">traefik:</span></span><br><span class="line">    <span class="attr">enable_ipv6:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="emby"><a href="#emby" class="headerlink" title="emby"></a>emby</h4><hr>
+<p>让我们来看一个 <code>emby</code> 利用 traefik 来代理 emby，并且自动签发证书的例子</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">emby:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">emby/embyserver</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">embyserver</span></span><br><span class="line">    <span class="comment"># network_mode: host # Enable DLNA and Wake-on-Lan</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">traefik</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">UID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">GID=1000</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Container/apps/emby/config:/config</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Data/Videos:/mnt/Videos</span></span><br><span class="line">    <span class="attr">devices:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/dev/dri:/dev/dri</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.enable=true&quot;</span></span><br><span class="line">      <span class="comment"># 替换为你的域名</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.emby.rule=Host(`emby.example.com`)&quot;</span>  </span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.emby.entrypoints=websecure&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.emby.tls=true&quot;</span></span><br><span class="line">      <span class="comment"># 配置上面定义的 resolver</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.emby.tls.certresolver=myresolver&quot;</span></span><br><span class="line">      <span class="comment"># 后端地址</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.services.emby.loadbalancer.server.port=8096&quot;</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">traefik:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="qnap-的管理面板"><a href="#qnap-的管理面板" class="headerlink" title="qnap 的管理面板"></a>qnap 的管理面板</h4><hr>
+<p>除了代理容器，我们还可以代理 QNAP 本身 5000 端口的面板，这个就是上述的文件动态加载配出来的原因了  <code>- /share/Container/apps/traefik/config/:/dynamic/config/</code></p>
+<p>我们在 <code>config</code> 文件夹新建一个 <code>qnap.yml</code> 文件，输入以下内容，就可以让 QNAP 的面板也被代理了</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http:</span></span><br><span class="line">  <span class="comment"># Add the router</span></span><br><span class="line">  <span class="attr">routers:</span></span><br><span class="line">    <span class="attr">router0:</span></span><br><span class="line">      <span class="attr">entryPoints:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">websecure</span></span><br><span class="line">      <span class="attr">service:</span> <span class="string">qnap</span></span><br><span class="line">      <span class="attr">rule:</span> <span class="string">HOST(`qnap.example.com`)</span></span><br><span class="line">      <span class="attr">tls:</span></span><br><span class="line">        <span class="attr">certResolver:</span> <span class="string">myresolver</span></span><br><span class="line">  <span class="comment"># Add the service</span></span><br><span class="line">  <span class="attr">services:</span></span><br><span class="line">    <span class="attr">qnap:</span></span><br><span class="line">      <span class="attr">loadBalancer:</span></span><br><span class="line">        <span class="attr">servers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">url:</span> <span class="string">http://192.168.1.16:5000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="qBittorrent"><a href="#qBittorrent" class="headerlink" title="qBittorrent"></a>qBittorrent</h3><hr>
+<p><code>qBittorrent</code> 需要单独拿出来讲以下，因为我们挂种子下载其实是比较危险的一个动作，所以相应的要做一些比其它容器更加安全的配置</p>
+<h4 id="用户创建与文件访问"><a href="#用户创建与文件访问" class="headerlink" title="用户创建与文件访问"></a>用户创建与文件访问</h4><hr>
+<p>先参照下图创建一个 qbittorrent 用户，指定 <code>UID</code>，比如我指定了 <code>10001</code>，密码随机一个强密码，并且停用此账户</p>
+<p>然后给这个用户创建一个文件夹，用于存放下载的文件，然后编辑取消各种权限，只让这个用户只能访问这个文件夹，我这里没有新建，直接用 <code>Public</code> 了，之前这个地方就是空的</p>
+<p><img src="https://image.locez.com/blog/qnap-nas-user-experience-diary/qnap-create-user.png" alt="create-user"></p>
+<p><img src="https://image.locez.com/blog/qnap-nas-user-experience-diary/ban-qbittorrent.png" alt="ban-qbittorrent"></p>
+<h4 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h4><hr>
+<p>创建一个专用的网络，只将 <code>qBittorrent</code> 容器和 <code>traefik</code> 容器加入到这个网络中，这样可以保证 <code>qBittorrent</code> 容器的流量只出现在这个网络中，不会影响其它容器的流量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker network create qbittorrent_network</span><br><span class="line">docker network inspect qbittorrent_network | grep Subnet</span><br><span class="line">                    <span class="string">&quot;Subnet&quot;</span>: <span class="string">&quot;172.29.16.0/22&quot;</span>,</span><br></pre></td></tr></table></figure>
+
+<p>获取整个 <code>subnet</code> 地址以后，我们需要禁用这个网络主动访问到内网资源，比如我这里是 192.168 的网段，按需添加你要的网段</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -I DOCKER-USER -s 172.29.16.0/22 -d 192.168.0.0/16 -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>持久化的话，将这个写入 <code>autorun.sh</code></p>
+<h4 id="docker-compose-yml-1"><a href="#docker-compose-yml-1" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><hr>
+<p>做好上述操作以后，可以利用下面的 <code>docker-compose.yml</code> 启动 qBittorrent</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">qbittorrent:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">linuxserver/qbittorrent</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">qbittorrent</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="comment"># 配置容器只读，防止容器被恶意修改</span></span><br><span class="line">    <span class="attr">tmpfs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/run:exec</span></span><br><span class="line">    <span class="attr">read_only:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">qbittorrent_network</span></span><br><span class="line">    <span class="comment"># 使用创建的用户运行容器</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">&quot;10001:10001&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=10001</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=10001</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">UMASK_SET=022</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">WEBUI_PORT=8088</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TORRENTING_PORT=6881</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Public/Downloads/qBittorrent/config:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/Public/Downloads/qBittorrent/downloads:/downloads</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.enable=true&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.qbitt.rule=Host(`qbitt.example.com`)&quot;</span>  <span class="comment"># 替换为你的域名</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.qbitt.entrypoints=websecure&quot;</span>  <span class="comment"># 使用 HTTPS 入口点</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.qbitt.tls=true&quot;</span>  <span class="comment"># 启用 TLS</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.routers.qbitt.tls.certresolver=myresolver&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;traefik.http.services.qbitt.loadbalancer.server.port=8088&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">qbittorrent_network:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>traefik</code> 的 compose 文件中新增网络声明和使用，此处省略其它</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">...</span><br><span class="line">    networks:</span><br><span class="line">      - traefik</span><br><span class="line">      - qbittorrent_network</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"><span class="comment"># 声明是外部网络</span></span><br><span class="line">networks:</span><br><span class="line">  traefik:</span><br><span class="line">    enable_ipv6: <span class="literal">true</span></span><br><span class="line">    external: <span class="literal">true</span></span><br><span class="line">  qbittorrent_network:</span><br><span class="line">    driver: bridge</span><br><span class="line">    external: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>总体折腾下来以后，家里现在有了一整套的服务，也全上了 <code>HTTPS</code>，但是购买 QNAP 的 NAS 似乎并没有给我提供太多的便利，他们家应用不好用，高度封装，有一些常用的东西得找半天，或者不生效，对我这种熟悉 Linux 的人反而是一种负担</p>
+<p>如果 Linux 系统的一般故障坏了，我是有能力修复的，但是 QNAP 的我绝对修不了，他们的 App 也确实难用，种类、同类太多，甚至不知道该用哪个做哪件事情</p>
+<p>但是也有优点，比如不熟悉 ZFS 的情况下，直接使用也是节省了一种学习成本，某些操作不一定需要去敲命令也算是进步吧，不过我本人的应用场景看起来更像是一个带了大硬盘的服务器，我应该还是要选择我熟悉的操作系统才行</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E8%AF%B4%E6%98%8E"><span class="toc-number"></span> <span class="toc-text">阅读说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number"></span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv6-%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">IPv6 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">SSH 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number"></span> <span class="toc-text">组网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">共享配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number"></span> <span class="toc-text">配置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#traefik-%E7%BD%91%E5%85%B3%E9%83%A8%E7%BD%B2"><span class="toc-number"></span> <span class="toc-text">traefik 网关部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IPv6"><span class="toc-number"></span> <span class="toc-text">IPv6</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%93%E7%94%A8%E7%9A%84-traefik-%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">创建专用的 traefik 网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cloudflare"><span class="toc-number"></span> <span class="toc-text">cloudflare</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-compose-yml"><span class="toc-number"></span> <span class="toc-text">docker-compose.yml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emby"><span class="toc-number"></span> <span class="toc-text">emby</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#qnap-%E7%9A%84%E7%AE%A1%E7%90%86%E9%9D%A2%E6%9D%BF"><span class="toc-number"></span> <span class="toc-text">qnap 的管理面板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#qBittorrent"><span class="toc-number"></span> <span class="toc-text">qBittorrent</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number"></span> <span class="toc-text">用户创建与文件访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">创建网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-compose-yml-1"><span class="toc-number"></span> <span class="toc-text">docker-compose.yml</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/qnap-nas-user-experience-diary/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&text=QNAP NAS 使用心得记录"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&is_video=false&description=QNAP NAS 使用心得记录"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=QNAP NAS 使用心得记录&body=Check out this article: http://locez.github.io/linux/qnap-nas-user-experience-diary/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&title=QNAP NAS 使用心得记录"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/qnap-nas-user-experience-diary/&name=QNAP NAS 使用心得记录&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/qnap-nas-user-experience-diary/&t=QNAP NAS 使用心得记录"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

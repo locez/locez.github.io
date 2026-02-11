@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1摘要 在 linux 的日常使用中，我们经常需要修改一些配置文件，然而在软件升级以后，经常会面临，配置更新了与原配置部分不兼容的问题(当然我们更多的可能是来制作软件升级的补丁)。在这种情况下我们通常有两种选择：  对比现有配置，手动在新配置文件中改动 利用 sed、awk 等工具配合改动 采用 diff 与 patch 制作增量补丁的方式改动  本文主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="diff 与 patch 的使用">
+<meta property="og:url" content="http://locez.github.io/linux/diff-and-patch/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1摘要 在 linux 的日常使用中，我们经常需要修改一些配置文件，然而在软件升级以后，经常会面临，配置更新了与原配置部分不兼容的问题(当然我们更多的可能是来制作软件升级的补丁)。在这种情况下我们通常有两种选择：  对比现有配置，手动在新配置文件中改动 利用 sed、awk 等工具配合改动 采用 diff 与 patch 制作增量补丁的方式改动  本文主">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-05-12T18:12:16.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.526Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>diff 与 patch 的使用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/linux/cryptography/encrypt-your-disk/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/awesome-linux-soft/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/diff-and-patch/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/diff-and-patch/&text=diff 与 patch 的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/diff-and-patch/&is_video=false&description=diff 与 patch 的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=diff 与 patch 的使用&body=Check out this article: http://locez.github.io/linux/diff-and-patch/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/diff-and-patch/&name=diff 与 patch 的使用&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;摘要&#34;&gt;&lt;a href=&#34;#摘要&#34; class=&#34;headerlink&#34; title=&#34;摘要&#34;&gt;&lt;/a&gt;摘要&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;在 linux 的日常使用中，我们经常需要修改一些配置文件，然而在软件升级以后，经常会面临，配置更新了与原配置部分不兼容的问题(当然我们更多的可能是来制作软件升级的补丁)。在这种情况下我们通常有两种选择：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对比现有配置，手动在新配置文件中改动&lt;/li&gt;
+&lt;li&gt;利用 &lt;code&gt;sed&lt;/code&gt;、&lt;code&gt;awk&lt;/code&gt; 等工具配合改动&lt;/li&gt;
+&lt;li&gt;采用 &lt;code&gt;diff&lt;/code&gt; 与 &lt;code&gt;patch&lt;/code&gt; 制作增量补丁的方式改动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文主要通过一个升级&lt;code&gt;awesome&lt;/code&gt; 配置的例子，对第三种方法进行介绍和讲解&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/diff-and-patch/&t=diff 与 patch 的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number"></span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#diff-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">diff 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#diff-%E8%AF%AD%E6%B3%95%E4%B8%8E%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number"></span> <span class="toc-text">diff 语法与文件格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#patch-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">patch 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-patch"><span class="toc-number"></span> <span class="toc-text">制作 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8-patch"><span class="toc-number"></span> <span class="toc-text">应用 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%AD%A3-patch"><span class="toc-number"></span> <span class="toc-text">修正 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%BA%94%E7%94%A8%E8%A1%A5%E4%B8%81"><span class="toc-number"></span> <span class="toc-text">再次应用补丁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        diff 与 patch 的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-05-12T18:12:16.000Z" class="dt-published" itemprop="datePublished">May 12 2018</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.526Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="http://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><hr>
+<p>在 linux 的日常使用中，我们经常需要修改一些配置文件，然而在软件升级以后，经常会面临，配置更新了与原配置部分不兼容的问题(当然我们更多的可能是来制作软件升级的补丁)。在这种情况下我们通常有两种选择：</p>
+<ul>
+<li>对比现有配置，手动在新配置文件中改动</li>
+<li>利用 <code>sed</code>、<code>awk</code> 等工具配合改动</li>
+<li>采用 <code>diff</code> 与 <code>patch</code> 制作增量补丁的方式改动</li>
+</ul>
+<p>本文主要通过一个升级<code>awesome</code> 配置的例子，对第三种方法进行介绍和讲解</p>
+<span id="more"></span>
+
+<h3 id="diff-介绍"><a href="#diff-介绍" class="headerlink" title="diff 介绍"></a>diff 介绍</h3><hr>
+<p><code>diff</code> 是一个文件比较工具，可以逐行比较两个文件的不同，其中它有三种输出方式，分别是 <code>normal</code>， <code>context</code> 以及 <code>unified</code>。区别如下：</p>
+<ul>
+<li><code>normal</code> 方式为默认输出方式，不需要加任何参数</li>
+<li><code>context</code> 相较于 <code>normal</code> 模式的简单输出，<code>contetx</code> 模式会输出修改过部分的上下文，默认是前后 <strong>3</strong> 行。使用参数 <code>-c</code></li>
+<li><code>unified</code> 合并上下文模式则为新的上下文输出模式，同样为为前后 <strong>3</strong> 行，只不过把上下文合并了显示了。使用参数 <code>-u</code></li>
+</ul>
+<p><strong>注</strong>: 本文主要介绍 <code>unified</code> 模式</p>
+<p>其他常用参数:</p>
+<ul>
+<li><code>-r</code> 递归处理目录</li>
+<li><code>-N</code> 将缺失的文件当作空白文件处理</li>
+</ul>
+<h4 id="diff-语法与文件格式"><a href="#diff-语法与文件格式" class="headerlink" title="diff 语法与文件格式"></a>diff 语法与文件格式</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff [options] old new</span><br></pre></td></tr></table></figure>
+
+<p>先来看一个简单的例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> test1 </span><br><span class="line">linux</span><br><span class="line">linux</span><br><span class="line">linux</span><br><span class="line">linux</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> test2</span><br><span class="line">locez</span><br><span class="line">linux</span><br><span class="line">locez</span><br><span class="line">linux</span><br></pre></td></tr></table></figure>
+
+<p>此时输入 <code>diff -urN test1 test2</code> 会输出以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--- test1	2018-05-12 18:39:41.508375114 +0800</span><br><span class="line">+++ test2	2018-05-12 18:41:00.124031736 +0800</span><br><span class="line">@@ -1,4 +1,4 @@</span><br><span class="line">+locez</span><br><span class="line"> linux</span><br><span class="line">-linux</span><br><span class="line">-linux</span><br><span class="line">+locez</span><br><span class="line"> linux</span><br></pre></td></tr></table></figure>
+
+<p>先看前面 2 行，这两行为文件的基本信息，<code>---</code> 开头为改变前的文件，<code>+++</code> 开头为更新后的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--- test1	2018-05-12 18:39:41.508375114 +0800</span><br><span class="line">+++ test2	2018-05-12 18:41:00.124031736 +0800</span><br></pre></td></tr></table></figure>
+
+<p>第三行为上下文描述块，其中 <code>-1,4</code> 为旧文件的 4 行上下文，<code>+1,4</code> 为新文件的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@@ -1,4 +1,4 @@</span><br></pre></td></tr></table></figure>
+
+<p>而具体到块里面的内容，前面有 <code>-</code> 号的则为删除，有 <code>+</code> 号为新增，不带符号则未做改变，仅仅是上下文输出</p>
+<h3 id="patch-介绍"><a href="#patch-介绍" class="headerlink" title="patch 介绍"></a>patch 介绍</h3><hr>
+<p>patch 是一个可以将 diff 生成的<strong>补丁</strong>应用到源文件，生成一个打过补丁版本的文件。语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patch [oiption] [originalfile [patchfile]]</span><br></pre></td></tr></table></figure>
+
+<p>常用参数：</p>
+<ul>
+<li><code>-i</code> 指定补丁文件</li>
+<li><code>-pnum</code> 在 diff 生成的 patch 中，第一二行是文件信息，其中文件名是可以包含路径的，例如 <code> --- /tmp/test1   2018-05-12 18:39:41.508375114 +0800</code> 其中 <code>-p0</code> 代表完整的路径 <code>/tmp/test1</code>，而 <code>-p1</code> 则指 <code>tmp/test1</code>,<code>-pN</code> 依此类推</li>
+<li><code>-E</code> 删除应用补丁后为空文件的文件</li>
+<li><code>-o</code> 输出到一个文件而不是直接覆盖文件</li>
+</ul>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><hr>
+<p>awesome 桌面 3.5 与 4.0 之间的升级是不兼容的，所以在升级完 4.0 以后，awesome 桌面部分功能无法使用，因此需要迁移到新配置，接下来则应用 diff 与 patch 实现迁移，当然你也可以单纯使用 diff 找出不同，然后手动修改新配置</p>
+<p>现在有以下几个文件：</p>
+<ul>
+<li><code>rc.lua.3.5</code> 3.5 版本的默认配置文件，未修改</li>
+<li><code>rc.lua.myconfig</code> 基于 3.5 版本的个人配置文件</li>
+<li><code>rc.lua.4.2</code> 4.2 新默认配置，未修改</li>
+</ul>
+<p>思路为利用 diff 提取出个人配置与 3.5 默认配置文件的增量补丁，然后把补丁应用在 4.2 的文件上实现迁移</p>
+<h4 id="制作-patch"><a href="#制作-patch" class="headerlink" title="制作 patch"></a>制作 patch</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ diff -urN rc.lua.3.5 rc.lua.myconfig  &gt; mypatch.patch</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="应用-patch"><a href="#应用-patch" class="headerlink" title="应用 patch"></a>应用 patch</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ patch rc.lua.4.2 -i mypatch.patch -o rc.lua</span><br><span class="line">patching file rc.lua (<span class="built_in">read</span> from rc.lua.4.2)</span><br><span class="line">Hunk <span class="comment">#1 FAILED at 38.</span></span><br><span class="line">Hunk <span class="comment">#2 FAILED at 55.</span></span><br><span class="line">Hunk <span class="comment">#3 succeeded at 101 with fuzz 1 (offset 5 lines).</span></span><br><span class="line">Hunk <span class="comment">#4 succeeded at 276 with fuzz 2 (offset 29 lines).</span></span><br><span class="line">2 out of 4 hunks FAILED -- saving rejects to file rc.lua.rej</span><br></pre></td></tr></table></figure>
+
+<p>显然应用没有完全成功，其中在 38 行以及 55 行应用失败，并记录在 <code>rc.lua.rej</code> 里</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> rc.lua.rej </span><br><span class="line">--- rc.lua.3.5	2018-05-12 19:15:54.922286085 +0800</span><br><span class="line">+++ rc.lua.myconfig	2018-05-12 19:13:35.057911463 +0800</span><br><span class="line">@@ -38,10 +38,10 @@</span><br><span class="line"> </span><br><span class="line"> -- &#123;&#123;&#123; Variable definitions</span><br><span class="line"> -- Themes define colours, icons, font and wallpapers.</span><br><span class="line">-beautiful.init(<span class="string">&quot;@AWESOME_THEMES_PATH@/default/theme.lua&quot;</span>)</span><br><span class="line">+beautiful.init(<span class="string">&quot;~/.config/awesome/default/theme.lua&quot;</span>)</span><br><span class="line"> </span><br><span class="line"> -- This is used later as the default terminal and editor to run.</span><br><span class="line">-terminal = <span class="string">&quot;xterm&quot;</span></span><br><span class="line">+terminal = <span class="string">&quot;xfce4-terminal&quot;</span></span><br><span class="line"> editor = os.getenv(<span class="string">&quot;EDITOR&quot;</span>) or <span class="string">&quot;nano&quot;</span></span><br><span class="line"> editor_cmd = terminal .. <span class="string">&quot; -e &quot;</span> .. editor</span><br><span class="line"> </span><br><span class="line">@@ -55,18 +55,18 @@</span><br><span class="line"> -- Table of layouts to cover with awful.layout.inc, order matters.</span><br><span class="line"> <span class="built_in">local</span> layouts =</span><br><span class="line"> &#123;</span><br><span class="line">-    awful.layout.suit.floating,</span><br><span class="line">-    awful.layout.suit.tile,</span><br><span class="line">-    awful.layout.suit.tile.left,</span><br><span class="line">-    awful.layout.suit.tile.bottom,</span><br><span class="line">-    awful.layout.suit.tile.top,</span><br><span class="line">+--    awful.layout.suit.floating,</span><br><span class="line">+--    awful.layout.suit.tile,</span><br><span class="line">+--    awful.layout.suit.tile.left,</span><br><span class="line">+--    awful.layout.suit.tile.bottom,</span><br><span class="line">+--    awful.layout.suit.tile.top,</span><br><span class="line">     awful.layout.suit.fair,</span><br><span class="line">     awful.layout.suit.fair.horizontal,</span><br><span class="line">     awful.layout.suit.spiral,</span><br><span class="line">     awful.layout.suit.spiral.dwindle,</span><br><span class="line">     awful.layout.suit.max,</span><br><span class="line">     awful.layout.suit.max.fullscreen,</span><br><span class="line">-    awful.layout.suit.magnifier</span><br><span class="line">+--    awful.layout.suit.magnifier</span><br><span class="line"> &#125;</span><br><span class="line"> -- &#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里是主题，终端，以及常用布局的个人设置</p>
+<h4 id="修正-patch"><a href="#修正-patch" class="headerlink" title="修正 patch"></a>修正 patch</h4><hr>
+<p>再次通过对比补丁文件与 4.2 文件，发现 38 行区块是要删除的东西不匹配，而 55 行区块则是上下文与要删除的内容均不匹配，导致不能应用补丁，于是手动修改补丁</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim mypatch.patch</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">--- rc.lua.3.5	2018-05-12 19:15:54.922286085 +0800</span><br><span class="line">+++ rc.lua.myconfig	2018-05-12 19:13:35.057911463 +0800</span><br><span class="line">@@ -38,10 +38,10 @@</span><br><span class="line"> </span><br><span class="line"> -- &#123;&#123;&#123; Variable definitions</span><br><span class="line"> -- Themes define colours, icons, font and wallpapers.</span><br><span class="line">-beautiful.init(gears.filesystem.get_themes_dir() .. <span class="string">&quot;default/theme.lua&quot;</span>)</span><br><span class="line">+beautiful.init(<span class="string">&quot;~/.config/awesome/default/theme.lua&quot;</span>)</span><br><span class="line"> </span><br><span class="line"> -- This is used later as the default terminal and editor to run.</span><br><span class="line">-terminal = <span class="string">&quot;xterm&quot;</span></span><br><span class="line">+terminal = <span class="string">&quot;xfce4-terminal&quot;</span></span><br><span class="line"> editor = os.getenv(<span class="string">&quot;EDITOR&quot;</span>) or <span class="string">&quot;nano&quot;</span></span><br><span class="line"> editor_cmd = terminal .. <span class="string">&quot; -e &quot;</span> .. editor</span><br><span class="line"> </span><br><span class="line">@@ -55,18 +55,18 @@</span><br><span class="line"></span><br><span class="line"> -- Table of layouts to cover with awful.layout.inc, order matters.</span><br><span class="line"> awful.layout.layouts = &#123;</span><br><span class="line">-    awful.layout.suit.floating,</span><br><span class="line">-    awful.layout.suit.tile,</span><br><span class="line">-    awful.layout.suit.tile.left,</span><br><span class="line">-    awful.layout.suit.tile.bottom,</span><br><span class="line">-    awful.layout.suit.tile.top,</span><br><span class="line">+--    awful.layout.suit.floating,</span><br><span class="line">+--    awful.layout.suit.tile,</span><br><span class="line">+--    awful.layout.suit.tile.left,</span><br><span class="line">+--    awful.layout.suit.tile.bottom,</span><br><span class="line">+--    awful.layout.suit.tile.top,</span><br><span class="line">     awful.layout.suit.fair,</span><br><span class="line">     awful.layout.suit.fair.horizontal,</span><br><span class="line">     awful.layout.suit.spiral,</span><br><span class="line">     awful.layout.suit.spiral.dwindle,</span><br><span class="line">     awful.layout.suit.max,</span><br><span class="line">     awful.layout.suit.max.fullscreen,</span><br><span class="line">-    awful.layout.suit.magnifier,</span><br><span class="line">+--    awful.layout.suit.magnifier,</span><br><span class="line">     awful.layout.suit.corner.nw,</span><br><span class="line">     -- awful.layout.suit.corner.ne,</span><br><span class="line">     -- awful.layout.suit.corner.sw,</span><br><span class="line">....</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+
+<p>输出省略显示，有兴趣的读者可以仔细与<code>rc.lua.rej</code> 文件对比，看看笔者是怎样改的</p>
+<h4 id="再次应用补丁"><a href="#再次应用补丁" class="headerlink" title="再次应用补丁"></a>再次应用补丁</h4><hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ patch rc.lua.4.2 -i mypatch.patch -o rc.lua</span><br><span class="line">patching file rc.lua (<span class="built_in">read</span> from rc.lua.4.2)</span><br><span class="line">Hunk <span class="comment">#1 succeeded at 41 (offset 3 lines).</span></span><br><span class="line">Hunk <span class="comment">#2 succeeded at 57 with fuzz 2 (offset 2 lines).</span></span><br><span class="line">Hunk <span class="comment">#3 succeeded at 101 with fuzz 1 (offset 5 lines).</span></span><br><span class="line">Hunk <span class="comment">#4 succeeded at 276 with fuzz 2 (offset 29 lines).</span></span><br><span class="line">$ <span class="built_in">cp</span> rc.lua ~/.config/awesome/rc.lua  <span class="comment">### 打完补丁直接使用</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>diff 与 patch 配合使用，能当增量备份，而且还可以将补丁分发给他人使用，而且在日常的软件包打补丁也具有重要的意义，特别是内核补丁或者一些驱动补丁，打补丁遇到错误时候可以尝试自己修改，以满足自身特殊要求，修改的时候一定要抓住 2 个非常重要的要素：</p>
+<ul>
+<li>1 要修改的内容是否匹配？特别是要删除的</li>
+<li>2 上下文是否满足，特别是距离要修改的地方前后一行，以及上下文的行数是否满足，默认是 3 行上下文</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number"></span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#diff-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">diff 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#diff-%E8%AF%AD%E6%B3%95%E4%B8%8E%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number"></span> <span class="toc-text">diff 语法与文件格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#patch-%E4%BB%8B%E7%BB%8D"><span class="toc-number"></span> <span class="toc-text">patch 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-patch"><span class="toc-number"></span> <span class="toc-text">制作 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8-patch"><span class="toc-number"></span> <span class="toc-text">应用 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%AD%A3-patch"><span class="toc-number"></span> <span class="toc-text">修正 patch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%BA%94%E7%94%A8%E8%A1%A5%E4%B8%81"><span class="toc-number"></span> <span class="toc-text">再次应用补丁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/linux/diff-and-patch/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/linux/diff-and-patch/&text=diff 与 patch 的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/linux/diff-and-patch/&is_video=false&description=diff 与 patch 的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=diff 与 patch 的使用&body=Check out this article: http://locez.github.io/linux/diff-and-patch/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/linux/diff-and-patch/&title=diff 与 patch 的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/linux/diff-and-patch/&name=diff 与 patch 的使用&description=&lt;h5 id=&#34;AUTHOR-Locez&#34;&gt;&lt;a href=&#34;#AUTHOR-Locez&#34; class=&#34;headerlink&#34; title=&#34;AUTHOR: Locez&#34;&gt;&lt;/a&gt;AUTHOR: &lt;a href=&#34;http://locez.com/&#34;&gt;Locez&lt;/a&gt;&lt;/h5&gt;&lt;h5 id=&#34;VERSION-1&#34;&gt;&lt;a href=&#34;#VERSION-1&#34; class=&#34;headerlink&#34; title=&#34;VERSION: 1&#34;&gt;&lt;/a&gt;VERSION: 1&lt;/h5&gt;&lt;h3 id=&#34;摘要&#34;&gt;&lt;a href=&#34;#摘要&#34; class=&#34;headerlink&#34; title=&#34;摘要&#34;&gt;&lt;/a&gt;摘要&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;在 linux 的日常使用中，我们经常需要修改一些配置文件，然而在软件升级以后，经常会面临，配置更新了与原配置部分不兼容的问题(当然我们更多的可能是来制作软件升级的补丁)。在这种情况下我们通常有两种选择：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对比现有配置，手动在新配置文件中改动&lt;/li&gt;
+&lt;li&gt;利用 &lt;code&gt;sed&lt;/code&gt;、&lt;code&gt;awk&lt;/code&gt; 等工具配合改动&lt;/li&gt;
+&lt;li&gt;采用 &lt;code&gt;diff&lt;/code&gt; 与 &lt;code&gt;patch&lt;/code&gt; 制作增量补丁的方式改动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文主要通过一个升级&lt;code&gt;awesome&lt;/code&gt; 配置的例子，对第三种方法进行介绍和讲解&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/linux/diff-and-patch/&t=diff 与 patch 的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

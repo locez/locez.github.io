@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="AUTHOR: LocezVERSION: 1恢复写作 今年重新捡起了写作，目前就平均而言是每月一篇。但是其实真正的产出都是在最近我换了新电脑以后。换新电脑的起因是因为我当时想在家里用 rust 写一个小应用（虽然现在还没继续写），结果电脑编译太慢了，我就一下决心，全套换了。有些人也会问我，为什么我愿意 CPU 换了，但是显卡还没换，那是确实因为没这个钱，哈哈哈。 在恢复写作之前，其实也有和 be">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈近况——写作与舒适区">
+<meta property="og:url" content="http://locez.github.io/talk/2025-season-1-talk-about-current/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="AUTHOR: LocezVERSION: 1恢复写作 今年重新捡起了写作，目前就平均而言是每月一篇。但是其实真正的产出都是在最近我换了新电脑以后。换新电脑的起因是因为我当时想在家里用 rust 写一个小应用（虽然现在还没继续写），结果电脑编译太慢了，我就一下决心，全套换了。有些人也会问我，为什么我愿意 CPU 换了，但是显卡还没换，那是确实因为没这个钱，哈哈哈。 在恢复写作之前，其实也有和 be">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-05-17T21:47:01.000Z">
+<meta property="article:modified_time" content="2026-02-11T18:05:36.525Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="talk">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>谈谈近况——写作与舒适区</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/talk/2026/system-as-boundary/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/linux/install-gentoo-on-rk3588/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/talk/2025-season-1-talk-about-current/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&text=谈谈近况——写作与舒适区"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&is_video=false&description=谈谈近况——写作与舒适区"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=谈谈近况——写作与舒适区&body=Check out this article: http://locez.github.io/talk/2025-season-1-talk-about-current/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&name=谈谈近况——写作与舒适区&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/talk/2025-season-1-talk-about-current/&t=谈谈近况——写作与舒适区"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E5%86%99%E4%BD%9C"><span class="toc-number"></span> <span class="toc-text">恢复写作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%92%E9%80%82%E5%8C%BA"><span class="toc-number"></span> <span class="toc-text">舒适区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number"></span> <span class="toc-text">最后</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        谈谈近况——写作与舒适区
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-05-17T21:47:01.000Z" class="dt-published" itemprop="datePublished">May 17 2025</time>
+        
+        (Updated: <time datetime="2026-02-11T18:05:36.525Z" class="dt-updated" itemprop="dateModified">Feb 11 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/talk/">talk</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/talk/" rel="tag">talk</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-1"><a href="#VERSION-1" class="headerlink" title="VERSION: 1"></a>VERSION: 1</h5><h3 id="恢复写作"><a href="#恢复写作" class="headerlink" title="恢复写作"></a>恢复写作</h3><hr>
+<p>今年重新捡起了写作，目前就平均而言是每月一篇。但是其实真正的产出都是在最近我换了新电脑以后。换新电脑的起因是因为我当时想在家里用 <code>rust</code> 写一个小应用（虽然现在还没继续写），结果电脑编译太慢了，我就一下决心，全套换了。有些人也会问我，为什么我愿意 CPU 换了，但是显卡还没换，那是确实因为没这个钱，哈哈哈。</p>
+<p>在恢复写作之前，其实也有和 bestony 聊过，我们探讨了一下写下来的目的和作用。在早期的时候，我很多文章都是为了写给其它人看的，然后我就形成了一种风格，好像我写的东西都必须是要有意义，对别人要有帮助，这就导致我后面越来越不敢写。为什么呢，原因有几个：</p>
+<ul>
+<li>怕写错，怕误导别人</li>
+<li>时间的问题，在这里投入太少，工作忙完以后就不想在业余投入太多了</li>
+<li>大模型现在的更新发展，让我觉得很多文章写出来好像没有太大意义了，可能读者自己查一下 LLM 就好了</li>
+</ul>
+<p>基于种种这样那样的原因，我在前几年一度荒废了自己的写作，也能明显感受到我的表达能力在不断下降。我们在公司写的方案，都是八股文一样的存在，先来几个标题，大纲，然后流程图，这个时候你想用流利的文再去写出一篇深入浅出的东西的时候，发现自己能力下降了。</p>
+<p>在这种前提下，我开始慌了，我的能力在不断的倒退，我甚至连简单文也不能写出来了。再反观我最近尝试写的一些文，还是带有一股教程的味道，这种文我现在看起来不是很好，但是也有一定存在的意义——那就是有些东西是写给自己看的。</p>
+<p>我曾在群里问过依云仙子，为什么她能坚持这么久写作，她给了我一个清晰简单的回答：写下来就不会忘了啊。</p>
+<p>bestony 也认为写给自己的收益是 80%，而写给读者的收益才是 20%。同时他认为，教育的目的是 <code>Inspire</code> 而不是 「教会、学会」</p>
+<p>是的，我长久以来写的东西没有将自己当成第一读者，所以我总是感觉很多东西好像没必要自己写，现在我开始摒弃这种想法了，我有很多东西是可以写下来，去表达的，可以当成自己的笔记。能帮助到其他人那是最好不过了，不能的话也不用强求，因为不写的话，甚至连帮助到别人的机会都没有了。</p>
+<p>最近这几篇就当是自己恢复写的热身，期望自己后续能产出更高质量的文章。</p>
+<h3 id="舒适区"><a href="#舒适区" class="headerlink" title="舒适区"></a>舒适区</h3><hr>
+<p>我在现在的这家公司呆的太久了，曾一度在舒适区里面。呆的够久，我逐渐成为了团队内技术相对较好的人，对各种东西都比较得心应手，然后就沉迷在这里了。</p>
+<p>但是巴掌总是会来的。</p>
+<p>虽然在公司表现的自信，认为自己在很多方面很可以，但是我身边优秀的人太多，就会让我有这种落后的恐惧，一时的得意，总是会被在和朋友交流的时候泼冷水的。</p>
+<p>Viz 可以说是我大学以来的引路人之一，在当年给了我很多指点。我们最近在 Factorio 打游戏，但是从游戏中，你都能感受到他做工程师的那种严谨。以及包括我们聊到一些技术的时候，我有时候不行了。好朋友就是说话比较直：你现在怎么这样了，我发现很多毕业以后进公司呆了几年的人都菜了啊。</p>
+<p>可以说我是听进去了的，并不会将这些当成讽刺或者什么，我也不是个服输的人，于是后来的很多时候，我自己在研究、看和学习。最终我也搞出来一些东西了。Viz 重新给的评价是：可以啊，你底子还在啊。</p>
+<p>只能说成长的路上还是非常感谢 Viz 的。</p>
+<p>除了在公司接触到的舒适区以内的东西外，现在在工作之外，我也逐渐在补这几年落下的东西，注意是补，我现在的能力确实不如从前了。我的单兵作战能力至少在我自己看起来是更差了。当然做成一件事情，团队也是很重要的，但是我希望自己的能力还是有比较突出的才行。</p>
+<p>有舍有得，我将我的游戏，要么弃坑，要么就求求别人帮我打，卖个萌，节约出来的时间就拿来折腾了。</p>
+<p>还有好多要学的，应该都会逐渐记录下来吧。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><hr>
+<p>最后就是最近被铁锈划伤了，没有立刻去打针，然后身体也因为感冒，提不起劲，身体哪里疼就会自己胡思乱想，导致现在非常焦虑自己会不会破伤风了，希望我真的没事 QAQ，我很怕的。在此也非常感谢一直给予我安慰和支持的朋友们，谢谢你们。虽然我的焦虑没有完全消除，但是我感受到了温暖。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-1"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E5%86%99%E4%BD%9C"><span class="toc-number"></span> <span class="toc-text">恢复写作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%92%E9%80%82%E5%8C%BA"><span class="toc-number"></span> <span class="toc-text">舒适区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number"></span> <span class="toc-text">最后</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/talk/2025-season-1-talk-about-current/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&text=谈谈近况——写作与舒适区"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&is_video=false&description=谈谈近况——写作与舒适区"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=谈谈近况——写作与舒适区&body=Check out this article: http://locez.github.io/talk/2025-season-1-talk-about-current/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&title=谈谈近况——写作与舒适区"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/talk/2025-season-1-talk-about-current/&name=谈谈近况——写作与舒适区&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/talk/2025-season-1-talk-about-current/&t=谈谈近况——写作与舒适区"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
