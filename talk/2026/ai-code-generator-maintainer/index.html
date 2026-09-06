@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="一次由自主代码生成、维护者疲劳共同造成的 PR 事故记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在开源项目中与不承担后果的 AI 代码生成器对抗">
+<meta property="og:url" content="http://locez.github.io/talk/2026/ai-code-generator-maintainer/index.html">
+<meta property="og:site_name" content="LOCEZ">
+<meta property="og:description" content="一次由自主代码生成、维护者疲劳共同造成的 PR 事故记录。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-08-20T13:27:33.000Z">
+<meta property="article:modified_time" content="2026-09-06T04:38:12.487Z">
+<meta property="article:author" content="Locez">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="open-source">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/favicon.ico" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+        
+      
+    
+    <!-- title -->
+    <title>在开源项目中与不承担后果的 AI 代码生成器对抗</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3KRWYEMPT"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3KRWYEMPT');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/essays/2026/identity-prosthetics/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/talk/2026/ai-code-generator-maintainer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&text=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&is_video=false&description=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在开源项目中与不承担后果的 AI 代码生成器对抗&body=Check out this article: http://locez.github.io/talk/2026/ai-code-generator-maintainer/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&name=在开源项目中与不承担后果的 AI 代码生成器对抗&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&t=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-2"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UPDATED-2026-09-06"><span class="toc-number">3.</span> <span class="toc-text">UPDATED: 2026-09-06</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%92%8C%E4%B8%8D%E6%89%BF%E6%8B%85%E5%90%8E%E6%9E%9C%E7%9A%84-AI-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8%E5%AF%B9%E6%8A%97"><span class="toc-number"></span> <span class="toc-text">在开源项目中和不承担后果的 AI 代码生成器对抗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E9%87%8D%E6%9E%84%E8%AE%A1%E5%88%92"><span class="toc-number"></span> <span class="toc-text">我的重构计划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%8D%E6%98%AF%E6%99%AE%E9%80%9A%E7%9A%84-AI-%E8%BE%85%E5%8A%A9"><span class="toc-number"></span> <span class="toc-text">这不是普通的 AI 辅助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI-%E8%83%BD%E7%9C%8B%E5%88%B0%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E8%83%BD%E7%9C%8B%E5%88%B0%E4%BB%80%E4%B9%88"><span class="toc-number"></span> <span class="toc-text">AI 能看到什么，不能看到什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%BB%B6%E4%BA%8B%E7%9A%84%E8%B4%A3%E4%BB%BB%E4%B8%8D%E5%9C%A8%E2%80%9CAI-%E4%BC%9A%E7%8A%AF%E9%94%99%E2%80%9D"><span class="toc-number"></span> <span class="toc-text">这件事的责任不在“AI 会犯错”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E4%BA%8B%E6%95%85%E6%94%B9%E5%8F%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number"></span> <span class="toc-text">这次事故改变了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number"></span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E8%BF%9B%E5%B1%95"><span class="toc-number"></span> <span class="toc-text">后续进展</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        在开源项目中与不承担后果的 AI 代码生成器对抗
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Locez</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-08-20T13:27:33.000Z" class="dt-published" itemprop="datePublished">Aug 20 2026</time>
+        
+        (Updated: <time datetime="2026-09-06T04:38:12.487Z" class="dt-updated" itemprop="dateModified">Sep 6 2026</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/talk/">talk</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/AI/" rel="tag">AI</a>, <a class="p-category" href="/tags/open-source/" rel="tag">open-source</a>, <a class="p-category" href="/tags/software-engineering/" rel="tag">software-engineering</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h5 id="AUTHOR-Locez"><a href="#AUTHOR-Locez" class="headerlink" title="AUTHOR: Locez"></a>AUTHOR: <a href="https://locez.com/">Locez</a></h5><h5 id="VERSION-2"><a href="#VERSION-2" class="headerlink" title="VERSION: 2"></a>VERSION: 2</h5><h5 id="UPDATED-2026-09-06"><a href="#UPDATED-2026-09-06" class="headerlink" title="UPDATED: 2026-09-06"></a>UPDATED: 2026-09-06</h5><h1 id="在开源项目中和不承担后果的-AI-代码生成器对抗"><a href="#在开源项目中和不承担后果的-AI-代码生成器对抗" class="headerlink" title="在开源项目中和不承担后果的 AI 代码生成器对抗"></a>在开源项目中和不承担后果的 AI 代码生成器对抗</h1><p>这篇文章记录一次 kotonoha 的维护事故。</p>
+<p>它不是一篇关于“AI 能不能写代码”的文章，我想记录的是另一件更具体的事：当一个没有人类主导、经过思考的 AI agent 被接入公共仓库时，维护者会承担什么样的成本。</p>
+<p>这次事故的结果很简单：我原本准备按照自己的计划重构项目，一觉醒来之后，仓库里出现了二十个左右的新 PR。通常来说即便使用 AI 进行审查，维护者也必须明确给 AI 大量的指示与关注的点，考虑 AI 所不会考虑的事情, 指引 AI 进行正确的设计，这正是人类维护者该负有的责任。</p>
+<h2 id="我的重构计划"><a href="#我的重构计划" class="headerlink" title="我的重构计划"></a>我的重构计划</h2><p>kotonoha 的 <a href="https://github.com/locez/kotonoha/issues/16">Issue #16</a> 讨论的是一次平台层重构。它涉及平台探测、Wayland 能力、窗口适配器、拖曳策略和输出生命周期等问题。</p>
+<p>这个 Issue 对我自己来说都是一个非常抽象的东西，它的质量会如何呈现，完全来自于我的经验，而不是一组可以被外部自动领取的任务。每一步都需要先确认现有行为，再决定边界，最后用测试和真实环境验证。它的价值不只是列出“要改哪些文件”，还包括哪些事情暂时不能一起改。</p>
+<p>AI agent 看到这个 Issue，企图直接复刻 bilihud 的重构，但是有许多细节决策、纠正是完全不会体现在 bilihud 的公开重构记录还有 PR 记录里面的。而这些是由人类的 <code>心</code> 来决定的。</p>
+<p>但一个自动化 agent 很容易把公开 Issue 解释成另一种东西：这里有一批尚未完成的工作，可以自行拆分并开始实现。</p>
+<p>公开 Issue 是讨论入口，并不自动构成实现授权。这次事情&#x2F;事故首先发生在这个边界没有被明确建立的时候。</p>
+<p>在一个周六的下午，当时我在影院看电影，突然看到了 20 个 PR，当时心情就有点不对了。但是还是勉强回复了：我晚点回去看看。</p>
+<p>然后一个美好的周六，我处理这些低质量 PR 通宵了。然后周日的下午，我终于开始受不了，开始无脑点合入，想着后面再重新重构一下吧。一个美好的周末就这样结束了。</p>
+<p>以为结束了么？没有的，2 天后的周二，提交者又在群组说 DDos 一下我，我一看又发了 20 个 PR，这一次我真的累了，我在群里跟他苦口婆心说了利弊，跟为什么。但是对方一种避重就轻的回复让我非常烦躁，我甚至想过直接扔掉这个项目了。</p>
+<p>最后无奈之下我跟他说，我就当你在替我写单测了，我又把这个新的 20 个 PR 合入了，随后我把 Pull Request 关闭了。</p>
+<p>另外新增依赖什么的，因为提交者使用 Gentoo 且是 Gentoo-zh overlay 维护之一，所以更新了 Gentoo 打包，deb 合 rpm 有 CI，AI 可以自己修，但是 Arch 上的包有一段时间是坏的，AI 不会自己去修，AI 不知道这种项目外的上下文，因为提交者根本不思考，不考虑项目到底做了什么，凭着一个 AI 觉得自己天下无敌。当然这里面也有我的失职，从无脑合入开始，没有关注这个依赖的变更。</p>
+<h2 id="这不是普通的-AI-辅助"><a href="#这不是普通的-AI-辅助" class="headerlink" title="这不是普通的 AI 辅助"></a>这不是普通的 AI 辅助</h2><p>这批 PR 不是贡献者用 AI 辅助完成几个局部函数，或者说经过与 AI 讨论进行设计的，而是把整个提交和迭代过程交给了 AI。</p>
+<p>贡献者本人说明，他使用 Claude 作为主 agent，再让 GPT 负责具体实现，然后让两个 agent 围绕如何复刻 bilihud 的重构模式和 review 持续迭代。</p>
+<p>按照这个工作方式，AI 自己完成了下面这些工作：</p>
+<ol>
+<li>阅读 bilihud 仓库和已有 PR，并从中学习；</li>
+<li>复刻 bilihud 仓库的重构计划；</li>
+<li>拆分改动并生成代码、测试和 PR 说明；</li>
+<li>AI 根据维护者的 review 继续修改；</li>
+<li>每次都是回复问题成立，已经修复</li>
+</ol>
+<p>这形成了一个持续循环：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AI 生成改动 -&gt; 提交 PR -&gt; 维护者用 AI 指出问题 -&gt; AI 修改 -&gt; 提交</span><br></pre></td></tr></table></figure>
+
+<p>在这个循环里，review 不再只是一次独立审查，而成了 AI 下一轮修改的输入。维护者需要指出每个边界，AI 再根据这些边界继续生成代码。</p>
+<p>问题在于，架构判断和最终验收并没有由贡献者本人承担。一个主 agent 加一个实现 agent，不会因为彼此能够迭代，就自动获得软件工程经验。</p>
+<p>软件工程中有很多事情不是“把代码写出来”就能解决的：哪些改动现在不应该做，哪些兼容性必须保留，哪个边界属于平台层，哪种失败可以接受，怎样拆分才不会让主线失去可验证性，以及什么时候应该停止继续扩大范围。这些判断依赖项目历史、运行时事实和维护者对长期成本的承担。</p>
+<p>AI 可以提出方案、生成实现、运行测试，也可以根据 review 修改代码，但它不拥有这些判断的责任。它可以持续生成下一份看起来完整的修改，却不承担主线回归、发布故障和后续维护的后果。</p>
+<h2 id="AI-能看到什么，不能看到什么"><a href="#AI-能看到什么，不能看到什么" class="headerlink" title="AI 能看到什么，不能看到什么"></a>AI 能看到什么，不能看到什么</h2><p>最初的仓库里没有一个有效性的约束 <code>AGENTS.md</code>。</p>
+<p>bilihud 的公开 PR 提供了大量可以模仿的内容：目录结构、命名方式、平台抽象、提交格式和重构步骤。AI 可以从这些公开改动中拼出一个合理的实现模板，却无法仅凭这些 PR 知道 kotonoha 哪些地方与 bilihud 不同，哪些协议事实不能照搬，哪些能力必须由平台层负责。</p>
+<p>但是 bilihud 的重构 PR 里面没有体现的是我专门在迭代过程中多次优化 <code>AGENTS.md</code>，以确保项目能顺利高质量推进。这就导致这 20 个 PR 写出来的代码全是面条代码，哪还是重构代码。</p>
+<p>直到我后来专门指出了这个问题，说这都没抄到精髓，后来提交的 <a href="https://github.com/locez/kotonoha/pull/43">PR #43</a> 才把大量工程约束写入 <code>AGENTS.md</code>，新增内容覆盖架构边界、强类型、异步生命周期、平台能力、测试证据和维护流程。</p>
+<p>这个时间顺序很重要：约束是在一批改动已经产生之后才被补进仓库的。AI 并不具备主动优化项目的能力，一个重构计划，连 <code>AGENTS.md</code> 居然都不是第一步，这是何其的胆大与以为自己天下无敌？</p>
+<p>即使后来补上 <code>AGENTS.md</code>，它也不能替代授权、范围和停止条件。文档只能告诉 agent 什么是约束，不能替维护者决定哪些工作现在应该做。这些只是提升了一下 AI coding 的下限，决定上限的永远是 <code>人</code></p>
+<h2 id="这件事的责任不在“AI-会犯错”"><a href="#这件事的责任不在“AI-会犯错”" class="headerlink" title="这件事的责任不在“AI 会犯错”"></a>这件事的责任不在“AI 会犯错”</h2><p>AI 会犯错，这是预期行为。真正的问题是，AI 被放进了一个没有明确授权边界的公共提交循环里，而发起这个循环的人没有承担与输出规模相匹配的架构判断和验收责任。</p>
+<p>AI 不拥有项目，也不维护用户反馈。它不会为主线回归、发布事故或未来的维护成本负责。它只会继续生成下一份输出。</p>
+<p>维护者却必须承担所有后果：</p>
+<ul>
+<li>判断改动是否符合项目架构；</li>
+<li>确认测试是否覆盖真实行为；</li>
+<li>检查发布和构建流程；</li>
+<li>处理跨 PR 的依赖和冲突；</li>
+<li>在合并后恢复能够长期维护的代码结构。</li>
+</ul>
+<p>因此，问题不是“能不能使用 AI”，而是“谁拥有方向、边界和停止权”。如果这些责任没有由人承担，AI 辅助开发去贡献项目就会变成把验证成本转嫁给维护者。</p>
+<h2 id="这次事故改变了什么"><a href="#这次事故改变了什么" class="headerlink" title="这次事故改变了什么"></a>这次事故改变了什么</h2><p>贡献者本人没有软件工程的架构设计经验，却让 Claude 负责主控、让 GPT 负责实现，再用两个 agent 的持续迭代代替自己的工程判断, 这对项目来说是一种非常不负责任的行为。</p>
+<p>这件事的关键不在于他不会写某一段代码，而在于他把本应由自己承担的架构责任交给了 agent：从一个公开的重构计划自行扩大出一批跨模块改动，把 review 当成下一轮生成的输入，最后让维护者成为唯一的架构负责人、测试负责人和返工负责人。</p>
+<p>如果真的热爱这个项目，请用心与 AI 探讨以后再进行贡献，即便可能还不是最优解，但是质量肯定会更加有保证。</p>
+<p>这次事故没有改变其他人，但是改变了我在处理这种事情的边界，贡献者是 gentoo-zh 群友，我为了避免一些冲突，早期隐忍了，最终的结果是变本加厉，我苦口婆心的讲述正面与反面并没有起到作用。为了一个项目的健康发展，这些行为应该也是零容忍的，因为伤害的不仅是我，甚至是使用关注这个项目的人，一看这么多面条代码，还敢用吗？</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>我并不反对 AI 写代码。</p>
+<p>我反对的是，把架构判断和责任一起外包给 AI，然后把维护者的时间当成免费的验证服务。</p>
+<p>这次事件里，无脑的代码生成的速度超过了维护者审查的速度。结果不是项目获得了更多贡献，而是维护者被迫承担了一份没有请求、没有预算、也没有停止条件的工程工作。</p>
+<p>我原本只是在按照自己的计划重构项目。后来，我不得不花费真实的人和 AI，去对抗一台不承担后果的代码生成器。</p>
+<h2 id="后续进展"><a href="#后续进展" class="headerlink" title="后续进展"></a>后续进展</h2><p>后续是我又断断续续重新花了一周时间重构了整个项目，然后重新开放了 PR，终于能比较稳定的做到 Linux 上多桌面的兼容修改，不会互相影响彼此，而经过这种优化跟项目的初始结构与设计约定以后，AI 现在也更不容易糊出面条代码了，可以更加放心的让 AI agent 去实现功能。</p>
+<p>同时上文的贡献者，现在也比较少对项目进行直接 PR 了。这里还要补充一点，即便是使用 AI agent，我们人和人之间确实也是术业有专攻的。 <a href="https://kotonoha.locez.com/">kotonoha</a> 的官网目前就是由这位贡献者做的，非常坦白说我确实做不出来这样的东西，给我 AI 也不行，但是这位贡献者有设计知识储备就比较容易做到这样的事情。</p>
+<p>最终我觉得也算是达到了一个比较好的效果吧，作为群友我们没有因为这件事闹掰，各自也找到了边界。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/poem/">Poem</a></li>
+        
+          <li><a href="https://github.com/locez?tab=repositories">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#AUTHOR-Locez"><span class="toc-number">1.</span> <span class="toc-text">AUTHOR: Locez</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VERSION-2"><span class="toc-number">2.</span> <span class="toc-text">VERSION: 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UPDATED-2026-09-06"><span class="toc-number">3.</span> <span class="toc-text">UPDATED: 2026-09-06</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%92%8C%E4%B8%8D%E6%89%BF%E6%8B%85%E5%90%8E%E6%9E%9C%E7%9A%84-AI-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8%E5%AF%B9%E6%8A%97"><span class="toc-number"></span> <span class="toc-text">在开源项目中和不承担后果的 AI 代码生成器对抗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E9%87%8D%E6%9E%84%E8%AE%A1%E5%88%92"><span class="toc-number"></span> <span class="toc-text">我的重构计划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%8D%E6%98%AF%E6%99%AE%E9%80%9A%E7%9A%84-AI-%E8%BE%85%E5%8A%A9"><span class="toc-number"></span> <span class="toc-text">这不是普通的 AI 辅助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI-%E8%83%BD%E7%9C%8B%E5%88%B0%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E8%83%BD%E7%9C%8B%E5%88%B0%E4%BB%80%E4%B9%88"><span class="toc-number"></span> <span class="toc-text">AI 能看到什么，不能看到什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%BB%B6%E4%BA%8B%E7%9A%84%E8%B4%A3%E4%BB%BB%E4%B8%8D%E5%9C%A8%E2%80%9CAI-%E4%BC%9A%E7%8A%AF%E9%94%99%E2%80%9D"><span class="toc-number"></span> <span class="toc-text">这件事的责任不在“AI 会犯错”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%AC%A1%E4%BA%8B%E6%95%85%E6%94%B9%E5%8F%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number"></span> <span class="toc-text">这次事故改变了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number"></span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E8%BF%9B%E5%B1%95"><span class="toc-number"></span> <span class="toc-text">后续进展</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://locez.github.io/talk/2026/ai-code-generator-maintainer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&text=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&is_video=false&description=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在开源项目中与不承担后果的 AI 代码生成器对抗&body=Check out this article: http://locez.github.io/talk/2026/ai-code-generator-maintainer/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&title=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&name=在开源项目中与不承担后果的 AI 代码生成器对抗&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://locez.github.io/talk/2026/ai-code-generator-maintainer/&t=在开源项目中与不承担后果的 AI 代码生成器对抗"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+
+  <div class="footer-left">
+
+    Copyright &copy;
+    
+    
+    2013-2026
+    Locez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/poem/">Poem</a></li><!--
+     --><!--
+       --><li><a href="https://github.com/locez?tab=repositories">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+
+</footer>
+ <div >
+   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="border-width:0; margin:auto; display:block; margin-top:30px" /></a><br />
+本博客未特别注明转载的文章为 Locez 原创，均遵守 CC 协议： <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"　target="_blank">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+</div>
+
+
+
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
